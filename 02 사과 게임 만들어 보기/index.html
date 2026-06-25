@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사과 게임</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🍎 사과 게임</h1>
+      <p class="subtitle">사과를 드래그해서 합이 10이 되면 사라집니다!</p>
+    </header>
+
+    <section class="panel stats">
+      <div class="stat-group">
+        <div class="stat">
+          <span class="stat-label">점수</span>
+          <span class="stat-value" id="score">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">남은 사과</span>
+          <span class="stat-value" id="remaining">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">최고 기록</span>
+          <span class="stat-value" id="best">0</span>
+        </div>
+      </div>
+      <div class="selection-info">
+        선택 합: <strong id="selectionSum">0</strong>
+      </div>
+      <div class="actions">
+        <button class="btn-secondary" id="resetBtn" type="button">다시 하기</button>
+      </div>
+    </section>
+
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board"></div>
+    </div>
+
+    <p class="message" id="message"></p>
+
+    <section class="rules panel">
+      <h2>게임 방법</h2>
+      <p>
+        마우스나 손가락으로 사과를 드래그해 <strong>가로, 세로, 대각선</strong>으로 선택하세요.
+        선택한 사과 숫자의 합이 정확히 <strong>10</strong>이면 해당 사과가 사라지고 점수를 얻습니다.
+        남은 사과를 최대한 없애 보세요!
+      </p>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

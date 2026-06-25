@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>테크노솔루션 | 기업 소개</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e5e5e5;
+      z-index: 100;
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #2563eb;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: white;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('https://img.magnific.com/free-photo/abstract-architecture-blue-entrance-perspective-financial_1417-1065.jpg?semt=ais_hybrid&w=740&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: white;
+      color: #2563eb;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 2rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #1e3a5f;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 3rem;
+    }
+
+    /* About */
+    .about {
+      background: #f8fafc;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .service-card {
+      padding: 2rem;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .service-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-4px);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      margin-bottom: 0.75rem;
+      color: #1e3a5f;
+    }
+
+    .service-card p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* Team */
+    .team {
+      background: #f8fafc;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .team-card {
+      text-align: center;
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #1e3a5f);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .team-card h3 {
+      font-size: 1rem;
+      color: #1e3a5f;
+    }
+
+    .team-card p {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .contact-info p {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .contact-info strong {
+      color: #1e3a5f;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.85rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .contact-form textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    /* Footer */
+    footer {
+      background: #1e3a5f;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#" class="logo">테크노솔루션</a>
+      <ul class="nav-links">
+        <li><a href="#about">회사 소개</a></li>
+        <li><a href="#services">서비스</a></li>
+        <li><a href="#team">팀</a></li>
+        <li><a href="#contact">문의</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>혁신으로 미래를 만듭니다</h1>
+      <p>테크노솔루션은 기업의 디지털 전환을 돕는 IT 솔루션 전문 기업입니다.</p>
+      <a href="#contact" class="btn">문의하기</a>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container">
+      <h2 class="section-title">회사 소개</h2>
+      <p class="section-subtitle">2010년 설립 이래, 500여 고객사와 함께 성장했습니다.</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            테크노솔루션은 클라우드, AI, 데이터 분석 분야의 전문성을 바탕으로
+            기업이 직면한 기술적 과제를 해결합니다.
+          </p>
+          <p>
+            우리는 고객의 비즈니스 목표를 깊이 이해하고, 최적의 기술 솔루션을
+            제공하여 지속 가능한 성장을 지원합니다.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="number">15+</div>
+            <div class="label">년 업력</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">500+</div>
+            <div class="label">고객사</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">120</div>
+            <div class="label">전문 인력</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title">서비스</h2>
+      <p class="section-subtitle">비즈니스 성장을 위한 핵심 솔루션을 제공합니다.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">☁️</div>
+          <h3>클라우드 컨설팅</h3>
+          <p>AWS, Azure, GCP 기반의 클라우드 마이그레이션 및 인프라 최적화를 지원합니다.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🤖</div>
+          <h3>AI · 데이터 분석</h3>
+          <p>머신러닝 모델 개발과 빅데이터 분석으로 비즈니스 인사이트를 제공합니다.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💻</div>
+          <h3>소프트웨어 개발</h3>
+          <p>웹, 모바일 애플리케이션 및 엔터프라이즈 시스템을 설계하고 구축합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="team">
+    <div class="container">
+      <h2 class="section-title">경영진</h2>
+      <p class="section-subtitle">다양한 분야의 전문가들이 함께합니다.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">김</div>
+          <h3>김태현</h3>
+          <p>대표이사</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">이</div>
+          <h3>이수진</h3>
+          <p>기술 총괄 (CTO)</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">박</div>
+          <h3>박민호</h3>
+          <p>사업 총괄 (COO)</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">정</div>
+          <h3>정하은</h3>
+          <p>인사 총괄 (CHRO)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">문의하기</h2>
+      <p class="section-subtitle">궁금한 점이 있으시면 언제든 연락해 주세요.</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p><strong>주소</strong><br>서울특별시 강남구 테헤란로 123, 10층</p>
+          <p><strong>이메일</strong><br>contact@technosolution.co.kr</p>
+          <p><strong>전화</strong><br>02-1234-5678</p>
+          <p><strong>운영 시간</strong><br>평일 09:00 – 18:00</p>
+        </div>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('문의가 접수되었습니다. (데모)');">
+          <input type="text" placeholder="이름" required>
+          <input type="email" placeholder="이메일" required>
+          <textarea placeholder="문의 내용" required></textarea>
+          <button type="submit" class="btn-primary">보내기</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+  <p>&copy; 2026 테크노솔루션. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
