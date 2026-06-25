@@ -12,7 +12,9 @@
 |---|----------|------|
 | 01 | 기업 소개 웹사이트 만들기 | ✅ |
 | 02 | 사과 게임 만들어 보기 | ✅ |
-| 03 ~ 30 | — | 🔜 |
+| 03 | 자기소개 페이지 만들기 | ✅ |
+| 04 | 인스타그램과 비슷한 사이트 만들어 보기 | ✅ |
+| 05 ~ 30 | — | 🔜 |
 
 ---
 
@@ -22,21 +24,42 @@
 @스터디/
 ├── 01 기업 소개 웹사이트 만들기/
 │   └── test.html
-└── 02 사과 게임 만들어 보기/
+├── 02 사과 게임 만들어 보기/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+├── 03 자기소개 페이지 만들기/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── 04 인스타그램과 비슷한 사이트 만들어 보기/   # React + Vite
     ├── index.html
-    ├── style.css
-    └── script.js
+    ├── package.json
+    ├── vite.config.js
+    ├── public/images/        # 피드 이미지(img01~10), 프로필(man/woman)
+    └── src/
+        ├── main.jsx · App.jsx · App.css · index.css
+        ├── data/posts.js     # 피드 · 스토리 · 추천 데이터
+        └── components/        # LeftNav · Stories · Feed · Post · Sidebar · MobileNav · Icons
 ```
 
 ---
 
 ## 실행 방법
 
-각 프로젝트 폴더의 HTML 파일을 브라우저에서 열면 됩니다.
+01~03 프로젝트는 폴더의 HTML 파일을 브라우저에서 열면 됩니다.
 
 ```bash
 # 예시: 사과 게임
 open "@스터디/02 사과 게임 만들어 보기/index.html"
+```
+
+04 인스타그램 클론은 React + Vite 프로젝트이므로 개발 서버로 실행합니다.
+
+```bash
+cd "@스터디/04 인스타그램과 비슷한 사이트 만들어 보기"
+npm install
+npm run dev   # http://localhost:5173
 ```
 
 ---

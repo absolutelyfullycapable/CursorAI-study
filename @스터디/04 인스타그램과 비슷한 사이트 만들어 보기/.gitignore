@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+
+# 원본 이미지는 git 추가가 막혀(provenance/quarantine) 추적 제외.
+# 실제 이미지는 src/data/images.js 에 base64로 인라인되어 있음.
+public/images/
