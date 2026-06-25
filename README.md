@@ -1,4 +1,4 @@
-# Cursor AI Study
+# Cursor AI Study 👩🏻‍💻
 
 > [요즘 바이브 코딩 커서 AI 30가지 프로그램 만들기](https://product.kyobobook.co.kr/detail/S000217462860) 실습 기록
 
