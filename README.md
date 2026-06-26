@@ -15,7 +15,8 @@
 | 03 | 자기소개 페이지 만들기 | ✅ |
 | 04 | 인스타그램과 비슷한 사이트 만들어 보기 | ✅ |
 | 05 | 메모 앱 만들어 보기 | ✅ |
-| 06 ~ 30 | — | 🔜 |
+| 06 | v0 서비스로 더 쉽게 웹사이트 만들기 | ✅ |
+| 07 ~ 30 | — | 🔜 |
 
 ---
 
@@ -42,14 +43,21 @@
 │       ├── main.jsx · App.jsx · App.css · index.css
 │       ├── data/posts.js     # 피드 · 스토리 · 추천 데이터
 │       └── components/        # LeftNav · Stories · Feed · Post · Sidebar · MobileNav · Icons
-└── 05 메모 앱 만들어 보기/                        # React + Vite
-    └── memo-app/
-        ├── index.html        # 파비콘 base64 인라인
+├── 05 메모 앱 만들어 보기/                        # React + Vite
+│   └── memo-app/
+│       ├── index.html        # 파비콘 base64 인라인
+│       ├── package.json
+│       ├── vite.config.js
+│       └── src/
+│           ├── main.jsx · App.jsx · App.css · index.css
+│           └── components/    # MemoCard
+└── 06 v0 서비스로 더 쉽게 웹사이트 만들기/         # Next.js + shadcn/ui (v0 생성)
+    └── maison-eclat/
         ├── package.json
-        ├── vite.config.js
-        └── src/
-            ├── main.jsx · App.jsx · App.css · index.css
-            └── components/    # MemoCard
+        ├── components.json
+        ├── app/               # layout · page · globals.css · careers/
+        ├── components/        # site-header · hero · marquee · ... · ui/button
+        └── lib/utils.ts
 ```
 
 ---
@@ -75,6 +83,14 @@ npm run dev
 
 ```bash
 cd "@스터디/05 메모 앱 만들어 보기/memo-app"
+npm install
+npm run dev
+```
+
+06 v0 웹사이트는 v0로 생성한 Next.js + shadcn/ui 프로젝트입니다. 흑백 미니멀 톤의 패션 브랜드 페이지(MAISON ÉCLAT)이며, 한글 폰트로 Pretendard를 사용하고 채용 안내 페이지(`/careers`)를 포함합니다.
+
+```bash
+cd "@스터디/06 v0 서비스로 더 쉽게 웹사이트 만들기/maison-eclat"
 npm install
 npm run dev
 ```
