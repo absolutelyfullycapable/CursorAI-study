@@ -61,43 +61,42 @@ function App() {
   }, [memos, search])
 
   return (
-    <div className="app-bg min-vh-100 py-5">
-      <div className="container" style={{ maxWidth: 760 }}>
-        <header className="text-center mb-4">
-          <h1 className="fw-bold display-6 mb-1">
-            <span className="me-2">📝</span>나의 메모
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50 py-10 px-4">
+      <div className="mx-auto w-full max-w-3xl">
+        <header className="mb-8 text-center">
+          <h1 className="flex items-center justify-center gap-2 text-4xl font-extrabold tracking-tight text-slate-800">
+            <span>📝</span>
+            <span className="bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+              나의 메모
+            </span>
           </h1>
-          <p className="text-secondary mb-0">생각날 때마다 가볍게 적어두세요</p>
+          <p className="mt-2 text-slate-500">생각날 때마다 가볍게 적어두세요</p>
         </header>
 
-        <div className="card border-0 shadow-sm rounded-4 mb-3">
-          <div className="card-body p-3 p-sm-4">
-            <textarea
-              className="form-control border-0 bg-light rounded-3 mb-3"
-              placeholder="새 메모를 입력하세요... (Ctrl/Cmd + Enter 로 추가)"
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              onKeyDown={handleDraftKeyDown}
-              rows={3}
-            />
-            <div className="d-flex justify-content-end">
-              <button
-                className="btn btn-primary rounded-3 px-4 fw-semibold"
-                onClick={addMemo}
-                disabled={!draft.trim()}
-              >
-                <span className="me-1">+</span> 새 메모
-              </button>
-            </div>
+        <div className="mb-4 rounded-2xl border border-slate-100 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-5">
+          <textarea
+            className="w-full resize-y rounded-xl border border-transparent bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-2 focus:ring-indigo-200"
+            placeholder="새 메모를 입력하세요... (Ctrl/Cmd + Enter 로 추가)"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={handleDraftKeyDown}
+            rows={3}
+          />
+          <div className="mt-3 flex justify-end">
+            <button
+              className="inline-flex items-center gap-1 rounded-xl bg-indigo-600 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-indigo-700 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+              onClick={addMemo}
+              disabled={!draft.trim()}
+            >
+              <span className="text-lg leading-none">+</span> 새 메모
+            </button>
           </div>
         </div>
 
-        <div className="input-group input-group-lg mb-4 shadow-sm rounded-3">
-          <span className="input-group-text bg-white border-0 text-secondary">
-            🔍
-          </span>
+        <div className="mb-8 flex items-center gap-2 rounded-xl border border-slate-100 bg-white px-4 py-1 shadow-sm focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-200">
+          <span className="text-slate-400">🔍</span>
           <input
-            className="form-control border-0"
+            className="w-full bg-transparent py-2.5 text-slate-800 outline-none placeholder:text-slate-400"
             type="text"
             placeholder="메모 검색..."
             value={search}
@@ -105,7 +104,7 @@ function App() {
           />
           {search && (
             <button
-              className="btn btn-light border-0 text-secondary"
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 text-xs text-slate-600 transition hover:bg-slate-300"
               onClick={() => setSearch('')}
               aria-label="검색어 지우기"
             >
@@ -115,30 +114,29 @@ function App() {
         </div>
 
         {filteredMemos.length === 0 ? (
-          <div className="text-center text-secondary py-5">
-            <div className="display-6 mb-2 opacity-50">🗒️</div>
-            <p className="mb-0">
+          <div className="py-16 text-center text-slate-400">
+            <div className="mb-3 text-5xl opacity-60">🗒️</div>
+            <p>
               {memos.length === 0
                 ? '아직 메모가 없습니다. 첫 메모를 추가해 보세요!'
                 : '검색 결과가 없습니다.'}
             </p>
           </div>
         ) : (
-          <div className="row g-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filteredMemos.map((memo) => (
-              <div className="col-12 col-md-6" key={memo.id}>
-                <MemoCard
-                  memo={memo}
-                  onUpdate={updateMemo}
-                  onDelete={deleteMemo}
-                />
-              </div>
+              <MemoCard
+                key={memo.id}
+                memo={memo}
+                onUpdate={updateMemo}
+                onDelete={deleteMemo}
+              />
             ))}
           </div>
         )}
 
-        <footer className="text-center text-secondary mt-5">
-          <small>총 {memos.length}개의 메모</small>
+        <footer className="mt-10 text-center text-sm text-slate-400">
+          총 {memos.length}개의 메모
         </footer>
       </div>
     </div>
