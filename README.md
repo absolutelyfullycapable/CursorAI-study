@@ -68,7 +68,7 @@ open "@스터디/02 사과 게임 만들어 보기/index.html"
 ```bash
 cd "@스터디/04 인스타그램과 비슷한 사이트 만들어 보기"
 npm install
-npm run dev   # http://localhost:5173
+npm run dev
 ```
 
 05 메모 앱도 React + Vite 프로젝트입니다. 메모 추가 · 수정 · 삭제 · 검색을 지원하며, 작성한 메모는 브라우저 localStorage에 저장됩니다.
@@ -76,7 +76,7 @@ npm run dev   # http://localhost:5173
 ```bash
 cd "@스터디/05 메모 앱 만들어 보기/memo-app"
 npm install
-npm run dev   # http://localhost:5173
+npm run dev
 ```
 
 ---
