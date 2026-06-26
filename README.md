@@ -14,7 +14,8 @@
 | 02 | 사과 게임 만들어 보기 | ✅ |
 | 03 | 자기소개 페이지 만들기 | ✅ |
 | 04 | 인스타그램과 비슷한 사이트 만들어 보기 | ✅ |
-| 05 ~ 30 | — | 🔜 |
+| 05 | 메모 앱 만들어 보기 | ✅ |
+| 06 ~ 30 | — | 🔜 |
 
 ---
 
@@ -32,15 +33,23 @@
 │   ├── index.html
 │   ├── style.css
 │   └── script.js
-└── 04 인스타그램과 비슷한 사이트 만들어 보기/   # React + Vite
-    ├── index.html
-    ├── package.json
-    ├── vite.config.js
-    ├── public/images/        # 피드 이미지(img01~10), 프로필(man/woman)
-    └── src/
-        ├── main.jsx · App.jsx · App.css · index.css
-        ├── data/posts.js     # 피드 · 스토리 · 추천 데이터
-        └── components/        # LeftNav · Stories · Feed · Post · Sidebar · MobileNav · Icons
+├── 04 인스타그램과 비슷한 사이트 만들어 보기/   # React + Vite
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── public/images/        # 피드 이미지(img01~10), 프로필(man/woman)
+│   └── src/
+│       ├── main.jsx · App.jsx · App.css · index.css
+│       ├── data/posts.js     # 피드 · 스토리 · 추천 데이터
+│       └── components/        # LeftNav · Stories · Feed · Post · Sidebar · MobileNav · Icons
+└── 05 메모 앱 만들어 보기/                        # React + Vite
+    └── memo-app/
+        ├── index.html        # 파비콘 base64 인라인
+        ├── package.json
+        ├── vite.config.js
+        └── src/
+            ├── main.jsx · App.jsx · App.css · index.css
+            └── components/    # MemoCard
 ```
 
 ---
@@ -58,6 +67,14 @@ open "@스터디/02 사과 게임 만들어 보기/index.html"
 
 ```bash
 cd "@스터디/04 인스타그램과 비슷한 사이트 만들어 보기"
+npm install
+npm run dev   # http://localhost:5173
+```
+
+05 메모 앱도 React + Vite 프로젝트입니다. 메모 추가 · 수정 · 삭제 · 검색을 지원하며, 작성한 메모는 브라우저 localStorage에 저장됩니다.
+
+```bash
+cd "@스터디/05 메모 앱 만들어 보기/memo-app"
 npm install
 npm run dev   # http://localhost:5173
 ```
