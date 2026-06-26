@@ -33,51 +33,57 @@ function MemoCard({ memo, onUpdate, onDelete }) {
   }
 
   return (
-    <article className={`memo-card ${isEditing ? 'editing' : ''}`}>
-      {isEditing ? (
-        <textarea
-          className="memo-edit-input"
-          value={editText}
-          onChange={(e) => setEditText(e.target.value)}
-          rows={3}
-          autoFocus
-        />
-      ) : (
-        <p className="memo-text">{memo.text}</p>
-      )}
+    <div
+      className={`card h-100 border-0 shadow-sm rounded-4 memo-card ${
+        isEditing ? 'border-primary border' : ''
+      }`}
+    >
+      <div className="card-body d-flex flex-column p-3 p-sm-4">
+        {isEditing ? (
+          <textarea
+            className="form-control bg-light border-0 rounded-3 mb-3 flex-grow-1"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            rows={3}
+            autoFocus
+          />
+        ) : (
+          <p className="card-text memo-text flex-grow-1 mb-3">{memo.text}</p>
+        )}
 
-      <div className="memo-footer">
-        <span className="memo-date">{formatDate(memo.createdAt)}</span>
-        <div className="memo-actions">
-          {isEditing ? (
-            <>
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={saveEdit}
-                disabled={!editText.trim()}
-              >
-                저장
-              </button>
-              <button className="btn btn-ghost btn-sm" onClick={cancelEdit}>
-                취소
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="btn btn-ghost btn-sm" onClick={startEdit}>
-                수정
-              </button>
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => onDelete(memo.id)}
-              >
-                삭제
-              </button>
-            </>
-          )}
+        <div className="d-flex align-items-center justify-content-between mt-auto">
+          <small className="text-secondary">{formatDate(memo.createdAt)}</small>
+          <div className="btn-group btn-group-sm" role="group">
+            {isEditing ? (
+              <>
+                <button
+                  className="btn btn-primary"
+                  onClick={saveEdit}
+                  disabled={!editText.trim()}
+                >
+                  저장
+                </button>
+                <button className="btn btn-outline-secondary" onClick={cancelEdit}>
+                  취소
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="btn btn-outline-secondary" onClick={startEdit}>
+                  수정
+                </button>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => onDelete(memo.id)}
+                >
+                  삭제
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </article>
+    </div>
   )
 }
 
