@@ -17,7 +17,8 @@
 | 05 | 메모 앱 만들어 보기 | ✅ |
 | 06 | v0 서비스로 더 쉽게 웹사이트 만들기 | ✅ |
 | 07 | 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기 | ✅ |
-| 08 ~ 30 | — | 🔜 |
+| 08 | 1년 치 금 시세 크롤링하기 | ✅ |
+| 09 ~ 30 | — | 🔜 |
 
 ---
 
@@ -59,13 +60,19 @@
         ├── app/               # layout · page · globals.css · careers/
         ├── components/        # site-header · hero · marquee · ... · ui/button
         └── lib/utils.ts
-└── 07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/  # Next.js + Prisma + SQLite
-    └── bright-memo-app/
-        ├── package.json
-        ├── prisma/            # schema.prisma · migrations/
-        ├── app/               # layout · page · actions/auth · actions/notes
-        ├── components/        # auth-form · notes-app · note-card · note-composer
-        └── lib/               # auth · session · prisma · notes-db · site-icons
+├── 07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/  # Next.js + Prisma + SQLite
+│   └── bright-memo-app/
+│       ├── package.json
+│       ├── prisma/            # schema.prisma · migrations/
+│       ├── app/               # layout · page · actions/auth · actions/notes
+│       ├── components/        # auth-form · notes-app · note-card · note-composer
+│       └── lib/               # auth · session · prisma · notes-db · site-icons
+└── 08 1년 치 금 시세 크롤링하기/                       # Python + openpyxl + matplotlib
+    ├── crawl_gold.py          # 금 시세 API 크롤링 후 엑셀 저장
+    ├── calc_stats.py          # 통계 계산 후 통계 시트 기록
+    ├── visualize_gold.py      # 통계 기반 PNG 시각화 생성
+    ├── requirements.txt
+    └── gold_prices_soongumnara.xlsx
 ```
 
 ---
@@ -115,6 +122,24 @@ npm install
 
 npx prisma migrate dev
 npm run dev
+```
+
+08 프로젝트는 순금나라 금 시세 데이터를 크롤링해 엑셀로 저장하고, 통계 계산 및 시각화까지 진행하는 Python 실습입니다.
+
+- **금 시세 참고 사이트** · [순금나라 금 시세](https://www.soongumnara.co.kr/price/gold)
+
+```bash
+cd "@스터디/08 1년 치 금 시세 크롤링하기"
+pip install -r requirements.txt
+
+# 금 시세 100건 수집 및 엑셀 저장
+python3 crawl_gold.py --limit 100
+
+# 통계 시트 생성/갱신
+python3 calc_stats.py
+
+# 통계 기반 시각화 PNG 생성 (charts/)
+python3 visualize_gold.py
 ```
 
 ---
