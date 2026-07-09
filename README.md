@@ -19,7 +19,8 @@
 | 07 | 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기 | ✅ |
 | 08 | 1년 치 금 시세 크롤링하기 | ✅ |
 | 09 | 해외 주식 크롤링 프로그램 만들기 | ✅ |
-| 10 ~ 30 | — | 🔜 |
+| 10 | 나만의 QR 코드 생성기 쉽게 만들기 | ✅ |
+| 11 ~ 30 | — | 🔜 |
 
 ---
 
@@ -68,13 +69,17 @@
 │       ├── app/               # layout · page · actions/auth · actions/notes
 │       ├── components/        # auth-form · notes-app · note-card · note-composer
 │       └── lib/               # auth · session · prisma · notes-db · site-icons
-└── 08 1년 치 금 시세 크롤링하기/                       # Python + openpyxl + matplotlib
-    ├── crawl_gold.py          # 금 시세 API 크롤링 후 엑셀 저장
-    ├── calc_stats.py          # 통계 계산 후 통계 시트 기록
-    ├── visualize_gold.py      # 통계 기반 PNG 시각화 생성
-    └── requirements.txt
-└── 09 해외 주식 크롤링 프로그램 만들기/               # Python + BeautifulSoup + openpyxl
-    ├── crawl_stocks.py        # Yahoo Finance 상승 주식 크롤링 후 엑셀 저장
+├── 08 1년 치 금 시세 크롤링하기/                       # Python + openpyxl + matplotlib
+│   ├── crawl_gold.py          # 금 시세 API 크롤링 후 엑셀 저장
+│   ├── calc_stats.py          # 통계 계산 후 통계 시트 기록
+│   ├── visualize_gold.py      # 통계 기반 PNG 시각화 생성
+│   └── requirements.txt
+├── 09 해외 주식 크롤링 프로그램 만들기/               # Python + BeautifulSoup + openpyxl
+│   ├── crawl_stocks.py        # Yahoo Finance 상승 주식 크롤링 후 엑셀 저장
+│   ├── requirements.txt
+│   └── README.md
+└── 10 나만의 QR 코드 생성기 쉽게 만들기/             # Python + Gradio + qrcode + Pillow
+    ├── qr_generator.py        # 로고 삽입 QR 생성 앱
     ├── requirements.txt
     └── README.md
 ```
@@ -156,6 +161,14 @@ pip3 install -r requirements.txt
 
 # 상승 주식 데이터 수집 및 엑셀 저장
 python3 crawl_stocks.py
+```
+
+10 프로젝트는 링크와 중앙 이미지를 입력해 QR 코드를 생성하고 저장하는 Python + Gradio 실습입니다.
+
+```bash
+cd "@스터디/10 나만의 QR 코드 생성기 쉽게 만들기"
+pip3 install -r requirements.txt
+python3 qr_generator.py
 ```
 
 ---
