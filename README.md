@@ -18,7 +18,8 @@
 | 06 | v0 서비스로 더 쉽게 웹사이트 만들기 | ✅ |
 | 07 | 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기 | ✅ |
 | 08 | 1년 치 금 시세 크롤링하기 | ✅ |
-| 09 ~ 30 | — | 🔜 |
+| 09 | 해외 주식 크롤링 프로그램 만들기 | ✅ |
+| 10 ~ 30 | — | 🔜 |
 
 ---
 
@@ -72,6 +73,10 @@
     ├── calc_stats.py          # 통계 계산 후 통계 시트 기록
     ├── visualize_gold.py      # 통계 기반 PNG 시각화 생성
     └── requirements.txt
+└── 09 해외 주식 크롤링 프로그램 만들기/               # Python + BeautifulSoup + openpyxl
+    ├── crawl_stocks.py        # Yahoo Finance 상승 주식 크롤링 후 엑셀 저장
+    ├── requirements.txt
+    └── README.md
 ```
 
 ---
@@ -139,6 +144,18 @@ python3 calc_stats.py
 
 # 통계 기반 시각화 PNG 생성 (charts/)
 python3 visualize_gold.py
+```
+
+09 프로젝트는 Yahoo Finance 상승 주식 페이지에서 표 데이터를 크롤링해 엑셀로 저장하는 Python 실습입니다.
+
+- **참고 사이트** · [Yahoo Finance Top Stock Gainers](https://finance.yahoo.com/markets/stocks/gainers/)
+
+```bash
+cd "@스터디/09 해외 주식 크롤링 프로그램 만들기"
+pip3 install -r requirements.txt
+
+# 상승 주식 데이터 수집 및 엑셀 저장
+python3 crawl_stocks.py
 ```
 
 ---
