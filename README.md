@@ -16,7 +16,8 @@
 | 04 | 인스타그램과 비슷한 사이트 만들어 보기 | ✅ |
 | 05 | 메모 앱 만들어 보기 | ✅ |
 | 06 | v0 서비스로 더 쉽게 웹사이트 만들기 | ✅ |
-| 07 ~ 30 | — | 🔜 |
+| 07 | 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기 | ✅ |
+| 08 ~ 30 | — | 🔜 |
 
 ---
 
@@ -58,6 +59,13 @@
         ├── app/               # layout · page · globals.css · careers/
         ├── components/        # site-header · hero · marquee · ... · ui/button
         └── lib/utils.ts
+└── 07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/  # Next.js + Prisma + SQLite
+    └── bright-memo-app/
+        ├── package.json
+        ├── prisma/            # schema.prisma · migrations/
+        ├── app/               # layout · page · actions/auth · actions/notes
+        ├── components/        # auth-form · notes-app · note-card · note-composer
+        └── lib/               # auth · session · prisma · notes-db · site-icons
 ```
 
 ---
@@ -92,6 +100,20 @@ npm run dev
 ```bash
 cd "@스터디/06 v0 서비스로 더 쉽게 웹사이트 만들기/maison-eclat"
 npm install
+npm run dev
+```
+
+07 메모 앱은 v0로 만든 밝은 톤의 메모 앱에 **회원가입 · 로그인 · 로그아웃**과 **SQLite DB 메모 저장**을 추가한 Next.js 프로젝트입니다. Prisma ORM과 JWT 세션(httpOnly 쿠키)을 사용하며, 로그인한 사용자별로 메모가 DB에 저장됩니다.
+
+```bash
+cd "@스터디/07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/bright-memo-app"
+npm install
+
+# .env 파일 생성 (DATABASE_URL, AUTH_SECRET)
+# DATABASE_URL="file:./prisma/dev.db"
+# AUTH_SECRET="임의의-긴-비밀-문자열"
+
+npx prisma migrate dev
 npm run dev
 ```
 
