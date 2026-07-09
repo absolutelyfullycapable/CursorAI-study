@@ -71,8 +71,7 @@
     ├── crawl_gold.py          # 금 시세 API 크롤링 후 엑셀 저장
     ├── calc_stats.py          # 통계 계산 후 통계 시트 기록
     ├── visualize_gold.py      # 통계 기반 PNG 시각화 생성
-    ├── requirements.txt
-    └── gold_prices_soongumnara.xlsx
+    └── requirements.txt
 ```
 
 ---
