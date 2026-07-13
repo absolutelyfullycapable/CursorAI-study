@@ -20,7 +20,7 @@
 | 08 | 1년 치 금 시세 크롤링하기 | ✅ |
 | 09 | 해외 주식 크롤링 프로그램 만들기 | ✅ |
 | 10 | 나만의 QR 코드 생성기 쉽게 만들기 | ✅ |
-| 11 | PDF 편집기 만들기 : 페이지 추출 가능 | ✅ |
+| 11 | PDF 편집기 만들기 | ✅ |
 | 12 ~ 30 | — | 🔜 |
 
 ---
@@ -83,7 +83,7 @@
 │   ├── qr_generator.py        # 로고 삽입 QR 생성 앱
 │   ├── requirements.txt
 │   └── README.md
-└── 11 PDF 편집기 만들기 : 페이지 추출 가능/           # Python + Gradio + pypdf
+└── 11 PDF 편집기 만들기/                           # Python + Gradio + pypdf
     ├── pdf_app.py             # Gradio 웹 UI로 PDF 페이지 추출
     ├── pdf_page_extractor.py  # 페이지 범위 파싱 및 추출 로직
     └── requirements.txt
@@ -179,7 +179,7 @@ python3 qr_generator.py
 11 프로젝트는 PDF 파일에서 원하는 페이지 범위를 추출해 `원본파일명_YYYYMMDD.pdf` 형식으로 저장하는 Python + Gradio 실습입니다. 터미널에서 실행하면 브라우저에 웹 UI가 열립니다.
 
 ```bash
-cd "@스터디/11 PDF 편집기 만들기 : 페이지 추출 가능"
+cd "@스터디/11 PDF 편집기 만들기"
 python3 -m pip install -r requirements.txt
 python3 pdf_app.py
 ```
