@@ -56,13 +56,13 @@
 │       └── src/
 │           ├── main.jsx · App.jsx · App.css · index.css
 │           └── components/    # MemoCard
-└── 06 v0 서비스로 더 쉽게 웹사이트 만들기/         # Next.js + shadcn/ui (v0 생성)
-    └── maison-eclat/
-        ├── package.json
-        ├── components.json
-        ├── app/               # layout · page · globals.css · careers/
-        ├── components/        # site-header · hero · marquee · ... · ui/button
-        └── lib/utils.ts
+├── 06 v0 서비스로 더 쉽게 웹사이트 만들기/         # Next.js + shadcn/ui (v0 생성)
+│   └── maison-eclat/
+│       ├── package.json
+│       ├── components.json
+│       ├── app/               # layout · page · globals.css · careers/
+│       ├── components/        # site-header · hero · marquee · ... · ui/button
+│       └── lib/utils.ts
 ├── 07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/  # Next.js + Prisma + SQLite
 │   └── bright-memo-app/
 │       ├── package.json
@@ -79,10 +79,10 @@
 │   ├── crawl_stocks.py        # Yahoo Finance 상승 주식 크롤링 후 엑셀 저장
 │   ├── requirements.txt
 │   └── README.md
-└── 10 나만의 QR 코드 생성기 쉽게 만들기/             # Python + Gradio + qrcode + Pillow
-    ├── qr_generator.py        # 로고 삽입 QR 생성 앱
-    ├── requirements.txt
-    └── README.md
+├── 10 나만의 QR 코드 생성기 쉽게 만들기/             # Python + Gradio + qrcode + Pillow
+│   ├── qr_generator.py        # 로고 삽입 QR 생성 앱
+│   ├── requirements.txt
+│   └── README.md
 └── 11 PDF 편집기 만들기 : 페이지 추출 가능/           # Python + Gradio + pypdf
     ├── pdf_app.py             # Gradio 웹 UI로 PDF 페이지 추출
     ├── pdf_page_extractor.py  # 페이지 범위 파싱 및 추출 로직
