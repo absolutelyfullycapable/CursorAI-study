@@ -1,4 +1,4 @@
-"""Gradio 웹 UI로 PDF 페이지를 추출하는 앱."""
+"""Gradio 웹 UI로 PDF 페이지 추출 및 이어붙이기를 제공하는 앱."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ from tkinter import filedialog
 
 import gradio as gr
 
+from pdf_merger import run_merge
 from pdf_page_extractor import get_pdf_page_count, run_extraction
 
 APP_PORT = 17860
@@ -189,52 +190,209 @@ def extract_pdf_pages(pdf_path: str, page_range: str, save_folder: str) -> str:
     )
 
 
+def format_merge_file_list(pdf_paths: list[str]) -> str:
+    """이어붙이기 대상 PDF 목록을 번호와 함께 표시합니다."""
+    if not pdf_paths:
+        return "아직 PDF 파일이 추가되지 않았습니다. (2개 이상 필요)"
+
+    lines: list[str] = []
+    total_pages = 0
+    for index, pdf_path in enumerate(pdf_paths, start=1):
+        path = Path(pdf_path)
+        try:
+            page_count = get_pdf_page_count(path)
+            total_pages += page_count
+            lines.append(f"{index}. {path.name} ({page_count}페이지)")
+        except Exception as error:
+            lines.append(f"{index}. {path.name} (읽기 실패: {error})")
+
+    lines.append("")
+    lines.append(f"총 {len(pdf_paths)}개 파일, 합계 {total_pages}페이지")
+    return "\n".join(lines)
+
+
+def pick_pdf_files(existing_paths: list[str]) -> tuple[list[str], str]:
+    """Finder 또는 파일 선택 창에서 PDF 파일을 여러 개 고릅니다."""
+    if platform.system() == "Darwin":
+        cmd = [
+            "osascript",
+            "-e",
+            'tell application "Finder" to activate',
+            "-e",
+            'set fileList to choose file with prompt "이어붙일 PDF 파일을 선택하세요 (2개 이상, Cmd 키로 여러 개 선택)" of type {"pdf"} with multiple selections allowed',
+            "-e",
+            'set output to ""',
+            "-e",
+            "repeat with aFile in fileList",
+            "-e",
+            'set output to output & (POSIX path of aFile) & linefeed',
+            "-e",
+            "end repeat",
+            "-e",
+            "return output",
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+        if result.returncode != 0:
+            err = (result.stderr or "").strip() or "파일 선택 창 호출에 실패했습니다."
+            return existing_paths, f"오류: PDF 파일 선택 창을 열지 못했습니다. ({err})"
+        selected_lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+        if not selected_lines:
+            return existing_paths, "PDF 파일 선택이 취소되었습니다."
+        selected_paths = [str(Path(line)) for line in selected_lines]
+    else:
+        root = tk.Tk()
+        root.withdraw()
+        try:
+            root.attributes("-topmost", True)
+        except tk.TclError:
+            pass
+
+        selected = filedialog.askopenfilenames(
+            title="이어붙일 PDF 파일을 선택하세요 (2개 이상)",
+            filetypes=[("PDF 파일", "*.pdf"), ("모든 파일", "*.*")],
+        )
+        root.destroy()
+        if not selected:
+            return existing_paths, "PDF 파일 선택이 취소되었습니다."
+        selected_paths = [str(Path(path)) for path in selected]
+
+    merged_paths = list(existing_paths)
+    for path in selected_paths:
+        if path not in merged_paths:
+            merged_paths.append(path)
+
+    return merged_paths, format_merge_file_list(merged_paths)
+
+
+def clear_merge_file_list() -> tuple[list[str], str]:
+    """이어붙이기 대상 PDF 목록을 비웁니다."""
+    return [], "아직 PDF 파일이 추가되지 않았습니다. (2개 이상 필요)"
+
+
+def merge_pdf_files(pdf_paths: list[str], save_folder: str) -> str:
+    """입력값을 검증한 뒤 PDF 이어붙이기를 실행합니다."""
+    if not pdf_paths or len(pdf_paths) < 2:
+        return "오류: 이어붙일 PDF 파일을 2개 이상 추가해 주세요."
+
+    if not save_folder or not save_folder.strip():
+        return "오류: 먼저 **저장 폴더 선택** 버튼으로 저장 위치를 고르세요."
+
+    source_paths = [Path(path) for path in pdf_paths]
+    output_dir = Path(save_folder)
+
+    try:
+        saved_path = run_merge(source_paths=source_paths, output_dir=output_dir)
+        total_pages = sum(get_pdf_page_count(path) for path in source_paths)
+    except ValueError as error:
+        return f"오류: {error}"
+    except Exception as error:
+        return f"오류: 이어붙이기 중 문제가 발생했습니다. ({error})"
+
+    file_lines = "\n".join(f"  {index}. {path.name}" for index, path in enumerate(source_paths, start=1))
+    return "\n".join(
+        [
+            "이어붙이기 완료!",
+            f"저장 위치: {saved_path}",
+            "",
+            f"총 {len(source_paths)}개 파일, {total_pages}페이지",
+            "이어붙인 순서:",
+            file_lines,
+        ]
+    )
+
+
 def build_app() -> gr.Blocks:
-    with gr.Blocks(title="PDF 페이지 추출기") as demo:
+    with gr.Blocks(title="PDF 편집기") as demo:
         pdf_path_state = gr.State("")
         save_folder_state = gr.State("")
+        merge_pdf_paths_state = gr.State([])
+        merge_save_folder_state = gr.State("")
 
         with gr.Column(elem_classes=["app-shell"]):
             gr.Markdown(
                 """
-                # PDF 페이지 추출기
-                PDF 파일과 저장 폴더를 선택하고, 추출할 페이지 범위를 입력한 뒤 **추출** 버튼을 누르세요.
-                저장 파일명은 `원본파일명_YYYYMMDD.pdf` 형식으로 자동 생성됩니다.
+                # PDF 편집기
+                페이지 추출과 PDF 이어붙이기 기능을 제공합니다.
                 """,
                 elem_classes=["hero-card"],
             )
 
-            with gr.Column(elem_classes=["panel-card"]):
-                with gr.Row():
-                    pick_pdf_button = gr.Button("PDF 파일 선택", elem_classes=["btn-secondary"])
-                    pick_folder_button = gr.Button("저장 폴더 선택", elem_classes=["btn-secondary"])
+            with gr.Tabs():
+                with gr.Tab("페이지 추출"):
+                    gr.Markdown(
+                        """
+                        PDF 파일과 저장 폴더를 선택하고, 추출할 페이지 범위를 입력한 뒤 **추출** 버튼을 누르세요.
+                        저장 파일명은 `원본파일명_YYYYMMDD.pdf` 형식으로 자동 생성됩니다.
+                        """
+                    )
 
-                pdf_info = gr.Textbox(
-                    label="선택한 PDF",
-                    value="아직 PDF 파일이 선택되지 않았습니다.",
-                    interactive=False,
-                    lines=2,
-                )
-                save_info = gr.Textbox(
-                    label="저장 위치",
-                    value="아직 저장 폴더가 선택되지 않았습니다.",
-                    interactive=False,
-                    lines=2,
-                )
-                page_range_input = gr.Textbox(
-                    label="추출할 페이지 범위",
-                    placeholder="예: 1-3,5,7-9",
-                    lines=1,
-                )
+                    with gr.Column(elem_classes=["panel-card"]):
+                        with gr.Row():
+                            pick_pdf_button = gr.Button("PDF 파일 선택", elem_classes=["btn-secondary"])
+                            pick_folder_button = gr.Button("저장 폴더 선택", elem_classes=["btn-secondary"])
 
-            extract_button = gr.Button("추출", variant="primary", elem_classes=["btn-primary"])
+                        pdf_info = gr.Textbox(
+                            label="선택한 PDF",
+                            value="아직 PDF 파일이 선택되지 않았습니다.",
+                            interactive=False,
+                            lines=2,
+                        )
+                        save_info = gr.Textbox(
+                            label="저장 위치",
+                            value="아직 저장 폴더가 선택되지 않았습니다.",
+                            interactive=False,
+                            lines=2,
+                        )
+                        page_range_input = gr.Textbox(
+                            label="추출할 페이지 범위",
+                            placeholder="예: 1-3,5,7-9",
+                            lines=1,
+                        )
 
-            result_text = gr.Textbox(
-                label="결과",
-                lines=6,
-                interactive=False,
-                elem_classes=["result-box"],
-            )
+                    extract_button = gr.Button("추출", variant="primary", elem_classes=["btn-primary"])
+
+                    extract_result_text = gr.Textbox(
+                        label="결과",
+                        lines=6,
+                        interactive=False,
+                        elem_classes=["result-box"],
+                    )
+
+                with gr.Tab("PDF 이어붙이기"):
+                    gr.Markdown(
+                        """
+                        **PDF 파일 추가** 버튼으로 파일을 순서대로 추가한 뒤, 저장 폴더를 선택하고 **이어붙이기** 버튼을 누르세요.
+                        저장 파일명은 첫 번째 파일명을 기준으로 `파일명_YYYYMMDD.pdf` 형식이며, 같은 이름이 있으면 `_(숫자)`가 붙습니다.
+                        """
+                    )
+
+                    with gr.Column(elem_classes=["panel-card"]):
+                        with gr.Row():
+                            add_merge_pdf_button = gr.Button("PDF 파일 추가", elem_classes=["btn-secondary"])
+                            clear_merge_pdf_button = gr.Button("목록 초기화", elem_classes=["btn-secondary"])
+                            pick_merge_folder_button = gr.Button("저장 폴더 선택", elem_classes=["btn-secondary"])
+
+                        merge_pdf_info = gr.Textbox(
+                            label="이어붙일 PDF 목록 (추가한 순서대로)",
+                            value="아직 PDF 파일이 추가되지 않았습니다. (2개 이상 필요)",
+                            interactive=False,
+                            lines=8,
+                        )
+                        merge_save_info = gr.Textbox(
+                            label="저장 위치",
+                            value="아직 저장 폴더가 선택되지 않았습니다.",
+                            interactive=False,
+                            lines=2,
+                        )
+
+                    merge_button = gr.Button("이어붙이기", variant="primary", elem_classes=["btn-primary"])
+
+                    merge_result_text = gr.Textbox(
+                        label="결과",
+                        lines=8,
+                        interactive=False,
+                        elem_classes=["result-box"],
+                    )
 
         pick_pdf_button.click(
             fn=pick_pdf_file,
@@ -247,7 +405,26 @@ def build_app() -> gr.Blocks:
         extract_button.click(
             fn=extract_pdf_pages,
             inputs=[pdf_path_state, page_range_input, save_folder_state],
-            outputs=[result_text],
+            outputs=[extract_result_text],
+        )
+
+        add_merge_pdf_button.click(
+            fn=pick_pdf_files,
+            inputs=[merge_pdf_paths_state],
+            outputs=[merge_pdf_paths_state, merge_pdf_info],
+        )
+        clear_merge_pdf_button.click(
+            fn=clear_merge_file_list,
+            outputs=[merge_pdf_paths_state, merge_pdf_info],
+        )
+        pick_merge_folder_button.click(
+            fn=pick_save_folder,
+            outputs=[merge_save_folder_state, merge_save_info],
+        )
+        merge_button.click(
+            fn=merge_pdf_files,
+            inputs=[merge_pdf_paths_state, merge_save_folder_state],
+            outputs=[merge_result_text],
         )
 
     return demo

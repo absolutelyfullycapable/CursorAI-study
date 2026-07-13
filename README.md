@@ -84,8 +84,9 @@
 │   ├── requirements.txt
 │   └── README.md
 └── 11 PDF 편집기 만들기/                           # Python + Gradio + pypdf
-    ├── pdf_app.py             # Gradio 웹 UI로 PDF 페이지 추출
+    ├── pdf_app.py             # Gradio 웹 UI (페이지 추출 · PDF 이어붙이기)
     ├── pdf_page_extractor.py  # 페이지 범위 파싱 및 추출 로직
+    ├── pdf_merger.py          # PDF 이어붙이기 로직
     └── requirements.txt
 ```
 
@@ -176,7 +177,10 @@ pip3 install -r requirements.txt
 python3 qr_generator.py
 ```
 
-11 프로젝트는 PDF 파일에서 원하는 페이지 범위를 추출해 `원본파일명_YYYYMMDD.pdf` 형식으로 저장하는 Python + Gradio 실습입니다. 터미널에서 실행하면 브라우저에 웹 UI가 열립니다.
+11 프로젝트는 PDF 페이지 추출과 이어붙이기를 제공하는 Python + Gradio 실습입니다. 터미널에서 실행하면 브라우저에 웹 UI가 열립니다.
+
+- **페이지 추출** · 원하는 페이지 범위를 추출해 `원본파일명_YYYYMMDD.pdf` 형식으로 저장
+- **PDF 이어붙이기** · 2개 이상의 PDF를 첨부한 순서대로 합쳐 지정한 폴더에 저장 (파일명 충돌 시 `_(숫자)` 접미사)
 
 ```bash
 cd "@스터디/11 PDF 편집기 만들기"
