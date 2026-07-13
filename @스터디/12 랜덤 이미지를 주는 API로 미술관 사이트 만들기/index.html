@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="picsum.photos API로 만든 가상 사진 전시회" />
+  <title>가상 사진 전시회 | Virtual Photo Exhibition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="spotlight spotlight--left" aria-hidden="true"></div>
+  <div class="spotlight spotlight--right" aria-hidden="true"></div>
+
+  <header class="header">
+    <p class="header__label">Virtual Gallery</p>
+    <h1 class="header__title">가상 사진 전시회</h1>
+    <p class="header__desc">
+      picsum.photos API가 선보이는 30점의 랜덤 사진.<br />
+      벽을 따라 걸어가며 작품을 감상해 보세요.
+    </p>
+  </header>
+
+  <main class="gallery" id="gallery" aria-label="사진 전시 갤러리">
+    <!-- JavaScript로 30개 작품 생성 -->
+  </main>
+
+  <footer class="footer">
+    <p>Images provided by <a href="https://picsum.photos" target="_blank" rel="noopener">Lorem Picsum</a></p>
+  </footer>
+
+  <!-- 라이트박스 -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="작품 상세 보기" hidden>
+    <button class="lightbox__close" id="lightboxClose" aria-label="닫기">&times;</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightboxImg" src="" alt="" />
+      <figcaption class="lightbox__caption" id="lightboxCaption"></figcaption>
+    </figure>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

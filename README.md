@@ -21,7 +21,8 @@
 | 09 | 해외 주식 크롤링 프로그램 만들기 | ✅ |
 | 10 | 나만의 QR 코드 생성기 쉽게 만들기 | ✅ |
 | 11 | PDF 편집기 만들기 | ✅ |
-| 12 ~ 30 | — | 🔜 |
+| 12 | 랜덤 이미지를 주는 API로 미술관 사이트 만들기 | ✅ |
+| 13 ~ 30 | — | 🔜 |
 
 ---
 
@@ -83,11 +84,15 @@
 │   ├── qr_generator.py        # 로고 삽입 QR 생성 앱
 │   ├── requirements.txt
 │   └── README.md
-└── 11 PDF 편집기 만들기/                           # Python + Gradio + pypdf
-    ├── pdf_app.py             # Gradio 웹 UI (페이지 추출 · PDF 이어붙이기)
-    ├── pdf_page_extractor.py  # 페이지 범위 파싱 및 추출 로직
-    ├── pdf_merger.py          # PDF 이어붙이기 로직
-    └── requirements.txt
+├── 11 PDF 편집기 만들기/                           # Python + Gradio + pypdf
+│   ├── pdf_app.py             # Gradio 웹 UI (페이지 추출 · PDF 이어붙이기)
+│   ├── pdf_page_extractor.py  # 페이지 범위 파싱 및 추출 로직
+│   ├── pdf_merger.py          # PDF 이어붙이기 로직
+│   └── requirements.txt
+└── 12 랜덤 이미지를 주는 API로 미술관 사이트 만들기/  # HTML + CSS + JS + Lorem Picsum API
+    ├── index.html             # 가상 사진 전시회 페이지
+    ├── style.css              # 미술관 갤러리 스타일
+    └── script.js              # 30개 작품 생성 · 라이트박스
 ```
 
 ---
@@ -186,6 +191,17 @@ python3 qr_generator.py
 cd "@스터디/11 PDF 편집기 만들기"
 python3 -m pip install -r requirements.txt
 python3 pdf_app.py
+```
+
+12 프로젝트는 [Lorem Picsum](https://picsum.photos) API로 300×300 랜덤 이미지 30장을 불러와 가상 사진 전시회처럼 보여 주는 HTML 실습입니다. 작품 클릭 시 라이트박스로 크게 볼 수 있습니다.
+
+```bash
+# 브라우저에서 바로 열기
+open "@스터디/12 랜덤 이미지를 주는 API로 미술관 사이트 만들기/index.html"
+
+# 또는 로컬 서버로 실행
+cd "@스터디/12 랜덤 이미지를 주는 API로 미술관 사이트 만들기"
+python3 -m http.server 8765
 ```
 
 ---
