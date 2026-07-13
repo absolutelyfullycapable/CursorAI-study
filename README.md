@@ -23,7 +23,8 @@
 | 11 | PDF 편집기 만들기 | ✅ |
 | 12 | 랜덤 이미지를 주는 API로 미술관 사이트 만들기 | ✅ |
 | 13 | 한국거래소 주식 데이터 API로 나만의 대시보드 만들기 | ✅ |
-| 14 ~ 30 | — | 🔜 |
+| 14 | 식당 추천 사이트 만들기 | ✅ |
+| 15 ~ 30 | — | 🔜 |
 
 ---
 
@@ -101,6 +102,19 @@
     ├── server.py              # 공공데이터 API 프록시 · 정적 파일 서버
     ├── .env.example           # API 키 환경 변수 예시
     └── 주식api.txt            # 금융위원회 주식시세정보 API 명세
+└── 14 식당 추천 사이트 만들기/                          # HTML + CSS + JS → React + Vite
+    ├── index.html             # 초기 HTML 버전 (API 10건 표시)
+    ├── style.css
+    ├── script.js
+    └── restaurant-app/        # React + Vite 메인 프로젝트
+        ├── index.html
+        ├── package.json
+        ├── .env.example       # API 키 환경 변수 예시
+        └── src/
+            ├── main.jsx · App.jsx · App.css · index.css
+            ├── api/restaurants.js      # 전체 데이터 페이징 fetch
+            ├── utils/restaurant.js     # 필터 · 포맷 유틸
+            └── components/             # Header · Footer · SearchBar · RestaurantCard
 ```
 
 ---
@@ -224,6 +238,20 @@ export DATA_GO_KR_API_KEY='발급받은-API-키'
 
 # 서버 실행 후 브라우저에서 http://127.0.0.1:8080 접속
 python3 server.py
+```
+
+14 프로젝트는 [공공데이터포털 서울특별시 서초구 휴게음식점 현황 API](https://www.data.go.kr/)로 카페 · 분식 · 패스트푸드 등 휴게음식점 정보를 조회하는 식당 추천 사이트입니다. 초기에는 HTML/CSS/JS로 10곳을 표시했고, 이후 React + Vite로 전환해 전체 데이터 로딩 · 무한 스크롤 · 검색 기능을 구현했습니다.
+
+- **주요 기능** · 전체 2,192곳 데이터 로딩 · 3열 그리드 · 무한 스크롤(12개씩) · 식당 이름 · 주소 검색 · 검색 결과 화면
+
+```bash
+cd "@스터디/14 식당 추천 사이트 만들기/restaurant-app"
+npm install
+
+# .env 파일 생성 (.env.example 참고)
+# VITE_API_KEY='발급받은-API-키'
+
+npm run dev
 ```
 
 ---

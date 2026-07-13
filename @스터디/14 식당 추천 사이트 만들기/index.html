@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>서초구 휴게음식점 추천</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <p class="header__label">Seocho Restaurant Guide</p>
+    <h1 class="header__title">서초구 휴게음식점 추천</h1>
+    <p class="header__desc">
+      공공데이터포털 · 서울특별시 서초구 휴게음식점 현황 API에서
+      카페, 분식, 패스트푸드 등 10곳을 불러옵니다.
+    </p>
+    <p class="header__meta" id="dataMeta">데이터 불러오는 중...</p>
+  </header>
+
+  <main class="main">
+    <div class="status" id="status">음식점 정보를 불러오는 중입니다...</div>
+    <ul class="restaurant-list" id="restaurantList" hidden></ul>
+  </main>
+
+  <footer class="footer">
+    <p>
+      데이터 출처:
+      <a href="https://www.data.go.kr/" target="_blank" rel="noopener">공공데이터포털 · 서울특별시 서초구 휴게음식점 현황</a>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

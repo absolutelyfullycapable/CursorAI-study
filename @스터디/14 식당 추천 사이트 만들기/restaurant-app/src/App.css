@@ -1,0 +1,294 @@
+.header {
+  text-align: center;
+  padding: 3.5rem 1.5rem 2.5rem;
+  background: linear-gradient(180deg, #fff8f4 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.header__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.header__title {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.header__desc {
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.header__meta {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.search-bar {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 640px;
+  margin: 0 auto 2rem;
+}
+
+.search-bar__input {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-bar__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.search-bar__input::placeholder {
+  color: #b5ada3;
+}
+
+.search-bar__button {
+  flex-shrink: 0;
+  padding: 0.85rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-bar__button:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.search-bar__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.search-result__header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-result__title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.search-result__count {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.search-result__reset {
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-result__reset:hover {
+  background: #ffe4db;
+}
+
+.status {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.status--error {
+  color: var(--accent-dark);
+}
+
+.restaurant-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.restaurant-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 4px 20px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(44, 36, 24, 0.12);
+}
+
+.restaurant-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.restaurant-card__rank {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.restaurant-card__name {
+  flex: 1;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.restaurant-card__badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.restaurant-card__badge--cafe {
+  background: #edf5ed;
+  color: var(--badge-cafe);
+}
+
+.restaurant-card__badge--food {
+  background: #fdf3e3;
+  color: var(--badge-food);
+}
+
+.restaurant-card__badge--etc {
+  background: #edf2f8;
+  color: var(--badge-etc);
+}
+
+.restaurant-card__address {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  word-break: keep-all;
+}
+
+.restaurant-card__details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.restaurant-card__detail {
+  font-size: 0.8rem;
+}
+
+.restaurant-card__detail dt {
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+
+.restaurant-card__detail dd {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.scroll-sentinel {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+.scroll-sentinel__text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+.footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 960px) {
+  .restaurant-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .restaurant-list {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurant-card__details {
+    grid-template-columns: 1fr;
+  }
+}

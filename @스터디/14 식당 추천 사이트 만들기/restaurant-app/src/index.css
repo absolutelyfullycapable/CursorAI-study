@@ -1,0 +1,42 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --accent: #e85d3a;
+  --accent-soft: #fff0eb;
+  --accent-dark: #c44a2b;
+  --text: #2c2418;
+  --text-muted: #7a6f62;
+  --border: #ebe4d8;
+  --shadow: rgba(44, 36, 24, 0.08);
+  --badge-cafe: #6b8e6b;
+  --badge-food: #d4882a;
+  --badge-etc: #5b7fa6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root > main {
+  flex: 1;
+}
