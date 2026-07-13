@@ -5,4 +5,5 @@
 @스터디/09 해외 주식 크롤링 프로그램 만들기/stock_gainers_yahoo.xlsx
 __pycache__/
 *.pyc
+.env
 @스터디/10 나만의 QR 코드 생성기 쉽게 만들기/test_output/

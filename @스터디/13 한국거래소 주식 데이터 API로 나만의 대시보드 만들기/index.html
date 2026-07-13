@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국 주식 TOP 50 | 종가 기준</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <p class="header__label">KRX Stock Dashboard</p>
+    <h1 class="header__title">한국 주식 가격 TOP 50</h1>
+    <p class="header__desc">금융위원회 주식시세 API 기준, 종가(clpr)가 높은 순서입니다.</p>
+    <p class="header__date" id="baseDate">기준일자 불러오는 중...</p>
+  </header>
+
+  <main class="main">
+    <section class="controls">
+      <label class="controls__label" for="dateInput">기준일자</label>
+      <input class="controls__date" type="date" id="dateInput" />
+      <button class="controls__button" type="button" id="refreshBtn">새로고침</button>
+    </section>
+
+    <div class="status" id="status">데이터를 불러오는 중입니다...</div>
+    <div class="table-wrap" id="tableWrap" hidden>
+      <table class="stock-table">
+        <thead>
+          <tr>
+            <th>순위</th>
+            <th>종목명</th>
+            <th>단축코드</th>
+            <th>시장</th>
+            <th>종가</th>
+            <th>대비</th>
+            <th>등락률</th>
+            <th>거래량</th>
+            <th>시가총액</th>
+          </tr>
+        </thead>
+        <tbody id="stockBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>데이터 출처: <a href="https://www.data.go.kr/" target="_blank" rel="noopener">공공데이터포털 · 금융위원회 주식시세정보</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
