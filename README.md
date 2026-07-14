@@ -97,25 +97,25 @@
 │   ├── style.css              # 미술관 갤러리 스타일
 │   └── script.js              # 30개 작품 생성 · 라이트박스
 ├── 13 한국거래소 주식 데이터 API로 나만의 대시보드 만들기/  # HTML + CSS + JS + Python API 프록시
-    ├── index.html             # 주식 TOP 50 대시보드
-    ├── style.css              # 라이트 테마 UI
-    ├── script.js              # 날짜 선택 · 데이터 표시
-    ├── server.py              # 공공데이터 API 프록시 · 정적 파일 서버
-    ├── .env.example           # API 키 환경 변수 예시
-    └── 주식api.txt            # 금융위원회 주식시세정보 API 명세
+│   ├── index.html             # 주식 TOP 50 대시보드
+│   ├── style.css              # 라이트 테마 UI
+│   ├── script.js              # 날짜 선택 · 데이터 표시
+│   ├── server.py              # 공공데이터 API 프록시 · 정적 파일 서버
+│   ├── .env.example           # API 키 환경 변수 예시
+│   └── 주식api.txt            # 금융위원회 주식시세정보 API 명세
 ├── 14 식당 추천 사이트 만들기/                          # HTML + CSS + JS → React + Vite
-    ├── index.html             # 초기 HTML 버전 (API 10건 표시)
-    ├── style.css
-    ├── script.js
-    └── restaurant-app/        # React + Vite 메인 프로젝트
-        ├── index.html
-        ├── package.json
-        ├── .env.example       # API 키 환경 변수 예시
-        └── src/
-            ├── main.jsx · App.jsx · App.css · index.css
-            ├── api/restaurants.js      # 전체 데이터 페이징 fetch
-            ├── utils/restaurant.js     # 필터 · 포맷 유틸
-            └── components/             # Header · Footer · SearchBar · RestaurantCard
+│   ├── index.html             # 초기 HTML 버전 (API 10건 표시)
+│   ├── style.css
+│   ├── script.js
+│   └── restaurant-app/        # React + Vite 메인 프로젝트
+│       ├── index.html
+│       ├── package.json
+│       ├── .env.example       # API 키 환경 변수 예시
+│       └── src/
+│           ├── main.jsx · App.jsx · App.css · index.css
+│           ├── api/restaurants.js      # 전체 데이터 페이징 fetch
+│           ├── utils/restaurant.js     # 필터 · 포맷 유틸
+│           └── components/             # Header · Footer · SearchBar · RestaurantCard
 └── 15 메일 발송 자동화 프로그램 만들기/           # Python + Flask + Tailwind + Gmail SMTP
     ├── app.py                 # Flask 웹 UI · 엑셀 파싱 · SMTP 발송 API
     ├── send_mail.py           # CLI 테스트 발송 (최대 10건)
