@@ -25,7 +25,8 @@
 | 13 | 한국거래소 주식 데이터 API로 나만의 대시보드 만들기 | ✅ |
 | 14 | 식당 추천 사이트 만들기 | ✅ |
 | 15 | 메일 발송 자동화 프로그램 만들기 | ✅ |
-| 16 ~ 30 | — | 🔜 |
+| 16 | ChatGPT API로 PDF 요약 프로그램 만들기 | ✅ |
+| 17 ~ 30 | — | 🔜 |
 
 ---
 
@@ -116,12 +117,17 @@
 │           ├── api/restaurants.js      # 전체 데이터 페이징 fetch
 │           ├── utils/restaurant.js     # 필터 · 포맷 유틸
 │           └── components/             # Header · Footer · SearchBar · RestaurantCard
-└── 15 메일 발송 자동화 프로그램 만들기/           # Python + Flask + Tailwind + Gmail SMTP
-    ├── app.py                 # Flask 웹 UI · 엑셀 파싱 · SMTP 발송 API
-    ├── send_mail.py           # CLI 테스트 발송 (최대 10건)
-    ├── create_sample_excel.py # 실습용 엑셀(고객 50건) 생성
-    ├── templates/index.html   # Tailwind 기반 발송 UI
-    ├── .env.example           # Gmail 앱 비밀번호 예시
+├── 15 메일 발송 자동화 프로그램 만들기/           # Python + Flask + Tailwind + Gmail SMTP
+│   ├── app.py                 # Flask 웹 UI · 엑셀 파싱 · SMTP 발송 API
+│   ├── send_mail.py           # CLI 테스트 발송 (최대 10건)
+│   ├── create_sample_excel.py # 실습용 엑셀(고객 50건) 생성
+│   ├── templates/index.html   # Tailwind 기반 발송 UI
+│   ├── .env.example           # Gmail 앱 비밀번호 예시
+│   └── requirements.txt
+└── 16 ChatGPT API로 PDF 요약 프로그램 만들기/   # Python + pypdf + Claude API
+    ├── extract_pdf_text.py    # pdf/ 폴더 PDF 텍스트 추출 → extracted_text/
+    ├── summarize_text.py      # extracted_text/ Claude API 요약 → summaries/
+    ├── .env.example           # Anthropic API 키 예시
     └── requirements.txt
 ```
 
@@ -282,6 +288,25 @@ python3 app.py
 
 # 또는 CLI로 10건 테스트 발송
 python3 send_mail.py
+```
+
+16 프로젝트는 `pdf/` 폴더의 PDF에서 텍스트를 추출한 뒤, Claude API로 요약을 생성하는 Python 실습입니다. (폴더명은 책 챕터명을 따르며, 실제 요약에는 Anthropic Claude API를 사용합니다.)
+
+- **주요 기능** · PDF 텍스트 추출 · 파일별 요약 · 전체 통합 요약
+- **사용 모델** · `claude-sonnet-5`
+
+```bash
+cd "@스터디/16 ChatGPT API로 PDF 요약 프로그램 만들기"
+python3 -m pip install -r requirements.txt
+
+# .env 파일 생성 (.env.example 참고)
+# ANTHROPIC_API_KEY='발급받은-Anthropic-API-키'
+
+# PDF → 텍스트 추출 (extracted_text/)
+python3 extract_pdf_text.py
+
+# 추출 텍스트 → Claude 요약 (summaries/)
+python3 summarize_text.py
 ```
 
 ---
