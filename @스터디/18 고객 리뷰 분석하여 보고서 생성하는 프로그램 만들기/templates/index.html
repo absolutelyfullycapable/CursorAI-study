@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Brief — 고객 리뷰 분석 보고서</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: {
+              950: "#0b1220",
+              900: "#121a2b",
+              800: "#1c2740",
+              700: "#2a3854",
+              500: "#5a6b88",
+              400: "#8493ad",
+              300: "#b4bfd0",
+            },
+            mist: {
+              50: "#f5f7fb",
+              100: "#e9eef6",
+              200: "#d5deec",
+            },
+            tide: {
+              400: "#2dd4bf",
+              500: "#14b8a6",
+              600: "#0f766e",
+            },
+          },
+          fontFamily: {
+            display: ['"Pretendard"', "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+            sans: ['"Pretendard"', "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+          },
+          keyframes: {
+            fadeUp: {
+              "0%": { opacity: "0", transform: "translateY(16px)" },
+              "100%": { opacity: "1", transform: "translateY(0)" },
+            },
+            drift: {
+              "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+              "50%": { transform: "translate(10px, -12px) scale(1.05)" },
+            },
+            pulseSoft: {
+              "0%, 100%": { opacity: "0.55" },
+              "50%": { opacity: "1" },
+            },
+          },
+          animation: {
+            fadeUp: "fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
+            "fadeUp-2": "fadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both",
+            "fadeUp-3": "fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both",
+            drift: "drift 16s ease-in-out infinite",
+            pulseSoft: "pulseSoft 1.6s ease-in-out infinite",
+          },
+        },
+      },
+    };
+  </script>
+  <link
+    rel="stylesheet"
+    as="style"
+    crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+  />
+  <style>
+    body {
+      min-height: 100vh;
+      background: #e6ebf3;
+      overflow-x: hidden;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+
+    .scene {
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, rgba(20, 184, 166, 0.16), transparent 55%),
+        radial-gradient(ellipse 60% 45% at 95% 5%, rgba(37, 99, 235, 0.10), transparent 50%),
+        linear-gradient(165deg, #f4f7fb 0%, #e5ebf4 45%, #d8e0ec 100%);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(70px);
+      pointer-events: none;
+    }
+
+    .orb-a {
+      width: min(48vw, 480px);
+      height: min(48vw, 480px);
+      top: -8%;
+      left: -6%;
+      background: rgba(20, 184, 166, 0.22);
+      animation: drift 16s ease-in-out infinite;
+    }
+
+    .orb-b {
+      width: min(40vw, 400px);
+      height: min(40vw, 400px);
+      top: 12%;
+      right: -8%;
+      background: rgba(59, 90, 140, 0.16);
+      animation: drift 20s ease-in-out infinite reverse;
+    }
+
+    .grid-mask {
+      background-image:
+        linear-gradient(rgba(18, 26, 43, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(18, 26, 43, 0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 75% 55% at 50% 15%, black 15%, transparent 78%);
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.8) inset,
+        0 24px 48px -28px rgba(15, 23, 42, 0.35);
+    }
+
+    .dropzone {
+      border: 1.5px dashed rgba(42, 56, 84, 0.28);
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+
+    .dropzone:hover,
+    .dropzone.is-drag {
+      border-color: #14b8a6;
+      background: rgba(20, 184, 166, 0.06);
+      transform: translateY(-1px);
+    }
+
+    .dropzone.is-ready {
+      border-style: solid;
+      border-color: #14b8a6;
+      background: linear-gradient(160deg, rgba(20, 184, 166, 0.12), rgba(255, 255, 255, 0.75));
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+    }
+
+    .dropzone.is-sample {
+      border-style: solid;
+      border-color: #5a6b88;
+      background: linear-gradient(160deg, rgba(90, 107, 136, 0.1), rgba(255, 255, 255, 0.75));
+      box-shadow: 0 0 0 3px rgba(90, 107, 136, 0.1);
+    }
+
+    .file-chip {
+      animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0f766e 0%, #14b8a6 55%, #2dd4bf 100%);
+      box-shadow: 0 10px 28px -12px rgba(15, 118, 110, 0.7);
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 14px 32px -12px rgba(15, 118, 110, 0.75);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .metric {
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(245, 247, 251, 0.75));
+      border: 1px solid rgba(213, 222, 236, 0.9);
+    }
+
+    .report-body h1 {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0b1220;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid #d5deec;
+    }
+
+    .report-body h2 {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #121a2b;
+      margin: 1.75rem 0 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .report-body h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1c2740;
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    .report-body p {
+      color: #2a3854;
+      line-height: 1.7;
+      margin: 0.55rem 0;
+      font-size: 0.95rem;
+    }
+
+    .report-body ul,
+    .report-body ol {
+      margin: 0.5rem 0 0.85rem 1.15rem;
+      color: #2a3854;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .report-body li {
+      margin: 0.28rem 0;
+    }
+
+    .report-body strong {
+      color: #0b1220;
+      font-weight: 650;
+    }
+
+    .report-body table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0.85rem 0 1.25rem;
+      font-size: 0.875rem;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid #d5deec;
+      background: #fff;
+    }
+
+    .report-body thead th {
+      background: #121a2b;
+      color: #f5f7fb;
+      font-weight: 600;
+      text-align: left;
+      padding: 0.7rem 0.85rem;
+      white-space: nowrap;
+    }
+
+    .report-body tbody td {
+      padding: 0.65rem 0.85rem;
+      border-top: 1px solid #e9eef6;
+      color: #1c2740;
+      vertical-align: top;
+    }
+
+    .report-body tbody tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .report-body blockquote {
+      margin: 0.75rem 0;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid #14b8a6;
+      background: rgba(20, 184, 166, 0.06);
+      color: #2a3854;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.92rem;
+    }
+
+    .report-body hr {
+      border: none;
+      border-top: 1px solid #d5deec;
+      margin: 1.5rem 0;
+    }
+
+    .shimmer-bar {
+      background: linear-gradient(90deg, #e9eef6 25%, #f8fafc 50%, #e9eef6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s linear infinite;
+      border-radius: 8px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(10px, -12px) scale(1.05); }
+    }
+  </style>
+</head>
+<body class="font-sans text-ink-900 antialiased">
+  <div class="scene relative min-h-screen">
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-0 grid-mask" aria-hidden="true"></div>
+
+    <main class="relative z-10 mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 sm:pt-14">
+      <header class="mb-10 animate-fadeUp">
+        <p class="mb-3 text-sm font-medium tracking-[0.18em] text-tide-600 uppercase">
+          Review Brief
+        </p>
+        <h1 class="font-display text-4xl font-semibold tracking-tight text-ink-950 sm:text-5xl">
+          고객 리뷰 분석 보고서
+        </h1>
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-500 sm:text-lg">
+          엑셀 리뷰를 읽어 핵심 지표·표·액션 플랜으로 정리한
+          경영진용 브리프를 생성합니다.
+        </p>
+      </header>
+
+      <div class="grid items-start gap-6 lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-8">
+        <!-- Control panel -->
+        <section class="panel animate-fadeUp-2 h-fit rounded-3xl p-6 sm:p-7">
+          <h2 class="font-display text-xl font-semibold text-ink-950">데이터 준비</h2>
+          <p class="mt-2 text-sm leading-relaxed text-ink-500">
+            필수 컬럼: <span class="font-medium text-ink-800">리뷰내용</span>,
+            <span class="font-medium text-ink-800">평점</span>
+          </p>
+
+          <form id="analyze-form" class="mt-6 space-y-5">
+            <div
+              id="dropzone"
+              class="dropzone flex cursor-pointer flex-col items-center justify-center rounded-2xl px-4 py-7 text-center"
+            >
+              <input id="excel" name="excel" type="file" accept=".xlsx,.xlsm,.xls" class="hidden" />
+
+              <!-- 비어 있을 때 -->
+              <div id="drop-empty" class="flex w-full flex-col items-center">
+                <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-900 text-tide-400">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 16V4M12 4l-4 4M12 4l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <p class="text-sm font-medium text-ink-800">엑셀 파일을 놓거나 클릭</p>
+                <p class="mt-1 text-xs text-ink-400">xlsx · xlsm · xls</p>
+              </div>
+
+              <!-- 파일 선택됨 -->
+              <div id="drop-ready" class="file-chip hidden w-full">
+                <div class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-tide-500 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  파일 추가됨
+                </div>
+                <div class="flex items-start gap-3 rounded-2xl border border-tide-400/40 bg-white/80 px-3.5 py-3 text-left shadow-sm">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-tide-600">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6"/>
+                      <path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <p id="file-name" class="truncate text-sm font-semibold text-ink-900" title=""></p>
+                    <p id="file-meta" class="mt-0.5 text-xs text-ink-400"></p>
+                    <p class="mt-2 text-[11px] font-medium text-tide-600">클릭하면 다른 파일로 바꿀 수 있어요</p>
+                  </div>
+                  <button
+                    id="clear-file"
+                    type="button"
+                    class="shrink-0 rounded-lg px-2 py-1 text-xs font-medium text-ink-400 transition hover:bg-mist-100 hover:text-ink-700"
+                    aria-label="선택 파일 제거"
+                  >
+                    제거
+                  </button>
+                </div>
+              </div>
+
+              <!-- 샘플 사용 중 -->
+              <div id="drop-sample" class="file-chip hidden w-full">
+                <div class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-ink-700 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
+                  샘플 데이터
+                </div>
+                <div class="rounded-2xl border border-ink-300/40 bg-white/80 px-3.5 py-3 text-left">
+                  <p id="sample-name-label" class="truncate text-sm font-semibold text-ink-900">{{ sample_name or "샘플 엑셀" }}</p>
+                  <p class="mt-0.5 text-xs text-ink-400">체크 해제 후 직접 파일을 올릴 수 있어요</p>
+                </div>
+              </div>
+            </div>
+
+            {% if sample_name %}
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-mist-200 bg-white/50 px-4 py-3">
+              <input
+                id="use_sample"
+                name="use_sample"
+                type="checkbox"
+                value="1"
+                class="mt-1 h-4 w-4 rounded border-ink-300 text-tide-600 focus:ring-tide-500"
+              />
+              <span>
+                <span class="block text-sm font-medium text-ink-800">샘플 데이터 사용</span>
+                <span class="mt-0.5 block text-xs text-ink-400">{{ sample_name }}</span>
+              </span>
+            </label>
+            {% endif %}
+
+            <label class="flex cursor-pointer items-center gap-3 text-sm text-ink-700">
+              <input
+                id="save"
+                name="save"
+                type="checkbox"
+                value="1"
+                checked
+                class="h-4 w-4 rounded border-ink-300 text-tide-600 focus:ring-tide-500"
+              />
+              reports/ 폴더에 마크다운 저장
+            </label>
+
+            <button
+              id="submit-btn"
+              type="submit"
+              class="btn-primary w-full rounded-2xl px-5 py-3.5 text-sm font-semibold text-white"
+            >
+              보고서 생성
+            </button>
+          </form>
+
+          <p class="mt-5 text-xs leading-relaxed text-ink-400">
+            모델 {{ model }} · 표·목록 중심의 임원 보고 형식
+          </p>
+
+          <div id="error-box" class="mt-4 hidden rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></div>
+        </section>
+
+        <!-- Result panel -->
+        <section class="animate-fadeUp-3 flex flex-col gap-6">
+          <div id="metrics" class="hidden grid gap-3 sm:grid-cols-2 xl:grid-cols-4"></div>
+
+          <div class="panel min-h-[420px] rounded-3xl p-6 sm:p-8 lg:min-h-0 lg:flex-1">
+            <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+              <h2 class="font-display text-xl font-semibold text-ink-950">보고서</h2>
+              <div id="result-actions" class="hidden flex flex-wrap gap-2">
+                <button
+                  id="copy-btn"
+                  type="button"
+                  class="rounded-xl border border-mist-200 bg-white/70 px-3.5 py-2 text-xs font-medium text-ink-700 transition hover:border-tide-400 hover:text-tide-600"
+                >
+                  복사
+                </button>
+                <button
+                  id="download-btn"
+                  type="button"
+                  class="rounded-xl border border-mist-200 bg-white/70 px-3.5 py-2 text-xs font-medium text-ink-700 transition hover:border-tide-400 hover:text-tide-600"
+                >
+                  .md 다운로드
+                </button>
+              </div>
+            </div>
+
+            <div id="placeholder" class="flex h-[320px] flex-col items-center justify-center text-center">
+              <div class="mb-4 h-16 w-16 rounded-full bg-gradient-to-br from-tide-400/30 to-ink-800/10"></div>
+              <p class="font-display text-lg text-ink-800">아직 생성된 보고서가 없습니다</p>
+              <p class="mt-2 max-w-sm text-sm text-ink-400">
+                왼쪽에서 엑셀을 선택하고 보고서를 생성하면,<br />
+                표와 목록으로 정리된 브리프가 여기에 표시됩니다.
+              </p>
+            </div>
+
+            <div id="loading" class="hidden space-y-3 py-6">
+              <div class="shimmer-bar h-8 w-2/3"></div>
+              <div class="shimmer-bar h-4 w-full"></div>
+              <div class="shimmer-bar h-4 w-11/12"></div>
+              <div class="shimmer-bar h-4 w-4/5"></div>
+              <div class="mt-6 shimmer-bar h-28 w-full"></div>
+              <div class="shimmer-bar h-28 w-full"></div>
+              <p class="pt-2 text-center text-sm text-ink-400 animate-pulseSoft">
+                리뷰를 읽고 보고서를 작성하는 중…
+              </p>
+            </div>
+
+            <article id="report" class="report-body hidden"></article>
+            <p id="saved-path" class="mt-6 hidden text-xs text-ink-400"></p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const form = document.getElementById("analyze-form");
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("excel");
+    const dropEmpty = document.getElementById("drop-empty");
+    const dropReady = document.getElementById("drop-ready");
+    const dropSample = document.getElementById("drop-sample");
+    const fileNameEl = document.getElementById("file-name");
+    const fileMetaEl = document.getElementById("file-meta");
+    const clearFileBtn = document.getElementById("clear-file");
+    const useSample = document.getElementById("use_sample");
+    const submitBtn = document.getElementById("submit-btn");
+    const errorBox = document.getElementById("error-box");
+    const placeholder = document.getElementById("placeholder");
+    const loading = document.getElementById("loading");
+    const reportEl = document.getElementById("report");
+    const metricsEl = document.getElementById("metrics");
+    const resultActions = document.getElementById("result-actions");
+    const savedPathEl = document.getElementById("saved-path");
+    const copyBtn = document.getElementById("copy-btn");
+    const downloadBtn = document.getElementById("download-btn");
+
+    let lastMarkdown = "";
+    let lastFilename = "리뷰분석보고서.md";
+
+    marked.setOptions({ breaks: true, gfm: true });
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes) || bytes <= 0) return "크기 알 수 없음";
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+
+    function setDropState(mode) {
+      dropEmpty.classList.toggle("hidden", mode !== "empty");
+      dropReady.classList.toggle("hidden", mode !== "ready");
+      dropSample.classList.toggle("hidden", mode !== "sample");
+      dropzone.classList.toggle("is-ready", mode === "ready");
+      dropzone.classList.toggle("is-sample", mode === "sample");
+    }
+
+    function refreshDropzone() {
+      if (useSample?.checked) {
+        setDropState("sample");
+        return;
+      }
+      const f = fileInput.files?.[0];
+      if (f) {
+        fileNameEl.textContent = f.name;
+        fileNameEl.title = f.name;
+        const ext = (f.name.split(".").pop() || "xlsx").toUpperCase();
+        fileMetaEl.textContent = `${ext} · ${formatBytes(f.size)}`;
+        setDropState("ready");
+      } else {
+        setDropState("empty");
+      }
+    }
+
+    dropzone.addEventListener("click", (e) => {
+      if (e.target.closest("#clear-file")) return;
+      if (useSample?.checked) return;
+      fileInput.click();
+    });
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      if (useSample?.checked) return;
+      dropzone.classList.add("is-drag");
+    });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("is-drag"));
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("is-drag");
+      if (useSample?.checked) return;
+      if (e.dataTransfer.files?.length) {
+        fileInput.files = e.dataTransfer.files;
+        if (useSample) useSample.checked = false;
+        refreshDropzone();
+      }
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files?.length && useSample) useSample.checked = false;
+      refreshDropzone();
+    });
+    clearFileBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      fileInput.value = "";
+      refreshDropzone();
+    });
+    if (useSample) {
+      useSample.addEventListener("change", () => {
+        if (useSample.checked) fileInput.value = "";
+        refreshDropzone();
+      });
+    }
+
+    refreshDropzone();
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.classList.remove("hidden");
+    }
+
+    function clearError() {
+      errorBox.classList.add("hidden");
+      errorBox.textContent = "";
+    }
+
+    function renderMetrics(m) {
+      const cards = [
+        { label: "총 리뷰", value: `${m.total}건`, sub: m.date_range ? `${m.date_range.from} ~ ${m.date_range.to}` : "전체 기간" },
+        { label: "평균 평점", value: String(m.avg_rating), sub: `최고 ${m.max_rating} · 최저 ${m.min_rating}` },
+        { label: "긍정 비율", value: `${m.positive_pct}%`, sub: `${m.positive}건 (4~5점)` },
+        { label: "부정 비율", value: `${m.negative_pct}%`, sub: `${m.negative}건 (1~2점)` },
+      ];
+      metricsEl.innerHTML = cards
+        .map(
+          (c, i) => `
+        <div class="metric rounded-2xl px-4 py-4" style="animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) ${i * 0.06}s both">
+          <p class="text-[11px] font-medium uppercase tracking-[0.14em] text-ink-400">${c.label}</p>
+          <p class="mt-1 font-display text-2xl font-semibold tracking-tight text-ink-950">${c.value}</p>
+          <p class="mt-1 text-xs text-ink-400">${c.sub}</p>
+        </div>`
+        )
+        .join("");
+      metricsEl.classList.remove("hidden");
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const usingSample = useSample?.checked;
+      if (!usingSample && !fileInput.files?.length) {
+        showError("엑셀 파일을 선택하거나 샘플 데이터를 체크해 주세요.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      placeholder.classList.add("hidden");
+      reportEl.classList.add("hidden");
+      resultActions.classList.add("hidden");
+      savedPathEl.classList.add("hidden");
+      metricsEl.classList.add("hidden");
+      loading.classList.remove("hidden");
+
+      const fd = new FormData(form);
+      if (usingSample) {
+        fd.set("use_sample", "1");
+        fd.delete("excel");
+      }
+
+      try {
+        const res = await fetch("/api/analyze", { method: "POST", body: fd });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "생성에 실패했습니다.");
+
+        lastMarkdown = data.report;
+        lastFilename = `리뷰분석보고서_${(data.filename || "report").replace(/\.[^.]+$/, "")}.md`;
+        renderMetrics(data.metrics);
+        reportEl.innerHTML = marked.parse(data.report);
+        reportEl.classList.remove("hidden");
+        resultActions.classList.remove("hidden");
+        if (data.saved_path) {
+          savedPathEl.textContent = `저장됨 · ${data.saved_path}`;
+          savedPathEl.classList.remove("hidden");
+        }
+      } catch (err) {
+        showError(err.message || String(err));
+        placeholder.classList.remove("hidden");
+      } finally {
+        loading.classList.add("hidden");
+        submitBtn.disabled = false;
+      }
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      if (!lastMarkdown) return;
+      await navigator.clipboard.writeText(lastMarkdown);
+      copyBtn.textContent = "복사됨";
+      setTimeout(() => (copyBtn.textContent = "복사"), 1400);
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      if (!lastMarkdown) return;
+      const blob = new Blob([lastMarkdown], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = lastFilename;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

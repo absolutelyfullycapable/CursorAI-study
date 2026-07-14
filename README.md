@@ -27,7 +27,8 @@
 | 15 | 메일 발송 자동화 프로그램 만들기 | ✅ |
 | 16 | Claude API로 PDF 요약 프로그램 만들기 | ✅ |
 | 17 | 블로그 최적화 글 생성 프로그램 만들기 | ✅ |
-| 18 ~ 30 | — | 🔜 |
+| 18 | 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기 | ✅ |
+| 19 ~ 30 | — | 🔜 |
 
 ---
 
@@ -130,12 +131,20 @@
 │   ├── summarize_text.py      # extracted_text/ Claude API 요약 → summaries/
 │   ├── .env.example           # Anthropic API 키 예시
 │   └── requirements.txt
-└── 17 블로그 최적화 글 생성 프로그램 만들기/   # Python + Flask + Claude API (Haiku 4.5)
-    ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8517)
-    ├── generate_blog.py       # CLI · 공통 생성 로직
-    ├── templates/index.html   # 키워드 · 관점 · 스타일 · 자료 입력 UI
-    ├── materials/             # 관련 자료 텍스트 파일
-    ├── posts/                 # 생성된 마크다운 글
+├── 17 블로그 최적화 글 생성 프로그램 만들기/   # Python + Flask + Claude API (Haiku 4.5)
+│   ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8517)
+│   ├── generate_blog.py       # CLI · 공통 생성 로직
+│   ├── templates/index.html   # 키워드 · 관점 · 스타일 · 자료 입력 UI
+│   ├── materials/             # 관련 자료 텍스트 파일
+│   ├── posts/                 # 생성된 마크다운 글
+│   ├── .env.example           # Anthropic API 키 예시
+│   └── requirements.txt
+└── 18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기/  # Python + Flask + openpyxl + Claude API (Haiku 4.5)
+    ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8518)
+    ├── analyze_reviews.py     # CLI · 공통 분석·보고서 생성 로직
+    ├── templates/index.html   # 엑셀 업로드 · 지표 · 보고서 뷰
+    ├── 노트북 고객 리뷰 데이터.xlsx  # 실습용 샘플(로컬 배치)
+    ├── reports/               # 생성된 마크다운 보고서
     ├── .env.example           # Anthropic API 키 예시
     └── requirements.txt
 ```
@@ -338,6 +347,27 @@ python3 app.py
 python3 generate_blog.py "미니멀 라이프" materials/sample.txt \
   -v "미니멀은 물건을 줄이는 게 아니라 매일 쓰는 것만 남기는 선택이다." \
   -s friendly
+```
+
+18 프로젝트는 엑셀 고객 리뷰를 읽어 통계를 내고, Claude API로 경영진용 분석 보고서를 생성하는 Python 실습입니다. 리뷰·평점 열은 컬럼명(`리뷰내용`, `평점`)으로 찾으므로 열 위치가 바뀌어도 동작합니다. 웹 UI와 CLI를 모두 지원합니다.
+
+- **주요 기능** · 엑셀 업로드/샘플 · 핵심 지표 카드 · 표·목록 중심 보고서 · 복사/다운로드 · `reports/` 저장
+- **사용 모델** · `claude-haiku-4-5` (토큰 비용 최저 — 입력 $1 / 출력 $5 per 1M tokens)
+- **샘플 엑셀** · `노트북 고객 리뷰 데이터.xlsx`를 프로젝트 폴더에 두고 사용 (웹에서 직접 업로드도 가능)
+
+```bash
+cd "@스터디/18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기"
+python3 -m pip install -r requirements.txt
+
+# .env 파일 생성 (.env.example 참고)
+# ANTHROPIC_API_KEY='발급받은-Anthropic-API-키'
+
+# 웹 UI 실행 후 브라우저에서 http://127.0.0.1:8518 접속
+python3 app.py
+
+# 또는 CLI로 생성
+python3 analyze_reviews.py
+python3 analyze_reviews.py "노트북 고객 리뷰 데이터.xlsx"
 ```
 
 
