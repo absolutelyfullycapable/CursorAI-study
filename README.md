@@ -143,7 +143,6 @@
     ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8518)
     ├── analyze_reviews.py     # CLI · 공통 분석·보고서 생성 로직
     ├── templates/index.html   # 엑셀 업로드 · 지표 · 보고서 뷰
-    ├── 노트북 고객 리뷰 데이터.xlsx  # 실습용 샘플(로컬 배치)
     ├── reports/               # 생성된 마크다운 보고서
     ├── .env.example           # Anthropic API 키 예시
     └── requirements.txt
@@ -351,9 +350,8 @@ python3 generate_blog.py "미니멀 라이프" materials/sample.txt \
 
 18 프로젝트는 엑셀 고객 리뷰를 읽어 통계를 내고, Claude API로 경영진용 분석 보고서를 생성하는 Python 실습입니다. 리뷰·평점 열은 컬럼명(`리뷰내용`, `평점`)으로 찾으므로 열 위치가 바뀌어도 동작합니다. 웹 UI와 CLI를 모두 지원합니다.
 
-- **주요 기능** · 엑셀 업로드/샘플 · 핵심 지표 카드 · 표·목록 중심 보고서 · 복사/다운로드 · `reports/` 저장
+- **주요 기능** · 엑셀 업로드 · 핵심 지표 카드 · 표·목록 중심 보고서 · 복사/다운로드 · `reports/` 저장
 - **사용 모델** · `claude-haiku-4-5` (토큰 비용 최저 — 입력 $1 / 출력 $5 per 1M tokens)
-- **샘플 엑셀** · `노트북 고객 리뷰 데이터.xlsx`를 프로젝트 폴더에 두고 사용 (웹에서 직접 업로드도 가능)
 
 ```bash
 cd "@스터디/18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기"
@@ -365,9 +363,8 @@ python3 -m pip install -r requirements.txt
 # 웹 UI 실행 후 브라우저에서 http://127.0.0.1:8518 접속
 python3 app.py
 
-# 또는 CLI로 생성
-python3 analyze_reviews.py
-python3 analyze_reviews.py "노트북 고객 리뷰 데이터.xlsx"
+# 또는 CLI로 생성 (엑셀 경로 지정)
+python3 analyze_reviews.py "리뷰데이터.xlsx"
 ```
 
 

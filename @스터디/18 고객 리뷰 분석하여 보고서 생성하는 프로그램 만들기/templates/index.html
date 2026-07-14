@@ -142,13 +142,6 @@
       box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
     }
 
-    .dropzone.is-sample {
-      border-style: solid;
-      border-color: #5a6b88;
-      background: linear-gradient(160deg, rgba(90, 107, 136, 0.1), rgba(255, 255, 255, 0.75));
-      box-shadow: 0 0 0 3px rgba(90, 107, 136, 0.1);
-    }
-
     .file-chip {
       animation: fadeUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
@@ -371,34 +364,7 @@
                   </button>
                 </div>
               </div>
-
-              <!-- 샘플 사용 중 -->
-              <div id="drop-sample" class="file-chip hidden w-full">
-                <div class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-ink-700 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
-                  샘플 데이터
-                </div>
-                <div class="rounded-2xl border border-ink-300/40 bg-white/80 px-3.5 py-3 text-left">
-                  <p id="sample-name-label" class="truncate text-sm font-semibold text-ink-900">{{ sample_name or "샘플 엑셀" }}</p>
-                  <p class="mt-0.5 text-xs text-ink-400">체크 해제 후 직접 파일을 올릴 수 있어요</p>
-                </div>
-              </div>
             </div>
-
-            {% if sample_name %}
-            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-mist-200 bg-white/50 px-4 py-3">
-              <input
-                id="use_sample"
-                name="use_sample"
-                type="checkbox"
-                value="1"
-                class="mt-1 h-4 w-4 rounded border-ink-300 text-tide-600 focus:ring-tide-500"
-              />
-              <span>
-                <span class="block text-sm font-medium text-ink-800">샘플 데이터 사용</span>
-                <span class="mt-0.5 block text-xs text-ink-400">{{ sample_name }}</span>
-              </span>
-            </label>
-            {% endif %}
 
             <label class="flex cursor-pointer items-center gap-3 text-sm text-ink-700">
               <input
@@ -488,11 +454,9 @@
     const fileInput = document.getElementById("excel");
     const dropEmpty = document.getElementById("drop-empty");
     const dropReady = document.getElementById("drop-ready");
-    const dropSample = document.getElementById("drop-sample");
     const fileNameEl = document.getElementById("file-name");
     const fileMetaEl = document.getElementById("file-meta");
     const clearFileBtn = document.getElementById("clear-file");
-    const useSample = document.getElementById("use_sample");
     const submitBtn = document.getElementById("submit-btn");
     const errorBox = document.getElementById("error-box");
     const placeholder = document.getElementById("placeholder");
@@ -519,16 +483,10 @@
     function setDropState(mode) {
       dropEmpty.classList.toggle("hidden", mode !== "empty");
       dropReady.classList.toggle("hidden", mode !== "ready");
-      dropSample.classList.toggle("hidden", mode !== "sample");
       dropzone.classList.toggle("is-ready", mode === "ready");
-      dropzone.classList.toggle("is-sample", mode === "sample");
     }
 
     function refreshDropzone() {
-      if (useSample?.checked) {
-        setDropState("sample");
-        return;
-      }
       const f = fileInput.files?.[0];
       if (f) {
         fileNameEl.textContent = f.name;
@@ -543,41 +501,28 @@
 
     dropzone.addEventListener("click", (e) => {
       if (e.target.closest("#clear-file")) return;
-      if (useSample?.checked) return;
       fileInput.click();
     });
     dropzone.addEventListener("dragover", (e) => {
       e.preventDefault();
-      if (useSample?.checked) return;
       dropzone.classList.add("is-drag");
     });
     dropzone.addEventListener("dragleave", () => dropzone.classList.remove("is-drag"));
     dropzone.addEventListener("drop", (e) => {
       e.preventDefault();
       dropzone.classList.remove("is-drag");
-      if (useSample?.checked) return;
       if (e.dataTransfer.files?.length) {
         fileInput.files = e.dataTransfer.files;
-        if (useSample) useSample.checked = false;
         refreshDropzone();
       }
     });
-    fileInput.addEventListener("change", () => {
-      if (fileInput.files?.length && useSample) useSample.checked = false;
-      refreshDropzone();
-    });
+    fileInput.addEventListener("change", refreshDropzone);
     clearFileBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       fileInput.value = "";
       refreshDropzone();
     });
-    if (useSample) {
-      useSample.addEventListener("change", () => {
-        if (useSample.checked) fileInput.value = "";
-        refreshDropzone();
-      });
-    }
 
     refreshDropzone();
 
@@ -615,9 +560,8 @@
       e.preventDefault();
       clearError();
 
-      const usingSample = useSample?.checked;
-      if (!usingSample && !fileInput.files?.length) {
-        showError("엑셀 파일을 선택하거나 샘플 데이터를 체크해 주세요.");
+      if (!fileInput.files?.length) {
+        showError("엑셀 파일을 업로드해 주세요.");
         return;
       }
 
@@ -630,10 +574,6 @@
       loading.classList.remove("hidden");
 
       const fd = new FormData(form);
-      if (usingSample) {
-        fd.set("use_sample", "1");
-        fd.delete("excel");
-      }
 
       try {
         const res = await fetch("/api/analyze", { method: "POST", body: fd });

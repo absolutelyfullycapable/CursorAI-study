@@ -17,7 +17,6 @@ from openpyxl import load_workbook
 
 BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_OUTPUT_DIR = BASE_DIR / "reports"
-DEFAULT_EXCEL = BASE_DIR / "노트북 고객 리뷰 데이터.xlsx"
 
 # 보고서 작성에 충분하면서 토큰 비용이 가장 낮은 모델
 DEFAULT_MODEL = "claude-haiku-4-5"
@@ -398,9 +397,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "excel",
-        nargs="?",
-        default=str(DEFAULT_EXCEL),
-        help=f"분석할 엑셀 경로 (기본: {DEFAULT_EXCEL.name})",
+        help="분석할 엑셀 파일 경로",
     )
     parser.add_argument(
         "-o",
