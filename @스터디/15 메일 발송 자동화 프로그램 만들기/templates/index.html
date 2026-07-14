@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mail Dispatch — 메일 발송 자동화</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: {
+              950: "#0b1f1c",
+              900: "#12332e",
+              800: "#1a463f",
+              700: "#245a51",
+              600: "#2f7368",
+              500: "#3d8f82",
+            },
+            sand: {
+              50: "#f7f4ef",
+              100: "#efe9df",
+              200: "#e2d7c6",
+              300: "#cbbfa8",
+            },
+            coral: {
+              500: "#e07a5f",
+              600: "#c96145",
+            },
+          },
+          fontFamily: {
+            display: ['"Syne"', "sans-serif"],
+            sans: ['"Manrope"', "sans-serif"],
+          },
+          boxShadow: {
+            soft: "0 18px 50px -28px rgba(11, 31, 28, 0.45)",
+          },
+          keyframes: {
+            rise: {
+              "0%": { opacity: "0", transform: "translateY(14px)" },
+              "100%": { opacity: "1", transform: "translateY(0)" },
+            },
+            shimmer: {
+              "0%": { backgroundPosition: "0% 50%" },
+              "100%": { backgroundPosition: "100% 50%" },
+            },
+          },
+          animation: {
+            rise: "rise 0.55s ease-out both",
+            "rise-delay": "rise 0.7s ease-out 0.08s both",
+            "rise-delay-2": "rise 0.7s ease-out 0.16s both",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(61, 143, 130, 0.22), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(224, 122, 95, 0.14), transparent 50%),
+        linear-gradient(165deg, #f7f4ef 0%, #ebe4d8 45%, #e4ddd0 100%);
+      min-height: 100vh;
+    }
+    .grain {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+    .step-dot.active {
+      background: #1a463f;
+      color: #f7f4ef;
+      transform: scale(1.05);
+    }
+    .step-dot.done {
+      background: #3d8f82;
+      color: #f7f4ef;
+    }
+    .mail-row.active {
+      background: rgba(36, 90, 81, 0.08);
+      border-color: #2f7368;
+    }
+    .panel {
+      backdrop-filter: blur(10px);
+      background: rgba(247, 244, 239, 0.78);
+    }
+    #dropzone.dragover {
+      border-color: #2f7368;
+      background: rgba(61, 143, 130, 0.08);
+    }
+  </style>
+</head>
+<body class="font-sans text-ink-900 antialiased">
+  <div class="grain fixed inset-0 pointer-events-none opacity-60"></div>
+
+  <div class="relative mx-auto w-full max-w-5xl px-5 pb-20 pt-10 sm:px-8">
+    <!-- Brand / Hero -->
+    <header class="mb-10 animate-rise">
+      <p class="font-display text-sm font-semibold tracking-[0.22em] text-ink-600 uppercase">
+        Mail Dispatch
+      </p>
+      <h1 class="mt-3 w-full font-display text-4xl font-800 leading-tight text-ink-950 sm:text-5xl" style="font-weight:800">
+        엑셀로 읽고,<br class="hidden sm:block" />한 번에 보내는 메일
+      </h1>
+      <p class="mt-4 w-full text-base leading-relaxed text-ink-700/85">
+        보내는 사람을 입력하고 엑셀을 올리면, 받는 사람과 본문을 미리 확인한 뒤 SMTP로 전송합니다.
+      </p>
+    </header>
+
+    <!-- Steps -->
+    <nav class="mb-8 flex flex-wrap gap-2 animate-rise-delay" aria-label="진행 단계">
+      <div class="step-dot active flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold tracking-wide transition" data-step="1">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/20 text-[11px]">1</span>
+        보내는 사람
+      </div>
+      <div class="step-dot flex items-center gap-2 rounded-md bg-sand-200/70 px-3 py-1.5 text-xs font-semibold tracking-wide text-ink-800 transition" data-step="2">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-ink-900/10 text-[11px]">2</span>
+        엑셀
+      </div>
+      <div class="step-dot flex items-center gap-2 rounded-md bg-sand-200/70 px-3 py-1.5 text-xs font-semibold tracking-wide text-ink-800 transition" data-step="3">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-ink-900/10 text-[11px]">3</span>
+        파악
+      </div>
+      <div class="step-dot flex items-center gap-2 rounded-md bg-sand-200/70 px-3 py-1.5 text-xs font-semibold tracking-wide text-ink-800 transition" data-step="4">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-ink-900/10 text-[11px]">4</span>
+        미리보기
+      </div>
+      <div class="step-dot flex items-center gap-2 rounded-md bg-sand-200/70 px-3 py-1.5 text-xs font-semibold tracking-wide text-ink-800 transition" data-step="5">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-ink-900/10 text-[11px]">5</span>
+        전송
+      </div>
+    </nav>
+
+    <div class="grid gap-6 lg:grid-cols-12 animate-rise-delay-2">
+      <!-- Left column -->
+      <section class="space-y-6 lg:col-span-5">
+        <!-- Sender -->
+        <div class="panel rounded-2xl border border-ink-900/10 p-6 shadow-soft">
+          <h2 class="font-display text-lg font-700 text-ink-950" style="font-weight:700">1. 보내는 사람</h2>
+          <div class="mt-5 space-y-4">
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-semibold tracking-wide text-ink-700 uppercase">이메일</span>
+              <input
+                id="sender"
+                type="email"
+                value=""
+                class="w-full rounded-xl border border-ink-900/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-ink-600 focus:ring-2 focus:ring-ink-500/20"
+                placeholder="you@gmail.com"
+              />
+            </label>
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-semibold tracking-wide text-ink-700 uppercase">Gmail 앱 비밀번호</span>
+              <input
+                id="appPassword"
+                type="password"
+                class="w-full rounded-xl border border-ink-900/15 bg-white/70 px-4 py-3 text-sm outline-none transition focus:border-ink-600 focus:ring-2 focus:ring-ink-500/20"
+                placeholder="16자리 앱 비밀번호"
+              />
+            </label>
+          </div>
+        </div>
+
+        <!-- Upload -->
+        <div class="panel rounded-2xl border border-ink-900/10 p-6 shadow-soft">
+          <h2 class="font-display text-lg font-700 text-ink-950" style="font-weight:700">2. 엑셀 파일</h2>
+          <p class="mt-1 text-sm text-ink-700/80">필수 컬럼: 이메일 · 메일제목 · 메일내용</p>
+
+          <div
+            id="dropzone"
+            class="mt-5 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-ink-900/25 bg-white/40 px-4 py-10 text-center transition hover:border-ink-600 hover:bg-white/70"
+          >
+            <p class="font-display text-base font-semibold text-ink-900">파일을 끌어오거나 클릭</p>
+            <p class="mt-1 text-xs text-ink-700/70">.xlsx 만 지원</p>
+            <p id="fileName" class="mt-3 text-sm font-medium text-ink-600"></p>
+            <input id="fileInput" type="file" accept=".xlsx" class="hidden" />
+          </div>
+          <p id="parseError" class="mt-3 hidden text-sm text-coral-600"></p>
+          <p id="parseOk" class="mt-3 hidden text-sm font-medium text-ink-600"></p>
+        </div>
+      </section>
+
+      <!-- Right column -->
+      <section class="space-y-6 lg:col-span-7">
+        <!-- Parsed list -->
+        <div id="parsedPanel" class="panel rounded-2xl border border-ink-900/10 p-6 shadow-soft opacity-50">
+          <div class="flex items-end justify-between gap-3">
+            <div>
+              <h2 class="font-display text-lg font-700 text-ink-950" style="font-weight:700">3. 파악된 목록</h2>
+              <p id="mappingText" class="mt-1 text-sm text-ink-700/75">엑셀을 올리면 받는 사람·제목이 여기에 표시됩니다.</p>
+            </div>
+            <p id="countBadge" class="rounded-md bg-ink-900 px-2.5 py-1 text-xs font-semibold text-sand-50">0건</p>
+          </div>
+
+          <div id="mailList" class="mt-4 max-h-56 space-y-2 overflow-y-auto pr-1">
+            <p class="py-8 text-center text-sm text-ink-700/50">아직 데이터가 없습니다.</p>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div id="previewPanel" class="panel rounded-2xl border border-ink-900/10 p-6 shadow-soft opacity-50">
+          <h2 class="font-display text-lg font-700 text-ink-950" style="font-weight:700">4. 발송 전 미리보기</h2>
+          <div class="mt-5 grid gap-4 sm:grid-cols-2">
+            <div class="space-y-3">
+              <div>
+                <p class="text-[11px] font-semibold tracking-wide text-ink-700 uppercase">보내는 사람</p>
+                <p id="previewFrom" class="mt-1 break-all rounded-lg bg-ink-900/5 px-3 py-2 text-sm">—</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-semibold tracking-wide text-ink-700 uppercase">받는 사람</p>
+                <p id="previewTo" class="mt-1 break-all rounded-lg bg-ink-900/5 px-3 py-2 text-sm">—</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-semibold tracking-wide text-ink-700 uppercase">메일 제목</p>
+                <p id="previewSubject" class="mt-1 rounded-lg bg-ink-900/5 px-3 py-2 text-sm leading-snug">—</p>
+              </div>
+            </div>
+            <div>
+              <p class="text-[11px] font-semibold tracking-wide text-ink-700 uppercase">메일 내용</p>
+              <pre id="previewBody" class="mt-1 h-52 overflow-y-auto whitespace-pre-wrap rounded-lg bg-ink-950 px-4 py-3 font-sans text-sm leading-relaxed text-sand-100">미리볼 메일을 선택하세요.</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Send -->
+        <div id="sendPanel" class="panel rounded-2xl border border-ink-900/10 p-6 shadow-soft opacity-50">
+          <h2 class="font-display text-lg font-700 text-ink-950" style="font-weight:700">5. 전송</h2>
+          <div class="mt-5 flex flex-wrap items-end gap-4">
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-semibold tracking-wide text-ink-700 uppercase">발송 건수</span>
+              <input
+                id="limit"
+                type="number"
+                min="1"
+                value="10"
+                class="w-28 rounded-xl border border-ink-900/15 bg-white/70 px-4 py-3 text-sm outline-none focus:border-ink-600 focus:ring-2 focus:ring-ink-500/20"
+              />
+            </label>
+            <label class="flex items-center gap-2 pb-3 text-sm text-ink-800">
+              <input id="confirm" type="checkbox" class="h-4 w-4 rounded border-ink-900/30 text-ink-700 focus:ring-ink-500" />
+              미리보기를 확인했고 전송에 동의합니다
+            </label>
+          </div>
+
+          <button
+            id="sendBtn"
+            type="button"
+            disabled
+            class="mt-5 inline-flex items-center justify-center rounded-xl bg-ink-900 px-6 py-3.5 text-sm font-semibold tracking-wide text-sand-50 transition hover:bg-ink-800 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            전송하기
+          </button>
+
+          <div id="sendStatus" class="mt-4 hidden">
+            <div class="h-1.5 overflow-hidden rounded-full bg-ink-900/10">
+              <div id="progressBar" class="h-full w-0 rounded-full bg-ink-600 transition-all duration-500"></div>
+            </div>
+            <p id="sendMessage" class="mt-3 text-sm font-medium text-ink-800"></p>
+            <pre id="sendLogs" class="mt-3 max-h-40 overflow-y-auto rounded-lg bg-ink-950/95 px-4 py-3 font-sans text-xs leading-relaxed text-sand-100"></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const state = {
+      mails: [],
+      selected: null,
+      mapping: null,
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    const dropzone = $("dropzone");
+    const fileInput = $("fileInput");
+    const confirmEl = $("confirm");
+    const sendBtn = $("sendBtn");
+    const senderEl = $("sender");
+
+    function setStep(n) {
+      document.querySelectorAll(".step-dot").forEach((el) => {
+        const s = Number(el.dataset.step);
+        el.classList.remove("active", "done");
+        if (s < n) el.classList.add("done");
+        else if (s === n) el.classList.add("active");
+      });
+    }
+
+    function enablePanels(ready) {
+      ["parsedPanel", "previewPanel", "sendPanel"].forEach((id) => {
+        $(id).classList.toggle("opacity-50", !ready);
+      });
+    }
+
+    function updateSendEnabled() {
+      sendBtn.disabled = !(confirmEl.checked && state.mails.length > 0);
+    }
+
+    function renderList() {
+      const list = $("mailList");
+      if (!state.mails.length) {
+        list.innerHTML = `<p class="py-8 text-center text-sm text-ink-700/50">아직 데이터가 없습니다.</p>`;
+        return;
+      }
+
+      list.innerHTML = state.mails
+        .map(
+          (m) => `
+        <button type="button" data-no="${m.번호}"
+          class="mail-row w-full rounded-xl border border-ink-900/10 bg-white/50 px-3 py-2.5 text-left transition hover:border-ink-600/40 ${
+            state.selected === m.번호 ? "active" : ""
+          }">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-semibold text-ink-600">#${m.번호}</span>
+            <span class="truncate text-xs text-ink-700/70">${m.받는사람}</span>
+          </div>
+          <p class="mt-1 truncate text-sm font-medium text-ink-950">${m.고객명} · ${m.메일제목}</p>
+        </button>`
+        )
+        .join("");
+
+      list.querySelectorAll(".mail-row").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.selected = Number(btn.dataset.no);
+          renderList();
+          renderPreview();
+          setStep(4);
+        });
+      });
+    }
+
+    function renderPreview() {
+      const mail = state.mails.find((m) => m.번호 === state.selected) || state.mails[0];
+      if (!mail) return;
+      state.selected = mail.번호;
+      $("previewFrom").textContent = senderEl.value || "—";
+      $("previewTo").textContent = mail.받는사람;
+      $("previewSubject").textContent = mail.메일제목;
+      $("previewBody").textContent = mail.메일내용;
+    }
+
+    async function parseFile(file) {
+      $("parseError").classList.add("hidden");
+      $("parseOk").classList.add("hidden");
+      $("fileName").textContent = file.name;
+
+      const form = new FormData();
+      form.append("file", file);
+
+      setStep(2);
+      const res = await fetch("/api/parse", { method: "POST", body: form });
+      const data = await res.json();
+
+      if (!data.ok) {
+        $("parseError").textContent = data.error || "파일을 읽지 못했습니다.";
+        $("parseError").classList.remove("hidden");
+        state.mails = [];
+        enablePanels(false);
+        renderList();
+        return;
+      }
+
+      state.mails = data.mails;
+      state.mapping = data.mapping;
+      state.selected = data.mails[0]?.번호 ?? null;
+
+      $("countBadge").textContent = `${data.count}건`;
+      $("mappingText").textContent =
+        `매핑 — 받는사람: ${data.mapping.to} · 제목: ${data.mapping.subject} · 내용: ${data.mapping.body}`;
+      $("parseOk").textContent = `로드 완료 — ${data.count}건 (${data.filename})`;
+      $("parseOk").classList.remove("hidden");
+      $("limit").max = data.count;
+      $("limit").value = Math.min(10, data.count);
+
+      enablePanels(true);
+      renderList();
+      renderPreview();
+      setStep(3);
+      updateSendEnabled();
+    }
+
+    dropzone.addEventListener("click", () => fileInput.click());
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
+    });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      const file = e.dataTransfer.files?.[0];
+      if (file) parseFile(file);
+    });
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files?.[0];
+      if (file) parseFile(file);
+    });
+
+    senderEl.addEventListener("input", () => {
+      if (state.mails.length) renderPreview();
+      if (senderEl.value) setStep(1);
+    });
+
+    confirmEl.addEventListener("change", () => {
+      updateSendEnabled();
+      if (confirmEl.checked) setStep(5);
+    });
+
+    sendBtn.addEventListener("click", async () => {
+      const sender = senderEl.value.trim();
+      const appPassword = $("appPassword").value.trim();
+      const limit = Number($("limit").value) || 10;
+
+      if (!sender || !appPassword) {
+        alert("보내는 사람 이메일과 앱 비밀번호를 입력해 주세요.");
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = "전송 중...";
+      $("sendStatus").classList.remove("hidden");
+      $("progressBar").style.width = "35%";
+      $("sendMessage").textContent = "SMTP로 메일을 보내는 중입니다. 잠시만 기다려 주세요.";
+      $("sendLogs").textContent = "";
+
+      try {
+        const res = await fetch("/api/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sender,
+            appPassword,
+            limit,
+            mails: state.mails,
+          }),
+        });
+        const data = await res.json();
+        $("progressBar").style.width = "100%";
+
+        if (!data.ok) {
+          $("sendMessage").textContent = data.error || "전송에 실패했습니다.";
+          $("sendMessage").className = "mt-3 text-sm font-medium text-coral-600";
+        } else {
+          $("sendMessage").textContent = `완료 — 성공 ${data.success}건, 실패 ${data.failed}건`;
+          $("sendMessage").className = "mt-3 text-sm font-medium text-ink-800";
+          $("sendLogs").textContent = (data.logs || []).join("\n");
+        }
+      } catch (err) {
+        $("sendMessage").textContent = "네트워크 오류가 발생했습니다.";
+        $("sendMessage").className = "mt-3 text-sm font-medium text-coral-600";
+      } finally {
+        sendBtn.textContent = "전송하기";
+        updateSendEnabled();
+      }
+    });
+
+    setStep(1);
+  </script>
+</body>
+</html>

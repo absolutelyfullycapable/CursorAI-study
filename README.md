@@ -24,7 +24,8 @@
 | 12 | 랜덤 이미지를 주는 API로 미술관 사이트 만들기 | ✅ |
 | 13 | 한국거래소 주식 데이터 API로 나만의 대시보드 만들기 | ✅ |
 | 14 | 식당 추천 사이트 만들기 | ✅ |
-| 15 ~ 30 | — | 🔜 |
+| 15 | 메일 발송 자동화 프로그램 만들기 | ✅ |
+| 16 ~ 30 | — | 🔜 |
 
 ---
 
@@ -95,14 +96,14 @@
 │   ├── index.html             # 가상 사진 전시회 페이지
 │   ├── style.css              # 미술관 갤러리 스타일
 │   └── script.js              # 30개 작품 생성 · 라이트박스
-└── 13 한국거래소 주식 데이터 API로 나만의 대시보드 만들기/  # HTML + CSS + JS + Python API 프록시
+├── 13 한국거래소 주식 데이터 API로 나만의 대시보드 만들기/  # HTML + CSS + JS + Python API 프록시
     ├── index.html             # 주식 TOP 50 대시보드
     ├── style.css              # 라이트 테마 UI
     ├── script.js              # 날짜 선택 · 데이터 표시
     ├── server.py              # 공공데이터 API 프록시 · 정적 파일 서버
     ├── .env.example           # API 키 환경 변수 예시
     └── 주식api.txt            # 금융위원회 주식시세정보 API 명세
-└── 14 식당 추천 사이트 만들기/                          # HTML + CSS + JS → React + Vite
+├── 14 식당 추천 사이트 만들기/                          # HTML + CSS + JS → React + Vite
     ├── index.html             # 초기 HTML 버전 (API 10건 표시)
     ├── style.css
     ├── script.js
@@ -115,6 +116,13 @@
             ├── api/restaurants.js      # 전체 데이터 페이징 fetch
             ├── utils/restaurant.js     # 필터 · 포맷 유틸
             └── components/             # Header · Footer · SearchBar · RestaurantCard
+└── 15 메일 발송 자동화 프로그램 만들기/           # Python + Flask + Tailwind + Gmail SMTP
+    ├── app.py                 # Flask 웹 UI · 엑셀 파싱 · SMTP 발송 API
+    ├── send_mail.py           # CLI 테스트 발송 (최대 10건)
+    ├── create_sample_excel.py # 실습용 엑셀(고객 50건) 생성
+    ├── templates/index.html   # Tailwind 기반 발송 UI
+    ├── .env.example           # Gmail 앱 비밀번호 예시
+    └── requirements.txt
 ```
 
 ---
@@ -252,6 +260,28 @@ npm install
 # VITE_API_KEY='발급받은-API-키'
 
 npm run dev
+```
+
+15 프로젝트는 엑셀 고객 목록을 읽어 Gmail SMTP로 배송 안내 메일을 보내는 실습입니다. Flask + Tailwind 웹 UI에서 보내는 사람 입력 · 엑셀 업로드 · 미리보기 · 전송까지 진행할 수 있고, CLI 스크립트로도 테스트 발송이 가능합니다.
+
+- **주요 기능** · 엑셀 업로드 · 받는 사람·제목·내용 자동 매핑 · 발송 전 미리보기 · Gmail SMTP 발송 · 발송 건수 제한
+- **필수 엑셀 컬럼** · 이메일 · 메일제목 · 메일내용
+
+```bash
+cd "@스터디/15 메일 발송 자동화 프로그램 만들기"
+pip3 install -r requirements.txt
+
+# .env 파일 생성 (.env.example 참고)
+# GMAIL_APP_PASSWORD='Gmail-앱-비밀번호'
+
+# 실습용 엑셀 생성 (메일실습용.xlsx)
+python3 create_sample_excel.py
+
+# 웹 UI 실행 후 브라우저에서 http://127.0.0.1:8501 접속
+python3 app.py
+
+# 또는 CLI로 10건 테스트 발송
+python3 send_mail.py
 ```
 
 ---
