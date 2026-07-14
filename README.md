@@ -26,7 +26,8 @@
 | 14 | 식당 추천 사이트 만들기 | ✅ |
 | 15 | 메일 발송 자동화 프로그램 만들기 | ✅ |
 | 16 | Claude API로 PDF 요약 프로그램 만들기 | ✅ |
-| 17 ~ 30 | — | 🔜 |
+| 17 | 블로그 최적화 글 생성 프로그램 만들기 | ✅ |
+| 18 ~ 30 | — | 🔜 |
 
 ---
 
@@ -124,12 +125,21 @@
 │   ├── templates/index.html   # Tailwind 기반 발송 UI
 │   ├── .env.example           # Gmail 앱 비밀번호 예시
 │   └── requirements.txt
-└── 16 Claude API로 PDF 요약 프로그램 만들기/   # Python + pypdf + Claude API
-    ├── extract_pdf_text.py    # pdf/ 폴더 PDF 텍스트 추출 → extracted_text/
-    ├── summarize_text.py      # extracted_text/ Claude API 요약 → summaries/
+├── 16 Claude API로 PDF 요약 프로그램 만들기/   # Python + pypdf + Claude API
+│   ├── extract_pdf_text.py    # pdf/ 폴더 PDF 텍스트 추출 → extracted_text/
+│   ├── summarize_text.py      # extracted_text/ Claude API 요약 → summaries/
+│   ├── .env.example           # Anthropic API 키 예시
+│   └── requirements.txt
+└── 17 블로그 최적화 글 생성 프로그램 만들기/   # Python + Flask + Claude API (Haiku 4.5)
+    ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8517)
+    ├── generate_blog.py       # CLI · 공통 생성 로직
+    ├── templates/index.html   # 키워드 · 관점 · 스타일 · 자료 입력 UI
+    ├── materials/             # 관련 자료 텍스트 파일
+    ├── posts/                 # 생성된 마크다운 글
     ├── .env.example           # Anthropic API 키 예시
     └── requirements.txt
 ```
+
 
 ---
 
@@ -308,6 +318,28 @@ python3 extract_pdf_text.py
 # 추출 텍스트 → Claude 요약 (summaries/)
 python3 summarize_text.py
 ```
+
+17 프로젝트는 키워드 · 나의 관점 · 글 스타일 · 관련 자료를 받아 Claude API로 블로그 글을 생성하는 Python 실습입니다. 웹 UI와 CLI를 모두 지원합니다.
+
+- **주요 기능** · 키워드 입력 · 나의 관점(최대 200자) · 글 스타일(친근하게/진지하게) · 관련 자료 붙여넣기·.txt 업로드 · 글 생성 · 복사/다운로드 · posts/ 저장
+- **사용 모델** · `claude-haiku-4-5` (가성비 — 입력 $1 / 출력 $5 per 1M tokens)
+
+```bash
+cd "@스터디/17 블로그 최적화 글 생성 프로그램 만들기"
+python3 -m pip install -r requirements.txt
+
+# .env 파일 생성 (.env.example 참고)
+# ANTHROPIC_API_KEY='발급받은-Anthropic-API-키'
+
+# 웹 UI 실행 후 브라우저에서 http://127.0.0.1:8517 접속
+python3 app.py
+
+# 또는 CLI로 생성
+python3 generate_blog.py "미니멀 라이프" materials/sample.txt \
+  -v "미니멀은 물건을 줄이는 게 아니라 매일 쓰는 것만 남기는 선택이다." \
+  -s friendly
+```
+
 
 ---
 
