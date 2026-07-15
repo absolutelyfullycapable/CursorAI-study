@@ -404,6 +404,7 @@ python3 -m streamlit run app.py
 20 프로젝트는 HTML/CSS/Vanilla JS로 만든 카드 짝 맞추기 게임입니다. 이름을 입력해 시작한 뒤 4×4 보드에서 짝을 맞추고, 클리어 기록을 Supabase `scores` 테이블 리더보드에 저장합니다. 배포용 단독 저장소는 [card-flip-leaderboard](https://github.com/absolutelyfullycapable/card-flip-leaderboard) 입니다.
 
 - **주요 기능** · 이름 입력 후 시작 · 이름 중복 검사 · 시간·시도 횟수 · 카드 뒤집기 · Top 10 리더보드 · 기록 저장
+- **클리어 후** · `기록 저장` · `한 판 더`(저장 전 바로 재시작 / 저장 후 새 이름) · `처음으로`
 - **순위 기준** · `time_ms` 오름차순 → 같으면 `moves` 오름차순
 - **보안** · Publishable key만 사용 · `config.js`/`.env`는 gitignore · Secret key 미사용 · RLS로 SELECT/INSERT 보호
 - **배포** · Vercel Environment Variables(`SUPABASE_URL`, `SUPABASE_ANON_KEY`) → 빌드 시 `generate-config.js`가 `config.js` 생성
