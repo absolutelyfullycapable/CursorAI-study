@@ -29,7 +29,8 @@
 | 17 | 블로그 최적화 글 생성 프로그램 만들기 | ✅ |
 | 18 | 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기 | ✅ |
 | 19 | 가계부 대시보드 만들기 | ✅ |
-| 20 ~ 30 | — | 🔜 |
+| 20 | 리더보드가 있는 카드 뒤집기 게임 만들기 | ✅ |
+| 21 ~ 30 | — | 🔜 |
 
 ---
 
@@ -147,11 +148,18 @@
 │   ├── reports/               # 생성된 마크다운 보고서
 │   ├── .env.example           # Anthropic API 키 예시
 │   └── requirements.txt
-└── 19 가계부 대시보드 만들기/                        # Python + Streamlit + gspread + Plotly
-    ├── app.py                 # Streamlit 가계부 대시보드 (http://localhost:8501)
-    ├── read_spreadsheet.py    # 서비스 계정으로 Google 시트 읽기 (CLI)
-    ├── requirements.txt
-    └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
+├── 19 가계부 대시보드 만들기/                        # Python + Streamlit + gspread + Plotly
+│   ├── app.py                 # Streamlit 가계부 대시보드 (http://localhost:8501)
+│   ├── read_spreadsheet.py    # 서비스 계정으로 Google 시트 읽기 (CLI)
+│   ├── requirements.txt
+│   └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
+└── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase
+    ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
+    ├── style.css              # Pretendard · 아케이드 보드 스타일
+    ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장
+    ├── config.example.js      # Supabase URL / Publishable key 템플릿
+    ├── config.js              # 실제 키 (gitignore, 로컬 전용)
+    └── .gitignore             # config.js 등 비밀값 제외
 ```
 
 
@@ -387,6 +395,24 @@ python3 read_spreadsheet.py
 
 # Streamlit 대시보드 실행 후 브라우저에서 http://localhost:8501 접속
 python3 -m streamlit run app.py
+```
+
+20 프로젝트는 HTML/CSS/Vanilla JS로 만든 카드 짝 맞추기 게임입니다. 이름을 입력해 시작한 뒤 4×4 보드에서 짝을 맞추고, 클리어 기록을 Supabase `scores` 테이블 리더보드에 저장합니다.
+
+- **주요 기능** · 이름 입력 후 시작 · 이름 중복 검사 · 시간·시도 횟수 · 카드 뒤집기 · Top 10 리더보드 · 기록 저장
+- **순위 기준** · `time_ms` 오름차순 → 같으면 `moves` 오름차순
+- **보안** · Publishable key만 `config.js`에 두고 gitignore · Secret key는 사용하지 않음 · RLS로 SELECT/INSERT 보호
+
+```bash
+cd "@스터디/20 리더보드가 있는 카드 뒤집기 게임 만들기"
+
+# Supabase 키 설정 (config.example.js 참고)
+cp config.example.js config.js
+# config.js에 Project URL · Publishable key 입력
+
+# 브라우저에서 열기 (로컬 서버 권장)
+python3 -m http.server 8720
+# http://127.0.0.1:8720 접속
 ```
 
 

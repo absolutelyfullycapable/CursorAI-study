@@ -6,5 +6,8 @@
 __pycache__/
 *.pyc
 .env
+.env.*
+@스터디/20 리더보드가 있는 카드 뒤집기 게임 만들기/config.js
+@스터디/20 리더보드가 있는 카드 뒤집기 게임 만들기/config.local.js
 @스터디/10 나만의 QR 코드 생성기 쉽게 만들기/test_output/
 @스터디/19 가계부 대시보드 만들기/my-spreadsheet-automation.json
