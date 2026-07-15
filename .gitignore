@@ -7,3 +7,4 @@ __pycache__/
 *.pyc
 .env
 @스터디/10 나만의 QR 코드 생성기 쉽게 만들기/test_output/
+@스터디/19 가계부 대시보드 만들기/my-spreadsheet-automation.json

@@ -28,7 +28,8 @@
 | 16 | Claude API로 PDF 요약 프로그램 만들기 | ✅ |
 | 17 | 블로그 최적화 글 생성 프로그램 만들기 | ✅ |
 | 18 | 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기 | ✅ |
-| 19 ~ 30 | — | 🔜 |
+| 19 | 가계부 대시보드 만들기 | ✅ |
+| 20 ~ 30 | — | 🔜 |
 
 ---
 
@@ -139,13 +140,18 @@
 │   ├── posts/                 # 생성된 마크다운 글
 │   ├── .env.example           # Anthropic API 키 예시
 │   └── requirements.txt
-└── 18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기/  # Python + Flask + openpyxl + Claude API (Haiku 4.5)
-    ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8518)
-    ├── analyze_reviews.py     # CLI · 공통 분석·보고서 생성 로직
-    ├── templates/index.html   # 엑셀 업로드 · 지표 · 보고서 뷰
-    ├── reports/               # 생성된 마크다운 보고서
-    ├── .env.example           # Anthropic API 키 예시
-    └── requirements.txt
+├── 18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기/  # Python + Flask + openpyxl + Claude API (Haiku 4.5)
+│   ├── app.py                 # Flask 웹 UI (http://127.0.0.1:8518)
+│   ├── analyze_reviews.py     # CLI · 공통 분석·보고서 생성 로직
+│   ├── templates/index.html   # 엑셀 업로드 · 지표 · 보고서 뷰
+│   ├── reports/               # 생성된 마크다운 보고서
+│   ├── .env.example           # Anthropic API 키 예시
+│   └── requirements.txt
+└── 19 가계부 대시보드 만들기/                        # Python + Streamlit + gspread + Plotly
+    ├── app.py                 # Streamlit 가계부 대시보드 (http://localhost:8501)
+    ├── read_spreadsheet.py    # 서비스 계정으로 Google 시트 읽기 (CLI)
+    ├── requirements.txt
+    └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
 ```
 
 
@@ -365,6 +371,22 @@ python3 app.py
 
 # 또는 CLI로 생성 (엑셀 경로 지정)
 python3 analyze_reviews.py "리뷰데이터.xlsx"
+```
+
+19 프로젝트는 Google 스프레드시트 가계부 데이터를 서비스 계정으로 읽어 Streamlit 대시보드로 보여 주는 Python 실습입니다. 수입·지출·잔액·분류별 지출을 차트와 표로 확인하고, 화면의 **데이터 갱신** 버튼으로 시트 변경을 다시 불러올 수 있습니다.
+
+- **주요 기능** · 시트 연동 · 총 수입/지출/순이익/잔액 · 월별 수입·지출(축 분리) · 분류·결제방법별 지출 · 잔액 추이 · 필터 · 데이터 갱신 · 라이트/다크 모드 대응
+- **사전 준비** · 서비스 계정 JSON을 폴더에 두고, 스프레드시트를 해당 서비스 계정 이메일에 **보기** 권한으로 공유
+
+```bash
+cd "@스터디/19 가계부 대시보드 만들기"
+python3 -m pip install -r requirements.txt
+
+# CLI로 시트 데이터 확인
+python3 read_spreadsheet.py
+
+# Streamlit 대시보드 실행 후 브라우저에서 http://localhost:8501 접속
+python3 -m streamlit run app.py
 ```
 
 
