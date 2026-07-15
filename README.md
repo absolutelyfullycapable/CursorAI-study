@@ -153,13 +153,17 @@
 │   ├── read_spreadsheet.py    # 서비스 계정으로 Google 시트 읽기 (CLI)
 │   ├── requirements.txt
 │   └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
-└── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase
+└── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase (+ Vercel 배포용)
     ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
     ├── style.css              # Pretendard · 아케이드 보드 스타일
     ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장
     ├── config.example.js      # Supabase URL / Publishable key 템플릿
     ├── config.js              # 실제 키 (gitignore, 로컬 전용)
-    └── .gitignore             # config.js 등 비밀값 제외
+    ├── .env.example           # SUPABASE_URL · SUPABASE_ANON_KEY 예시
+    ├── generate-config.js     # 환경 변수로 config.js 생성 (Vercel 빌드)
+    ├── package.json           # npm run build
+    ├── vercel.json            # Vercel 빌드 설정
+    └── .gitignore             # config.js · .env 제외
 ```
 
 
@@ -397,18 +401,24 @@ python3 read_spreadsheet.py
 python3 -m streamlit run app.py
 ```
 
-20 프로젝트는 HTML/CSS/Vanilla JS로 만든 카드 짝 맞추기 게임입니다. 이름을 입력해 시작한 뒤 4×4 보드에서 짝을 맞추고, 클리어 기록을 Supabase `scores` 테이블 리더보드에 저장합니다.
+20 프로젝트는 HTML/CSS/Vanilla JS로 만든 카드 짝 맞추기 게임입니다. 이름을 입력해 시작한 뒤 4×4 보드에서 짝을 맞추고, 클리어 기록을 Supabase `scores` 테이블 리더보드에 저장합니다. 배포용 단독 저장소는 [card-flip-leaderboard](https://github.com/absolutelyfullycapable/card-flip-leaderboard) 입니다.
 
 - **주요 기능** · 이름 입력 후 시작 · 이름 중복 검사 · 시간·시도 횟수 · 카드 뒤집기 · Top 10 리더보드 · 기록 저장
 - **순위 기준** · `time_ms` 오름차순 → 같으면 `moves` 오름차순
-- **보안** · Publishable key만 `config.js`에 두고 gitignore · Secret key는 사용하지 않음 · RLS로 SELECT/INSERT 보호
+- **보안** · Publishable key만 사용 · `config.js`/`.env`는 gitignore · Secret key 미사용 · RLS로 SELECT/INSERT 보호
+- **배포** · Vercel Environment Variables(`SUPABASE_URL`, `SUPABASE_ANON_KEY`) → 빌드 시 `generate-config.js`가 `config.js` 생성
 
 ```bash
 cd "@스터디/20 리더보드가 있는 카드 뒤집기 게임 만들기"
 
-# Supabase 키 설정 (config.example.js 참고)
+# 로컬 A) config.js 직접 설정
 cp config.example.js config.js
 # config.js에 Project URL · Publishable key 입력
+
+# 로컬 B) .env로 config.js 생성
+cp .env.example .env
+# .env에 SUPABASE_URL · SUPABASE_ANON_KEY 입력
+npm run build
 
 # 브라우저에서 열기 (로컬 서버 권장)
 python3 -m http.server 8720
