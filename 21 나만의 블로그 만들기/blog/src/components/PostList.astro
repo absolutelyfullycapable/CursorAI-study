@@ -1,0 +1,31 @@
+---
+import { formatDate, postUrl, type BlogPost } from '../lib/posts';
+
+interface Props {
+	posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+{
+	posts.length === 0 ? (
+		<p class="lead">아직 글이 없습니다.</p>
+	) : (
+		<ul class="post-list">
+			{posts.map((post) => (
+				<li>
+					<a href={postUrl(post)}>
+						<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+						<div>
+							<h3>{post.data.title}</h3>
+							<p>
+								{post.data.category} · {post.data.description}
+							</p>
+						</div>
+					</a>
+				</li>
+			))}
+		</ul>
+	)
+}

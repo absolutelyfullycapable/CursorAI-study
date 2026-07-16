@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = getPublishedPosts();
+---
+
+<BaseLayout title="Blog" description="Cursor Notes 글 목록">
+	<div class="site-shell">
+		<p class="eyebrow">Blog</p>
+		<h1 class="page-title">모든 글</h1>
+		<p class="lead">월별·카테고리·태그로 분류해 볼 수 있습니다.</p>
+
+		<div class="layout-split" style="margin-top: 2rem;">
+			<section>
+				<PostList posts={posts} />
+			</section>
+			<Sidebar posts={posts} />
+		</div>
+	</div>
+</BaseLayout>

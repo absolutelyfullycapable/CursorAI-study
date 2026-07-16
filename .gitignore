@@ -1,6 +1,10 @@
 .DS_Store
 *.swp
 *~
+.tmp-gh/
+**/node_modules/
+**/dist/
+**/.astro/
 08 1년 치 금 시세 크롤링하기/gold_prices_soongumnara.xlsx
 09 해외 주식 크롤링 프로그램 만들기/stock_gainers_yahoo.xlsx
 __pycache__/
@@ -11,3 +15,4 @@ __pycache__/
 20 리더보드가 있는 카드 뒤집기 게임 만들기/config.local.js
 10 나만의 QR 코드 생성기 쉽게 만들기/test_output/
 19 가계부 대시보드 만들기/my-spreadsheet-automation.json
+**/.git-pages/

@@ -1,0 +1,57 @@
+---
+import {
+	groupByMonth,
+	uniqueCategories,
+	uniqueTags,
+	withBase,
+	type BlogPost,
+} from '../lib/posts';
+
+interface Props {
+	posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+const months = groupByMonth(posts);
+const categories = uniqueCategories(posts);
+const tags = uniqueTags(posts);
+---
+
+<aside>
+	<div class="side-panel">
+		<h2>월별</h2>
+		<ul>
+			{
+				months.map((month) => (
+					<li>
+						<a href={withBase(`/blog/archive/${month.key}/`)}>
+							{month.label} ({month.posts.length})
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="side-panel">
+		<h2>카테고리</h2>
+		<div class="chip-row">
+			{categories.map((category) => (
+				<a class="chip" href={withBase(`/blog/category/${encodeURIComponent(category)}/`)}>
+					{category}
+				</a>
+			))}
+		</div>
+	</div>
+
+	<div class="side-panel">
+		<h2>태그</h2>
+		<div class="chip-row">
+			{tags.map((tag) => (
+				<a class="chip" href={withBase(`/blog/tag/${encodeURIComponent(tag)}/`)}>
+					#{tag}
+				</a>
+			))}
+		</div>
+	</div>
+</aside>

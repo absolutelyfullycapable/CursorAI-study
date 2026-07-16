@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { getPublishedPosts, uniqueCategories, type BlogPost } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+	const posts = getPublishedPosts();
+	return uniqueCategories(posts).map((category) => ({
+		params: { category },
+		props: {
+			category,
+			posts: posts.filter((post) => post.data.category === category),
+		},
+	}));
+}
+
+interface Props {
+	category: string;
+	posts: BlogPost[];
+}
+
+const { category, posts } = Astro.props;
+---
+
+<BaseLayout title={`카테고리: ${category}`} description={`${category} 카테고리 글 목록`}>
+	<div class="site-shell">
+		<p class="eyebrow">Category</p>
+		<h1 class="page-title">{category}</h1>
+		<p class="lead">{posts.length}개의 글</p>
+		<div style="margin-top: 2rem;">
+			<PostList posts={posts} />
+		</div>
+	</div>
+</BaseLayout>

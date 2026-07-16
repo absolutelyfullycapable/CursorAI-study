@@ -30,7 +30,8 @@
 | 18 | 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기 | ✅ |
 | 19 | 가계부 대시보드 만들기 | ✅ |
 | 20 | 리더보드가 있는 카드 뒤집기 게임 만들기 | ✅ |
-| 21 ~ 30 | — | 🔜 |
+| 21 | 나만의 블로그 만들기 | ✅ |
+| 22 ~ 30 | — | 🔜 |
 
 ---
 
@@ -165,6 +166,20 @@ CursorAI-study/
     ├── package.json           # npm run build
     ├── vercel.json            # Vercel 빌드 설정
     └── .gitignore             # config.js · .env 제외
+├── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
+│   └── blog/
+│       ├── package.json
+│       ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
+│       ├── .github/workflows/ # Pages 자동 배포
+│       ├── public/            # favicon.svg
+│       ├── scripts/           # publish-to-github.sh
+│       └── src/
+│           ├── pages/         # Home · About · Blog · 글/분류/아카이브
+│           ├── content/blog/  # 마크다운 글 (YYYY/MM/)
+│           ├── components/    # Header · Footer · PostList · Sidebar
+│           ├── layouts/       # BaseLayout
+│           ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
+│           └── styles/        # Pretendard · 에디토리얼 UI
 ```
 
 
@@ -425,6 +440,23 @@ npm run build
 # 브라우저에서 열기 (로컬 서버 권장)
 python3 -m http.server 8720
 # http://127.0.0.1:8720 접속
+```
+
+21 프로젝트는 Astro로 마크다운 블로그를 정적 빌드해 GitHub Pages에 호스팅하는 실습입니다. 기존 `username.github.io` 루트 사이트와 분리된 **프로젝트 Pages** 저장소([cursor-astro-blog](https://github.com/absolutelyfullycapable/cursor-astro-blog))로 배포합니다.
+
+- **배포 주소** · https://absolutelyfullycapable.github.io/cursor-astro-blog/
+- **주요 기능** · Home / About / Blog 메뉴 · 마크다운 글 · 월별 폴더(`YYYY/MM`) · 카테고리·태그·월별 아카이브 · Pretendard UI · GitHub Actions 자동 배포
+- **글 추가** · `src/content/blog/YYYY/MM/slug.md`에 frontmatter(`title`, `description`, `pubDate`, `category`, `tags`)와 본문 작성 후 빌드·배포
+
+```bash
+cd "21 나만의 블로그 만들기/blog"
+npm install
+npm run dev
+# http://localhost:4321/cursor-astro-blog/ 접속
+
+# 정적 빌드
+npm run build
+npm run preview
 ```
 
 

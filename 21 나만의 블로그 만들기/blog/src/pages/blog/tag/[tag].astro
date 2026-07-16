@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { getPublishedPosts, uniqueTags, type BlogPost } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+	const posts = getPublishedPosts();
+	return uniqueTags(posts).map((tag) => ({
+		params: { tag },
+		props: {
+			tag,
+			posts: posts.filter((post) => post.data.tags.includes(tag)),
+		},
+	}));
+}
+
+interface Props {
+	tag: string;
+	posts: BlogPost[];
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`태그: ${tag}`} description={`#${tag} 태그 글 목록`}>
+	<div class="site-shell">
+		<p class="eyebrow">Tag</p>
+		<h1 class="page-title">#{tag}</h1>
+		<p class="lead">{posts.length}개의 글</p>
+		<div style="margin-top: 2rem;">
+			<PostList posts={posts} />
+		</div>
+	</div>
+</BaseLayout>

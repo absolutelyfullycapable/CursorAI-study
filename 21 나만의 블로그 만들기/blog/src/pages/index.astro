@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { getPublishedPosts, withBase } from '../lib/posts';
+
+const posts = getPublishedPosts();
+const latest = posts.slice(0, 3);
+---
+
+<BaseLayout title="Cursor Notes" description="마크다운으로 쓰는 Astro 정적 블로그">
+	<section class="site-shell hero">
+		<p class="eyebrow">Astro · GitHub Pages</p>
+		<h1 class="brand-mark">Cursor Notes</h1>
+		<div class="hero-line" aria-hidden="true"></div>
+		<p class="lead">
+			마크다운으로 쓰고, 정적 페이지로 빌드하고, GitHub Pages에 올리는 실습용 블로그입니다.
+		</p>
+		<div class="cta-row">
+			<a class="btn" href={withBase('/blog')}>Blog 보기</a>
+			<a class="btn btn-ghost" href={withBase('/about')}>About</a>
+		</div>
+	</section>
+
+	<section class="site-shell latest-section">
+		<h2 class="section-title">최근 글</h2>
+		<PostList posts={latest} />
+	</section>
+</BaseLayout>

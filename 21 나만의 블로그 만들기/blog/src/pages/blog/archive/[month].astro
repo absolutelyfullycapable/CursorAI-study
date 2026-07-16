@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import {
+	getPublishedPosts,
+	monthKey,
+	monthLabel,
+	type BlogPost,
+} from '../../../lib/posts';
+
+export function getStaticPaths() {
+	const posts = getPublishedPosts();
+	const keys = [...new Set(posts.map((post) => monthKey(post.data.pubDate)))];
+
+	return keys.map((key) => {
+		const filtered = posts.filter((post) => monthKey(post.data.pubDate) === key);
+		return {
+			params: { month: key },
+			props: { posts: filtered, label: monthLabel(filtered[0].data.pubDate) },
+		};
+	});
+}
+
+interface Props {
+	posts: BlogPost[];
+	label: string;
+}
+
+const { posts, label } = Astro.props;
+---
+
+<BaseLayout title={label} description={`${label} 글 목록`}>
+	<div class="site-shell">
+		<p class="eyebrow">Archive</p>
+		<h1 class="page-title">{label}</h1>
+		<p class="lead">{posts.length}개의 글</p>
+		<div style="margin-top: 2rem;">
+			<PostList posts={posts} />
+		</div>
+	</div>
+</BaseLayout>
