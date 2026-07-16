@@ -156,30 +156,30 @@ CursorAI-study/
 │   ├── requirements.txt
 │   └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
 └── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase (+ Vercel 배포용)
-    ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
-    ├── style.css              # Pretendard · 아케이드 보드 스타일
-    ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장
-    ├── config.example.js      # Supabase URL / Publishable key 템플릿
-    ├── config.js              # 실제 키 (gitignore, 로컬 전용)
-    ├── .env.example           # SUPABASE_URL · SUPABASE_ANON_KEY 예시
-    ├── generate-config.js     # 환경 변수로 config.js 생성 (Vercel 빌드)
-    ├── package.json           # npm run build
-    ├── vercel.json            # Vercel 빌드 설정
-    └── .gitignore             # config.js · .env 제외
-├── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
-│   └── blog/
-│       ├── package.json
-│       ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
-│       ├── .github/workflows/ # Pages 자동 배포
-│       ├── public/            # favicon.svg
-│       ├── scripts/           # publish-to-github.sh
-│       └── src/
-│           ├── pages/         # Home · About · Blog · 글/분류/아카이브
-│           ├── content/blog/  # 마크다운 글 (YYYY/MM/)
-│           ├── components/    # Header · Footer · PostList · Sidebar
-│           ├── layouts/       # BaseLayout
-│           ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
-│           └── styles/        # Pretendard · 에디토리얼 UI
+│   ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
+│   ├── style.css              # Pretendard · 아케이드 보드 스타일
+│   ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장
+│   ├── config.example.js      # Supabase URL / Publishable key 템플릿
+│   ├── config.js              # 실제 키 (gitignore, 로컬 전용)
+│   ├── .env.example           # SUPABASE_URL · SUPABASE_ANON_KEY 예시
+│   ├── generate-config.js     # 환경 변수로 config.js 생성 (Vercel 빌드)
+│   ├── package.json           # npm run build
+│   ├── vercel.json            # Vercel 빌드 설정
+│   └── .gitignore             # config.js · .env 제외
+└── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
+    └── blog/
+        ├── package.json
+        ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
+        ├── .github/workflows/ # Pages 자동 배포
+        ├── public/            # favicon.svg
+        ├── scripts/           # publish-to-github.sh
+        └── src/
+            ├── pages/         # Home · About · Blog · 글/분류/아카이브
+            ├── content/blog/  # 마크다운 글 (YYYY/MM/)
+            ├── components/    # Header · Footer · PostList · Sidebar
+            ├── layouts/       # BaseLayout
+            ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
+            └── styles/        # Pretendard · 에디토리얼 UI
 ```
 
 
