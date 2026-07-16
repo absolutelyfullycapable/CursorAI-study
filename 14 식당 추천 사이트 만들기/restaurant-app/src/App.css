@@ -5,6 +5,15 @@
   border-bottom: 1px solid var(--border);
 }
 
+.header__hero {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 1.25rem;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
 .header__label {
   font-size: 0.8rem;
   font-weight: 600;

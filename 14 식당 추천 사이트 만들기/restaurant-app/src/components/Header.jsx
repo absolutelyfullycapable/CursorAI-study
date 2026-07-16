@@ -1,3 +1,5 @@
+import heroImage from "../assets/hero.js";
+
 export default function Header({
   totalCount,
   visibleCount,
@@ -19,6 +21,7 @@ export default function Header({
 
   return (
     <header className="header">
+      <img className="header__hero" src={heroImage} alt="" width={96} height={96} />
       <p className="header__label">Seocho Restaurant Guide</p>
       <h1 className="header__title">서초구 휴게음식점 추천</h1>
       <p className="header__desc">

@@ -118,6 +118,7 @@ CursorAI-study/
 │       ├── .env.example       # API 키 환경 변수 예시
 │       └── src/
 │           ├── main.jsx · App.jsx · App.css · index.css
+│           ├── assets/hero.js          # 히어로 이미지 base64 인라인
 │           ├── api/restaurants.js      # 전체 데이터 페이징 fetch
 │           ├── utils/restaurant.js     # 필터 · 포맷 유틸
 │           └── components/             # Header · Footer · SearchBar · RestaurantCard
