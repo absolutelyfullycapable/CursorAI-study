@@ -37,7 +37,7 @@
 ## 폴더 구조
 
 ```
-@스터디/
+CursorAI-study/
 ├── 01 기업 소개 웹사이트 만들기/
 │   └── test.html
 ├── 02 사과 게임 만들어 보기/
@@ -175,13 +175,13 @@
 
 ```bash
 # 예시: 사과 게임
-open "@스터디/02 사과 게임 만들어 보기/index.html"
+open "02 사과 게임 만들어 보기/index.html"
 ```
 
 04 인스타그램 클론은 React + Vite 프로젝트이므로 개발 서버로 실행합니다.
 
 ```bash
-cd "@스터디/04 인스타그램과 비슷한 사이트 만들어 보기"
+cd "04 인스타그램과 비슷한 사이트 만들어 보기"
 npm install
 npm run dev
 ```
@@ -189,7 +189,7 @@ npm run dev
 05 메모 앱도 React + Vite 프로젝트입니다. 메모 추가 · 수정 · 삭제 · 검색을 지원하며, 작성한 메모는 브라우저 localStorage에 저장됩니다.
 
 ```bash
-cd "@스터디/05 메모 앱 만들어 보기/memo-app"
+cd "05 메모 앱 만들어 보기/memo-app"
 npm install
 npm run dev
 ```
@@ -197,7 +197,7 @@ npm run dev
 06 v0 웹사이트는 v0로 생성한 Next.js + shadcn/ui 프로젝트입니다. 흑백 미니멀 톤의 패션 브랜드 페이지(MAISON ÉCLAT)이며, 한글 폰트로 Pretendard를 사용하고 채용 안내 페이지(`/careers`)를 포함합니다.
 
 ```bash
-cd "@스터디/06 v0 서비스로 더 쉽게 웹사이트 만들기/maison-eclat"
+cd "06 v0 서비스로 더 쉽게 웹사이트 만들기/maison-eclat"
 npm install
 npm run dev
 ```
@@ -205,7 +205,7 @@ npm run dev
 07 메모 앱은 v0로 만든 밝은 톤의 메모 앱에 **회원가입 · 로그인 · 로그아웃**과 **SQLite DB 메모 저장**을 추가한 Next.js 프로젝트입니다. Prisma ORM과 JWT 세션(httpOnly 쿠키)을 사용하며, 로그인한 사용자별로 메모가 DB에 저장됩니다.
 
 ```bash
-cd "@스터디/07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/bright-memo-app"
+cd "07 메모 앱에 회원 가입, 로그인, 로그아웃, 메모 저장 기능 더하기/bright-memo-app"
 npm install
 
 # .env 파일 생성 (DATABASE_URL, AUTH_SECRET)
@@ -221,7 +221,7 @@ npm run dev
 - **금 시세 참고 사이트** · [순금나라 금 시세](https://www.soongumnara.co.kr/price/gold)
 
 ```bash
-cd "@스터디/08 1년 치 금 시세 크롤링하기"
+cd "08 1년 치 금 시세 크롤링하기"
 pip install -r requirements.txt
 
 # 금 시세 100건 수집 및 엑셀 저장
@@ -239,7 +239,7 @@ python3 visualize_gold.py
 - **참고 사이트** · [Yahoo Finance Top Stock Gainers](https://finance.yahoo.com/markets/stocks/gainers/)
 
 ```bash
-cd "@스터디/09 해외 주식 크롤링 프로그램 만들기"
+cd "09 해외 주식 크롤링 프로그램 만들기"
 pip3 install -r requirements.txt
 
 # 상승 주식 데이터 수집 및 엑셀 저장
@@ -249,7 +249,7 @@ python3 crawl_stocks.py
 10 프로젝트는 링크와 중앙 이미지를 입력해 QR 코드를 생성하고 저장하는 Python + Gradio 실습입니다.
 
 ```bash
-cd "@스터디/10 나만의 QR 코드 생성기 쉽게 만들기"
+cd "10 나만의 QR 코드 생성기 쉽게 만들기"
 pip3 install -r requirements.txt
 python3 qr_generator.py
 ```
@@ -260,7 +260,7 @@ python3 qr_generator.py
 - **PDF 이어붙이기** · 2개 이상의 PDF를 첨부한 순서대로 합쳐 지정한 폴더에 저장 (파일명 충돌 시 `_(숫자)` 접미사)
 
 ```bash
-cd "@스터디/11 PDF 편집기 만들기"
+cd "11 PDF 편집기 만들기"
 python3 -m pip install -r requirements.txt
 python3 pdf_app.py
 ```
@@ -269,10 +269,10 @@ python3 pdf_app.py
 
 ```bash
 # 브라우저에서 바로 열기
-open "@스터디/12 랜덤 이미지를 주는 API로 미술관 사이트 만들기/index.html"
+open "12 랜덤 이미지를 주는 API로 미술관 사이트 만들기/index.html"
 
 # 또는 로컬 서버로 실행
-cd "@스터디/12 랜덤 이미지를 주는 API로 미술관 사이트 만들기"
+cd "12 랜덤 이미지를 주는 API로 미술관 사이트 만들기"
 python3 -m http.server 8765
 ```
 
@@ -281,7 +281,7 @@ python3 -m http.server 8765
 - **주요 기능** · 최신 거래일 자동 조회 · 날짜별 TOP 50 조회 · 종목명 · 시장구분 · 종가 · 등락률 · 거래량 · 시가총액 표시
 
 ```bash
-cd "@스터디/13 한국거래소 주식 데이터 API로 나만의 대시보드 만들기"
+cd "13 한국거래소 주식 데이터 API로 나만의 대시보드 만들기"
 
 # API 키 설정 (공공데이터포털에서 발급)
 export DATA_GO_KR_API_KEY='발급받은-API-키'
@@ -295,7 +295,7 @@ python3 server.py
 - **주요 기능** · 전체 2,192곳 데이터 로딩 · 3열 그리드 · 무한 스크롤(12개씩) · 식당 이름 · 주소 검색 · 검색 결과 화면
 
 ```bash
-cd "@스터디/14 식당 추천 사이트 만들기/restaurant-app"
+cd "14 식당 추천 사이트 만들기/restaurant-app"
 npm install
 
 # .env 파일 생성 (.env.example 참고)
@@ -310,7 +310,7 @@ npm run dev
 - **필수 엑셀 컬럼** · 이메일 · 메일제목 · 메일내용
 
 ```bash
-cd "@스터디/15 메일 발송 자동화 프로그램 만들기"
+cd "15 메일 발송 자동화 프로그램 만들기"
 pip3 install -r requirements.txt
 
 # .env 파일 생성 (.env.example 참고)
@@ -332,7 +332,7 @@ python3 send_mail.py
 - **사용 모델** · `claude-sonnet-5`
 
 ```bash
-cd "@스터디/16 Claude API로 PDF 요약 프로그램 만들기"
+cd "16 Claude API로 PDF 요약 프로그램 만들기"
 python3 -m pip install -r requirements.txt
 
 # .env 파일 생성 (.env.example 참고)
@@ -351,7 +351,7 @@ python3 summarize_text.py
 - **사용 모델** · `claude-haiku-4-5` (가성비 — 입력 $1 / 출력 $5 per 1M tokens)
 
 ```bash
-cd "@스터디/17 블로그 최적화 글 생성 프로그램 만들기"
+cd "17 블로그 최적화 글 생성 프로그램 만들기"
 python3 -m pip install -r requirements.txt
 
 # .env 파일 생성 (.env.example 참고)
@@ -372,7 +372,7 @@ python3 generate_blog.py "미니멀 라이프" materials/sample.txt \
 - **사용 모델** · `claude-haiku-4-5` (토큰 비용 최저 — 입력 $1 / 출력 $5 per 1M tokens)
 
 ```bash
-cd "@스터디/18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기"
+cd "18 고객 리뷰 분석하여 보고서 생성하는 프로그램 만들기"
 python3 -m pip install -r requirements.txt
 
 # .env 파일 생성 (.env.example 참고)
@@ -391,7 +391,7 @@ python3 analyze_reviews.py "리뷰데이터.xlsx"
 - **사전 준비** · 서비스 계정 JSON을 폴더에 두고, 스프레드시트를 해당 서비스 계정 이메일에 **보기** 권한으로 공유
 
 ```bash
-cd "@스터디/19 가계부 대시보드 만들기"
+cd "19 가계부 대시보드 만들기"
 python3 -m pip install -r requirements.txt
 
 # CLI로 시트 데이터 확인
@@ -410,7 +410,7 @@ python3 -m streamlit run app.py
 - **배포** · Vercel Environment Variables(`SUPABASE_URL`, `SUPABASE_ANON_KEY`) → 빌드 시 `generate-config.js`가 `config.js` 생성
 
 ```bash
-cd "@스터디/20 리더보드가 있는 카드 뒤집기 게임 만들기"
+cd "20 리더보드가 있는 카드 뒤집기 게임 만들기"
 
 # 로컬 A) config.js 직접 설정
 cp config.example.js config.js
