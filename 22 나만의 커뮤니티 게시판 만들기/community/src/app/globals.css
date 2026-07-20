@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@import "pretendard/dist/web/variable/pretendardvariable.css";
+
+:root {
+  --background: #f5f6f8;
+  --foreground: #111827;
+  --brand: #ff4500;
+  --brand-hover: #e63e00;
+  --brand-soft: #fff4ef;
+  --surface: #ffffff;
+  --surface-muted: #f3f4f6;
+  --border: #e8eaed;
+  --muted: #6b7280;
+  --ink: #111827;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-ink: var(--ink);
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, sans-serif;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background:
+    radial-gradient(1200px 400px at 50% -10%, rgba(255, 69, 0, 0.06), transparent 60%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.card-hover:hover {
+  border-color: #dbe0e6;
+  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.05);
+}
+
+.btn-primary {
+  border-radius: 9999px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+
+.btn-primary:hover {
+  background: var(--brand-hover);
+  box-shadow: 0 6px 16px rgba(255, 69, 0, 0.25);
+}
+
+.btn-ghost {
+  border-radius: 9999px;
+  background: var(--surface-muted);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: background 140ms ease;
+}
+
+.btn-ghost:hover {
+  background: #e9ebef;
+}
+
+.input-field {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.input-field:focus {
+  border-color: rgba(255, 69, 0, 0.45);
+  box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.1);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 280ms ease-out both;
+}

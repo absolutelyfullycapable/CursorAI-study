@@ -31,7 +31,8 @@
 | 19 | 가계부 대시보드 만들기 | ✅ |
 | 20 | 리더보드가 있는 카드 뒤집기 게임 만들기 | ✅ |
 | 21 | 나만의 블로그 만들기 | ✅ |
-| 22 ~ 30 | — | 🔜 |
+| 22 | 나만의 커뮤니티 게시판 만들기 | ✅ |
+| 23 ~ 30 | — | 🔜 |
 
 ---
 
@@ -166,21 +167,33 @@ CursorAI-study/
 │   ├── package.json           # npm run build
 │   ├── vercel.json            # Vercel 빌드 설정
 │   └── .gitignore             # config.js · .env 제외
-└── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
-    └── blog/
+├── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
+│   └── blog/
+│       ├── package.json
+│       ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
+│       ├── .github/workflows/ # Pages 자동 배포
+│       ├── public/            # 정적 자산(필요 시)
+│       ├── scripts/           # publish-to-github.sh
+│       └── src/
+│           ├── pages/         # Home · About · Blog · 글/분류/아카이브
+│           ├── content/blog/  # 마크다운 글 (YYYY/MM/) · 예: 2026/07/today-think.md
+│           ├── assets/        # blogfavicon.js · blogicon.js (PNG base64 인라인)
+│           ├── components/    # Header · Footer · PostList · Sidebar
+│           ├── layouts/       # BaseLayout
+│           ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
+│           └── styles/        # Pretendard · 에디토리얼 UI
+└── 22 나만의 커뮤니티 게시판 만들기/                 # Next.js + Tailwind + Supabase
+    └── community/
         ├── package.json
-        ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
-        ├── .github/workflows/ # Pages 자동 배포
-        ├── public/            # 정적 자산(필요 시)
-        ├── scripts/           # publish-to-github.sh
+        ├── next.config.ts     # 이미지 remotePatterns · Server Action body 6mb
+        ├── .env.example       # NEXT_PUBLIC_SUPABASE_URL · ANON_KEY
+        ├── .gitignore         # .env* · node_modules · .next · 이미지 바이너리
         └── src/
-            ├── pages/         # Home · About · Blog · 글/분류/아카이브
-            ├── content/blog/  # 마크다운 글 (YYYY/MM/) · 예: 2026/07/today-think.md
-            ├── assets/        # blogfavicon.js · blogicon.js (PNG base64 인라인)
-            ├── components/    # Header · Footer · PostList · Sidebar
-            ├── layouts/       # BaseLayout
-            ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
-            └── styles/        # Pretendard · 에디토리얼 UI
+            ├── middleware.ts  # Supabase 세션 갱신
+            ├── app/           # 홈 · 로그인/가입 · 내 정보 · 글 CRUD
+            ├── components/    # Header · 사이드바 · PostCard · 댓글 · 반응 버튼
+            ├── actions/       # auth · posts · comments · reactions · profile
+            └── lib/           # supabase 클라이언트 · posts · profile · types
 ```
 
 
@@ -463,6 +476,25 @@ npm run dev
 npm run build
 npm run preview
 # http://127.0.0.1:4321/cursor-astro-blog/blog/2026/07/today-think/ 등에서 글 확인
+```
+
+22 프로젝트는 Next.js(App Router) + Tailwind CSS + Supabase로 만든 커뮤니티 게시판입니다. Reddit 스타일 레이아웃을 참고했고, 이메일/비밀번호 인증(OAuth 없음)과 글·댓글·반응·검색을 지원합니다.
+
+- **주요 기능** · 회원가입 · 로그인 · 로그아웃 · 내 정보 · 글 작성/수정/삭제 · 글·댓글 이미지 첨부 · 좋아요/싫어요 · 댓글·답글 · 글 검색
+- **DB** · Supabase `profiles` · `posts` · `comments`(parent_id · image_path) · `post_reactions` · Storage `post-images` · RLS
+- **UI** · Pretendard · 3열 레이아웃(메뉴 · 피드 · 커뮤니티 소개) · Server Actions
+- **보안** · `.env.local`은 gitignore · Publishable/anon key만 클라이언트 사용 · 이메일 확인은 대시보드에서 개발용으로 끌 수 있음
+
+```bash
+cd "22 나만의 커뮤니티 게시판 만들기/community"
+npm install
+
+# .env.local 생성 (.env.example 참고)
+# NEXT_PUBLIC_SUPABASE_URL=...
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+
+npm run dev
+# http://localhost:3000 접속
 ```
 
 
