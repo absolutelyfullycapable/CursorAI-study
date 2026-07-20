@@ -171,11 +171,12 @@ CursorAI-study/
         ├── package.json
         ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
         ├── .github/workflows/ # Pages 자동 배포
-        ├── public/            # favicon.svg
+        ├── public/            # 정적 자산(필요 시)
         ├── scripts/           # publish-to-github.sh
         └── src/
             ├── pages/         # Home · About · Blog · 글/분류/아카이브
             ├── content/blog/  # 마크다운 글 (YYYY/MM/) · 예: 2026/07/today-think.md
+            ├── assets/        # blogfavicon.js (PNG base64 인라인)
             ├── components/    # Header · Footer · PostList · Sidebar
             ├── layouts/       # BaseLayout
             ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
@@ -447,6 +448,7 @@ python3 -m http.server 8720
 
 - **배포 주소** · https://absolutelyfullycapable.github.io/cursor-astro-blog/
 - **주요 기능** · Home / About / Blog 메뉴 · 마크다운 글 · 월별 폴더(`YYYY/MM`) · 카테고리·태그·월별 아카이브 · Pretendard UI · GitHub Actions 자동 배포
+- **파비콘** · `src/assets/blogfavicon.js`에 PNG를 base64 data URL로 인라인 (이미지 바이너리 커밋 회피)
 - **글 추가** · `src/content/blog/YYYY/MM/slug.md`에 frontmatter(`title`, `description`, `pubDate`, `category`, `tags`)와 본문 작성 후 빌드·배포
 - **최근 글** · `2026/07/today-think.md` (일상 일기, `pubDate: 2026-07-20`) — 빌드·preview 확인 후 [cursor-astro-blog](https://github.com/absolutelyfullycapable/cursor-astro-blog)에 push하여 Pages 반영
 
