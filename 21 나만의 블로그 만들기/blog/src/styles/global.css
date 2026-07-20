@@ -369,6 +369,27 @@ h4 {
 	justify-content: flex-end;
 }
 
+.hero-brand {
+	display: flex;
+	align-items: center;
+	gap: 1.35rem;
+	flex-wrap: wrap;
+}
+
+.brand-icon {
+	width: clamp(5.5rem, 14vw, 7.5rem);
+	height: auto;
+	flex-shrink: 0;
+	border-radius: 1.15rem;
+	box-shadow: var(--shadow);
+	background: #000;
+	animation: float-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-brand__copy {
+	min-width: min(100%, 16rem);
+}
+
 .brand-mark {
 	margin: 0;
 	font-size: clamp(2.8rem, 7.5vw, 5rem);
@@ -379,6 +400,37 @@ h4 {
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
+}
+
+@keyframes float-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.about-brand {
+	display: flex;
+	align-items: center;
+	gap: 1.1rem;
+	margin-bottom: 1.25rem;
+	flex-wrap: wrap;
+}
+
+.about-brand__icon {
+	width: 5.5rem;
+	height: auto;
+	border-radius: 1rem;
+	box-shadow: var(--shadow-soft);
+	background: #000;
+}
+
+.about-brand .page-title {
+	margin-bottom: 0;
 }
 
 .hero-line {
@@ -425,10 +477,25 @@ h4 {
 }
 
 .logo {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
 	font-size: 1.2rem;
 	font-weight: 800;
 	letter-spacing: -0.035em;
 	text-decoration: none;
+}
+
+.logo__icon {
+	width: 2.15rem;
+	height: auto;
+	border-radius: 0.55rem;
+	background: #000;
+	box-shadow: 0 2px 10px rgba(18, 26, 24, 0.12);
+}
+
+.logo__text {
+	line-height: 1;
 }
 
 .nav {

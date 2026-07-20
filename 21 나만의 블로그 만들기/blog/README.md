@@ -13,6 +13,7 @@ Astro + Markdown + GitHub Pages로 만든 정적 블로그입니다.
 - 마크다운 글 작성 (`src/content/blog/YYYY/MM/`)
 - 카테고리·태그·월별 아카이브 분류
 - 파비콘 base64 인라인 (`src/assets/blogfavicon.js`)
+- 대표 아이콘 base64 인라인 (`src/assets/blogicon.js`) — 헤더·홈·About
 - 정적 빌드 + GitHub Actions 자동 배포
 
 ## 글 추가 방법

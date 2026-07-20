@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { getPublishedPosts, withBase } from '../lib/posts';
+import blogicon from '../assets/blogicon.js';
 
 const posts = getPublishedPosts();
 const latest = posts.slice(0, 3);
@@ -9,8 +10,20 @@ const latest = posts.slice(0, 3);
 
 <BaseLayout title="Cursor Notes" description="마크다운으로 쓰는 Astro 정적 블로그">
 	<section class="site-shell hero">
-		<p class="eyebrow">Astro · GitHub Pages</p>
-		<h1 class="brand-mark">Cursor Notes</h1>
+		<div class="hero-brand">
+			<img
+				class="brand-icon"
+				src={blogicon}
+				alt="Cursor Notes 대표 아이콘"
+				width="120"
+				height="135"
+				decoding="async"
+			/>
+			<div class="hero-brand__copy">
+				<p class="eyebrow">Astro · GitHub Pages</p>
+				<h1 class="brand-mark">Cursor Notes</h1>
+			</div>
+		</div>
 		<div class="hero-line" aria-hidden="true"></div>
 		<p class="lead">
 			마크다운으로 쓰고, 정적 페이지로 빌드하고, GitHub Pages에 올리는 실습용 블로그입니다.

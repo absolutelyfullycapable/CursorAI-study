@@ -1,12 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/posts';
+import blogicon from '../assets/blogicon.js';
 ---
 
 <BaseLayout title="About" description="Cursor Notes 소개">
 	<article class="site-shell">
-		<p class="eyebrow">About</p>
-		<h1 class="page-title">이 블로그에 대하여</h1>
+		<div class="about-brand">
+			<img
+				class="about-brand__icon"
+				src={blogicon}
+				alt="Cursor Notes 대표 아이콘"
+				width="88"
+				height="99"
+				decoding="async"
+			/>
+			<div>
+				<p class="eyebrow">About</p>
+				<h1 class="page-title">이 블로그에 대하여</h1>
+			</div>
+		</div>
 		<p class="lead">
 			Cursor Notes는 Astro Content Collections와 GitHub Pages로 만든 실습용 정적 블로그입니다.
 			기존 <code>username.github.io</code> 사이트와 분리된 프로젝트 Pages로 운영합니다.

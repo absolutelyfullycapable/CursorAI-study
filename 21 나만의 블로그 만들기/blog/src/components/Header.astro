@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../lib/posts';
+import blogicon from '../assets/blogicon.js';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,7 +20,10 @@ function isActive(href: string) {
 
 <header class="site-header">
 	<div class="site-shell site-header__inner">
-		<a class="logo" href={withBase('/')}>Cursor Notes</a>
+		<a class="logo" href={withBase('/')}>
+			<img class="logo__icon" src={blogicon} alt="" width="36" height="40" decoding="async" />
+			<span class="logo__text">Cursor Notes</span>
+		</a>
 		<nav class="nav" aria-label="주요 메뉴">
 			{
 				links.map((link) => (
