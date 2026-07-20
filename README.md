@@ -183,7 +183,8 @@ CursorAI-study/
 │           ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
 │           └── styles/        # Pretendard · 에디토리얼 UI
 └── 22 나만의 커뮤니티 게시판 만들기/                 # Next.js + Tailwind + Supabase
-    └── community/
+    └── community/             # 배포용 단독 저장소: community-board
+        ├── README.md          # 프로젝트 소개 · 폴더 구조 · 페이지 구성
         ├── package.json
         ├── next.config.ts     # 이미지 remotePatterns · Server Action body 6mb
         ├── .env.example       # NEXT_PUBLIC_SUPABASE_URL · ANON_KEY
@@ -195,6 +196,7 @@ CursorAI-study/
             ├── actions/       # auth · posts · comments · reactions · profile
             └── lib/           # supabase 클라이언트 · posts · profile · types
 ```
+
 
 
 
@@ -478,12 +480,13 @@ npm run preview
 # http://127.0.0.1:4321/cursor-astro-blog/blog/2026/07/today-think/ 등에서 글 확인
 ```
 
-22 프로젝트는 Next.js(App Router) + Tailwind CSS + Supabase로 만든 커뮤니티 게시판입니다. Reddit 스타일 레이아웃을 참고했고, 이메일/비밀번호 인증(OAuth 없음)과 글·댓글·반응·검색을 지원합니다.
+22 프로젝트는 Next.js(App Router) + Tailwind CSS + Supabase로 만든 커뮤니티 게시판입니다. Reddit 스타일 레이아웃을 참고했고, 이메일/비밀번호 인증(OAuth 없음)과 글·댓글·반응·검색을 지원합니다. 배포용 단독 저장소는 [community-board](https://github.com/absolutelyfullycapable/community-board) 입니다.
 
 - **주요 기능** · 회원가입 · 로그인 · 로그아웃 · 내 정보 · 글 작성/수정/삭제 · 글·댓글 이미지 첨부 · 좋아요/싫어요 · 댓글·답글 · 글 검색
 - **DB** · Supabase `profiles` · `posts` · `comments`(parent_id · image_path) · `post_reactions` · Storage `post-images` · RLS
 - **UI** · Pretendard · 3열 레이아웃(메뉴 · 피드 · 커뮤니티 소개) · Server Actions
 - **보안** · `.env.local`은 gitignore · Publishable/anon key만 클라이언트 사용 · 이메일 확인은 대시보드에서 개발용으로 끌 수 있음
+- **배포** · [community-board](https://github.com/absolutelyfullycapable/community-board)를 Vercel에 Import · `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` 등록 · Supabase Auth URL에 Vercel 도메인 추가
 
 ```bash
 cd "22 나만의 커뮤니티 게시판 만들기/community"
@@ -496,6 +499,7 @@ npm install
 npm run dev
 # http://localhost:3000 접속
 ```
+
 
 
 
