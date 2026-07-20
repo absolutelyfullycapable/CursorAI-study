@@ -1,7 +1,6 @@
 # Cursor Notes (실습용 Astro 블로그)
 
 Astro + Markdown + GitHub Pages로 만든 정적 블로그입니다.  
-기존 [Archive Of Records](https://absolutelyfullycapable.github.io)와 **별도 저장소**로 운영합니다.
 
 ## 배포 주소
 

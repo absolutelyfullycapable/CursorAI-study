@@ -155,32 +155,33 @@ CursorAI-study/
 │   ├── read_spreadsheet.py    # 서비스 계정으로 Google 시트 읽기 (CLI)
 │   ├── requirements.txt
 │   └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
-└── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase (+ Vercel 배포용)
-    ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
-    ├── style.css              # Pretendard · 아케이드 보드 스타일
-    ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장
-    ├── config.example.js      # Supabase URL / Publishable key 템플릿
-    ├── config.js              # 실제 키 (gitignore, 로컬 전용)
-    ├── .env.example           # SUPABASE_URL · SUPABASE_ANON_KEY 예시
-    ├── generate-config.js     # 환경 변수로 config.js 생성 (Vercel 빌드)
-    ├── package.json           # npm run build
-    ├── vercel.json            # Vercel 빌드 설정
-    └── .gitignore             # config.js · .env 제외
-├── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
-│   └── blog/
-│       ├── package.json
-│       ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
-│       ├── .github/workflows/ # Pages 자동 배포
-│       ├── public/            # favicon.svg
-│       ├── scripts/           # publish-to-github.sh
-│       └── src/
-│           ├── pages/         # Home · About · Blog · 글/분류/아카이브
-│           ├── content/blog/  # 마크다운 글 (YYYY/MM/)
-│           ├── components/    # Header · Footer · PostList · Sidebar
-│           ├── layouts/       # BaseLayout
-│           ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
-│           └── styles/        # Pretendard · 에디토리얼 UI
+├── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase (+ Vercel 배포용)
+│   ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
+│   ├── style.css              # Pretendard · 아케이드 보드 스타일
+│   ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장
+│   ├── config.example.js      # Supabase URL / Publishable key 템플릿
+│   ├── config.js              # 실제 키 (gitignore, 로컬 전용)
+│   ├── .env.example           # SUPABASE_URL · SUPABASE_ANON_KEY 예시
+│   ├── generate-config.js     # 환경 변수로 config.js 생성 (Vercel 빌드)
+│   ├── package.json           # npm run build
+│   ├── vercel.json            # Vercel 빌드 설정
+│   └── .gitignore             # config.js · .env 제외
+└── 21 나만의 블로그 만들기/                          # Astro + Markdown + GitHub Pages
+    └── blog/
+        ├── package.json
+        ├── astro.config.mjs   # site · base(/cursor-astro-blog) · Shiki
+        ├── .github/workflows/ # Pages 자동 배포
+        ├── public/            # favicon.svg
+        ├── scripts/           # publish-to-github.sh
+        └── src/
+            ├── pages/         # Home · About · Blog · 글/분류/아카이브
+            ├── content/blog/  # 마크다운 글 (YYYY/MM/) · 예: 2026/07/today-think.md
+            ├── components/    # Header · Footer · PostList · Sidebar
+            ├── layouts/       # BaseLayout
+            ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
+            └── styles/        # Pretendard · 에디토리얼 UI
 ```
+
 
 
 ---
@@ -447,6 +448,7 @@ python3 -m http.server 8720
 - **배포 주소** · https://absolutelyfullycapable.github.io/cursor-astro-blog/
 - **주요 기능** · Home / About / Blog 메뉴 · 마크다운 글 · 월별 폴더(`YYYY/MM`) · 카테고리·태그·월별 아카이브 · Pretendard UI · GitHub Actions 자동 배포
 - **글 추가** · `src/content/blog/YYYY/MM/slug.md`에 frontmatter(`title`, `description`, `pubDate`, `category`, `tags`)와 본문 작성 후 빌드·배포
+- **최근 글** · `2026/07/today-think.md` (일상 일기, `pubDate: 2026-07-20`) — 빌드·preview 확인 후 [cursor-astro-blog](https://github.com/absolutelyfullycapable/cursor-astro-blog)에 push하여 Pages 반영
 
 ```bash
 cd "21 나만의 블로그 만들기/blog"
@@ -454,10 +456,12 @@ npm install
 npm run dev
 # http://localhost:4321/cursor-astro-blog/ 접속
 
-# 정적 빌드
+# 정적 빌드 후 미리보기
 npm run build
 npm run preview
+# http://127.0.0.1:4321/cursor-astro-blog/blog/2026/07/today-think/ 등에서 글 확인
 ```
+
 
 
 ---
