@@ -157,6 +157,7 @@ CursorAI-study/
 │   ├── requirements.txt
 │   └── my-spreadsheet-automation.json  # 서비스 계정 키 (gitignore, 로컬 전용)
 ├── 20 리더보드가 있는 카드 뒤집기 게임 만들기/       # HTML + CSS + JS + Supabase (+ Vercel 배포용)
+│   ├── README.md            # 배포용 단독 저장소와 동일
 │   ├── index.html             # 시작·클리어 모달 · 보드 · 리더보드 UI
 │   ├── style.css              # Pretendard · 아케이드 보드 스타일
 │   ├── script.js              # 카드 짝 맞추기 · 이름 중복 검사 · 점수 저장

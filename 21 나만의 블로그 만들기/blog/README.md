@@ -1,4 +1,4 @@
-# Cursor Notes (실습용 Astro 블로그)
+# 📝 Cursor Notes (실습용 Astro 블로그)
 
 Astro + Markdown + GitHub Pages로 만든 정적 블로그입니다.  
 
