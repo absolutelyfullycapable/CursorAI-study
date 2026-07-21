@@ -32,7 +32,8 @@
 | 20 | 리더보드가 있는 카드 뒤집기 게임 만들기 | ✅ |
 | 21 | 나만의 블로그 만들기 | ✅ |
 | 22 | 나만의 커뮤니티 게시판 만들기 | ✅ |
-| 23 ~ 30 | — | 🔜 |
+| 23 | Firecrawl MCP로 데이터 수집하고 웹페이지 만들기 | ✅ |
+| 24 ~ 30 | — | 🔜 |
 
 ---
 
@@ -183,19 +184,24 @@ CursorAI-study/
 │           ├── layouts/       # BaseLayout
 │           ├── lib/posts.ts   # 글 로드 · 분류 · base path 유틸
 │           └── styles/        # Pretendard · 에디토리얼 UI
-└── 22 나만의 커뮤니티 게시판 만들기/                 # Next.js + Tailwind + Supabase
-    └── community/             # 배포용 단독 저장소: community-board
-        ├── README.md          # 프로젝트 소개 · 폴더 구조 · 페이지 구성
-        ├── package.json
-        ├── next.config.ts     # 이미지 remotePatterns · Server Action body 6mb
-        ├── .env.example       # NEXT_PUBLIC_SUPABASE_URL · ANON_KEY
-        ├── .gitignore         # .env* · node_modules · .next · 이미지 바이너리
-        └── src/
-            ├── middleware.ts  # Supabase 세션 갱신
-            ├── app/           # 홈 · 로그인/가입 · 내 정보 · 글 CRUD
-            ├── components/    # Header · 사이드바 · PostCard · 댓글 · 반응 버튼
-            ├── actions/       # auth · posts · comments · reactions · profile
-            └── lib/           # supabase 클라이언트 · posts · profile · types
+├── 22 나만의 커뮤니티 게시판 만들기/                 # Next.js + Tailwind + Supabase
+│   └── community/             # 배포용 단독 저장소: community-board
+│       ├── README.md          # 프로젝트 소개 · 폴더 구조 · 페이지 구성
+│       ├── package.json
+│       ├── next.config.ts     # 이미지 remotePatterns · Server Action body 6mb
+│       ├── .env.example       # NEXT_PUBLIC_SUPABASE_URL · ANON_KEY
+│       ├── .gitignore         # .env* · node_modules · .next · 이미지 바이너리
+│       └── src/
+│           ├── middleware.ts  # Supabase 세션 갱신
+│           ├── app/           # 홈 · 로그인/가입 · 내 정보 · 글 CRUD
+│           ├── components/    # Header · 사이드바 · PostCard · 댓글 · 반응 버튼
+│           ├── actions/       # auth · posts · comments · reactions · profile
+│           └── lib/           # supabase 클라이언트 · posts · profile · types
+└── 23 Firecrawl MCP로 데이터 수집하고 웹페이지 만들기/   # HTML + CSS + JS + Firecrawl
+    ├── index.html             # 맛집 안내 랜딩 페이지
+    ├── styles.css             # 프리미엄 다크 테마 · 반응형 UI
+    ├── script.js              # 탭 전환 · 주소 복사 · base64 이미지 연결
+    └── image-data.js          # 블로그 음식 이미지 base64 인라인
 ```
 
 
@@ -499,6 +505,22 @@ npm install
 
 npm run dev
 # http://localhost:3000 접속
+```
+
+23 프로젝트는 Firecrawl MCP로 네이버 블로그 맛집 후기를 수집한 뒤, HTML/CSS/Vanilla JS로 정적인 맛집 안내 사이트를 구성하는 실습입니다. 블로그 음식 이미지는 별도 바이너리 파일 없이 `image-data.js`에 base64 데이터 URL로 인라인해 사용합니다.
+
+- **주요 기능** · 히어로 비주얼 · 음식 갤러리 · 방문 정보 패널 · 메뉴 리뷰 탭 · 주소 복사 버튼
+- **이미지 처리** · 블로그 음식 이미지 crop · JPEG 압축 · base64 인라인
+- **실행 방식** · 빌드 도구 없이 브라우저에서 바로 열기 가능
+
+```bash
+# 브라우저에서 바로 열기
+open "23 Firecrawl MCP로 데이터 수집하고 웹페이지 만들기/index.html"
+
+# 또는 로컬 서버로 실행
+cd "23 Firecrawl MCP로 데이터 수집하고 웹페이지 만들기"
+python3 -m http.server 8730
+# http://127.0.0.1:8730 접속
 ```
 
 
