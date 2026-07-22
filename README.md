@@ -34,7 +34,8 @@
 | 22 | 나만의 커뮤니티 게시판 만들기 | ✅ |
 | 23 | Firecrawl MCP로 데이터 수집하고 웹페이지 만들기 | ✅ |
 | 24 | 네이버 서치 MCP로 인기 블로그 분석해 블로그하기 | ✅ |
-| 25 ~ 30 | — | 🔜 |
+| 25 | Sequential Thinking MCP로 테트리스 게임 만들기 | ✅ |
+| 26 ~ 30 | — | 🔜 |
 
 ---
 
@@ -203,8 +204,11 @@ CursorAI-study/
 │   ├── styles.css             # 프리미엄 다크 테마 · 반응형 UI
 │   ├── script.js              # 탭 전환 · 주소 복사 · base64 이미지 연결
 │   └── image-data.js          # 블로그 음식 이미지 base64 인라인
-└── 24 네이버 서치 MCP로 인기 블로그 분석해 블로그하기/  # Naver Search MCP · Firecrawl · Unsplash MCP
-    └── monchhichi-first-buy-guide.md  # 벤치마킹 후 작성한 몬치치 첫 구매 가이드
+├── 24 네이버 서치 MCP로 인기 블로그 분석해 블로그하기/  # Naver Search MCP · Firecrawl · Unsplash MCP
+│   └── monchhichi-first-buy-guide.md  # 벤치마킹 후 작성한 몬치치 첫 구매 가이드
+└── 25 Sequential Thinking MCP로 테트리스 게임 만들기/  # Sequential Thinking MCP · Canvas 테트리스
+    ├── index.html · style.css · script.js
+    └── README.md
 ```
 
 
@@ -542,6 +546,22 @@ cd "21 나만의 블로그 만들기/blog"
 npm install
 npm run dev
 # http://localhost:4321/cursor-astro-blog/blog/2026/07/monchhichi-first-buy-guide/
+```
+
+25 프로젝트는 Sequential Thinking MCP로 테트리스의 요구사항·아키텍처·게임 루프를 단계적으로 설계한 뒤, 바닐라 HTML/CSS/Canvas로 구현한 아케이드 게임입니다.
+
+- **주요 기능** · 10×20 보드 · 7종 테트로미노 · Ghost piece · Next 미리보기 · 점수/레벨/라인 · 최고 점수 저장 · 일시정지 · 모바일 터치 조작
+- **설계** · Sequential Thinking MCP로 collide · merge · clearLines · 7-bag · gravity 루프를 가설 검증 후 구현
+- **실행 방식** · 빌드 도구 없이 브라우저에서 바로 열기 가능
+
+```bash
+# 브라우저에서 바로 열기
+open "25 Sequential Thinking MCP로 테트리스 게임 만들기/index.html"
+
+# 또는 로컬 서버로 실행
+cd "25 Sequential Thinking MCP로 테트리스 게임 만들기"
+python3 -m http.server 8731
+# http://127.0.0.1:8731 접속
 ```
 
 ---
