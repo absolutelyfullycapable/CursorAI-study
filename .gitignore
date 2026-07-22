@@ -2,6 +2,7 @@
 *.swp
 *~
 .tmp-gh/
+.cursor/
 **/node_modules/
 **/dist/
 **/.astro/

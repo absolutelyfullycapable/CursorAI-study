@@ -531,6 +531,7 @@ python3 -m http.server 8730
 - **주요 흐름** · 네이버 블로그 검색(관련도순) · 상위 글 description·본문 요약 · 핵심 키워드 벤치마킹 · 창의적 새 글 작성 · Unsplash 이미지 삽입 · Astro 블로그 배포
 - **산출물** · `monchhichi-first-buy-guide.md` (실습 원본) · `21 .../blog/src/content/blog/2026/07/monchhichi-first-buy-guide.md` (frontmatter 포함 포스트)
 - **MCP** · Naver Search(`NAVER_CLIENT_ID` · `NAVER_CLIENT_SECRET`) · Firecrawl · Unsplash(`UNSPLASH_ACCESS_KEY`) — 키는 `~/.cursor/mcp.json`의 `env`에 설정 (저장소에 커밋하지 않음)
+- **로컬 전용** · 프로젝트 `.cursor/`(커스텀 커맨드 등)는 `.gitignore` 처리
 - **이미지** · Unsplash URL 사용 (로컬 이미지 바이너리 커밋 없음)
 
 ```bash
