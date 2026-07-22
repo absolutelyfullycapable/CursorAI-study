@@ -33,7 +33,8 @@
 | 21 | 나만의 블로그 만들기 | ✅ |
 | 22 | 나만의 커뮤니티 게시판 만들기 | ✅ |
 | 23 | Firecrawl MCP로 데이터 수집하고 웹페이지 만들기 | ✅ |
-| 24 ~ 30 | — | 🔜 |
+| 24 | 네이버 서치 MCP로 인기 블로그 분석해 블로그하기 | ✅ |
+| 25 ~ 30 | — | 🔜 |
 
 ---
 
@@ -178,7 +179,7 @@ CursorAI-study/
 │       ├── scripts/           # publish-to-github.sh
 │       └── src/
 │           ├── pages/         # Home · About · Blog · 글/분류/아카이브
-│           ├── content/blog/  # 마크다운 글 (YYYY/MM/) · 예: 2026/07/today-think.md
+│           ├── content/blog/  # 마크다운 글 (YYYY/MM/) · 예: 2026/07/monchhichi-first-buy-guide.md
 │           ├── assets/        # blogfavicon.js · blogicon.js (PNG base64 인라인)
 │           ├── components/    # Header · Footer · PostList · Sidebar
 │           ├── layouts/       # BaseLayout
@@ -197,11 +198,13 @@ CursorAI-study/
 │           ├── components/    # Header · 사이드바 · PostCard · 댓글 · 반응 버튼
 │           ├── actions/       # auth · posts · comments · reactions · profile
 │           └── lib/           # supabase 클라이언트 · posts · profile · types
-└── 23 Firecrawl MCP로 데이터 수집하고 웹페이지 만들기/   # HTML + CSS + JS + Firecrawl
-    ├── index.html             # 맛집 안내 랜딩 페이지
-    ├── styles.css             # 프리미엄 다크 테마 · 반응형 UI
-    ├── script.js              # 탭 전환 · 주소 복사 · base64 이미지 연결
-    └── image-data.js          # 블로그 음식 이미지 base64 인라인
+├── 23 Firecrawl MCP로 데이터 수집하고 웹페이지 만들기/   # HTML + CSS + JS + Firecrawl
+│   ├── index.html             # 맛집 안내 랜딩 페이지
+│   ├── styles.css             # 프리미엄 다크 테마 · 반응형 UI
+│   ├── script.js              # 탭 전환 · 주소 복사 · base64 이미지 연결
+│   └── image-data.js          # 블로그 음식 이미지 base64 인라인
+└── 24 네이버 서치 MCP로 인기 블로그 분석해 블로그하기/  # Naver Search MCP · Firecrawl · Unsplash MCP
+    └── monchhichi-first-buy-guide.md  # 벤치마킹 후 작성한 몬치치 첫 구매 가이드
 ```
 
 
@@ -473,7 +476,7 @@ python3 -m http.server 8720
 - **파비콘** · `src/assets/blogfavicon.js`에 PNG를 base64 data URL로 인라인 (이미지 바이너리 커밋 회피)
 - **대표 아이콘** · `src/assets/blogicon.js` base64 인라인 — 헤더 로고 · 홈 히어로 · About에 배치
 - **글 추가** · `src/content/blog/YYYY/MM/slug.md`에 frontmatter(`title`, `description`, `pubDate`, `category`, `tags`)와 본문 작성 후 빌드·배포
-- **최근 글** · `2026/07/today-think.md` (일상 일기, `pubDate: 2026-07-20`) — 빌드·preview 확인 후 [cursor-astro-blog](https://github.com/absolutelyfullycapable/cursor-astro-blog)에 push하여 Pages 반영
+- **최근 글** · `2026/07/monchhichi-first-buy-guide.md` (몬치치 첫 구매 가이드, `pubDate: 2026-07-22`) · `2026/07/today-think.md` — [cursor-astro-blog](https://github.com/absolutelyfullycapable/cursor-astro-blog)에 push하여 Pages 반영
 
 ```bash
 cd "21 나만의 블로그 만들기/blog"
@@ -484,7 +487,7 @@ npm run dev
 # 정적 빌드 후 미리보기
 npm run build
 npm run preview
-# http://127.0.0.1:4321/cursor-astro-blog/blog/2026/07/today-think/ 등에서 글 확인
+# http://127.0.0.1:4321/cursor-astro-blog/blog/2026/07/monchhichi-first-buy-guide/ 등에서 글 확인
 ```
 
 22 프로젝트는 Next.js(App Router) + Tailwind CSS + Supabase로 만든 커뮤니티 게시판입니다. Reddit 스타일 레이아웃을 참고했고, 이메일/비밀번호 인증(OAuth 없음)과 글·댓글·반응·검색을 지원합니다. 배포용 단독 저장소는 [community-board](https://github.com/absolutelyfullycapable/community-board) 입니다.
@@ -523,8 +526,23 @@ python3 -m http.server 8730
 # http://127.0.0.1:8730 접속
 ```
 
+24 프로젝트는 Naver Search MCP로 인기 블로그를 검색·분석하고, Firecrawl로 본문을 확인한 뒤 벤치마킹해 새 글을 작성하는 실습입니다. Unsplash MCP로 본문용 이미지를 찾아 삽입하고, 완성 글은 Astro 블로그([cursor-astro-blog](https://github.com/absolutelyfullycapable/cursor-astro-blog))에 포스트로 반영합니다.
 
+- **주요 흐름** · 네이버 블로그 검색(관련도순) · 상위 글 description·본문 요약 · 핵심 키워드 벤치마킹 · 창의적 새 글 작성 · Unsplash 이미지 삽입 · Astro 블로그 배포
+- **산출물** · `monchhichi-first-buy-guide.md` (실습 원본) · `21 .../blog/src/content/blog/2026/07/monchhichi-first-buy-guide.md` (frontmatter 포함 포스트)
+- **MCP** · Naver Search(`NAVER_CLIENT_ID` · `NAVER_CLIENT_SECRET`) · Firecrawl · Unsplash(`UNSPLASH_ACCESS_KEY`) — 키는 `~/.cursor/mcp.json`의 `env`에 설정 (저장소에 커밋하지 않음)
+- **이미지** · Unsplash URL 사용 (로컬 이미지 바이너리 커밋 없음)
 
+```bash
+# 실습 원본 글 확인
+open "24 네이버 서치 MCP로 인기 블로그 분석해 블로그하기/monchhichi-first-buy-guide.md"
+
+# 블로그 포스트로 미리보기 (21 프로젝트)
+cd "21 나만의 블로그 만들기/blog"
+npm install
+npm run dev
+# http://localhost:4321/cursor-astro-blog/blog/2026/07/monchhichi-first-buy-guide/
+```
 
 ---
 
