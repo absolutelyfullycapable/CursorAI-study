@@ -576,14 +576,15 @@ python3 -m http.server 8731
 ```
 
 26 프로젝트는 근처 식당으로 오늘의 메뉴를 뽑는 **위치 기반 식당 룰렛 웹앱**입니다. 점심·저녁 등 식사 시간에 국한하지 않고 사용할 수 있어요.
-처음에는 카카오맵 MCP/API를 쓰려 했으나, 브라우저 CORS·카카오맵 활성화(유료 안내) 등 실습 환경 한계로 전환했습니다.
+처음에는 카카오맵 MCP/API를 쓰려 했으나, 브라우저 CORS·카카오맵 활성화(유료 안내) 등 실습 환경 한계로 **근처 식당은 Overpass(무료)** 로 전환했습니다.  
+위치 검색만 Nominatim으로 하면 한국 아파트·상호명(예: 우방목련아파트)이 안 나오는 경우가 많아, **네이버 지역 검색을 선택적으로** 붙였습니다.
 
 - **주요 기능** · 위치 검색 → 후보 목록에서 선택 · 현재 위치 사용 · 원형 룰렛 · 돌리기 / 다시 돌리기
 - **설계** · Sequential Thinking으로 HTML/CSS/JS + 로컬 `server.py` 방식 선택
 - **위치 검색** · 네이버 지역 검색(선택, `.env`) + Nominatim 보완 — 아파트·상호명도 후보로 선택 가능
 - **근처 식당** · Overpass(거리순 최대 15곳) — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
 - **실행** · `python3 server.py` 후 http://127.0.0.1:8765 접속 (`env.example` → `.env`로 네이버 키 설정 가능)
-- **배포** · [what-to-eat-roulette](https://github.com/absolutelyfullycapable/what-to-eat-roulette)을 Vercel에 Import
+- **배포** · [what-to-eat-roulette](https://github.com/absolutelyfullycapable/what-to-eat-roulette)을 Vercel에 Import (권장: `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` 환경 변수)
 
 ```bash
 cd "26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기"
