@@ -212,11 +212,12 @@ CursorAI-study/
 │   ├── style.css
 │   ├── script.js
 │   └── README.md
-└── 26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기/  # Sequential Thinking · OSM 위치 기반 식당 룰렛
-    ├── index.html
+└── 26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기/  # Sequential Thinking · 위치 기반 식당 룰렛
+    ├── index.html             # 위치 검색 팝업 · 룰렛 UI
     ├── style.css
-    ├── script.js
-    ├── server.py
+    ├── script.js              # 후보 선택 · 룰렛 추첨
+    ├── server.py              # /api/places · /api/nearby 로컬 서버
+    ├── env.example            # 네이버 검색 API 키 예시 (선택)
     └── README.md
 ```
 
@@ -575,16 +576,18 @@ python3 -m http.server 8731
 ```
 
 26 프로젝트는 근처 식당으로 오늘의 메뉴를 뽑는 **위치 기반 식당 룰렛 웹앱**입니다. 점심·저녁 등 식사 시간에 국한하지 않고 사용할 수 있어요.
-처음에는 카카오맵 MCP/API를 쓰려 했으나, 브라우저 CORS·카카오맵 활성화(유료 안내) 등 실습 환경 한계로 **OpenStreetMap(완전 무료)** 으로 전환했습니다.
+처음에는 카카오맵 MCP/API를 쓰려 했으나, 브라우저 CORS·카카오맵 활성화(유료 안내) 등 실습 환경 한계로 전환했습니다.
 
-- **주요 기능** · 시작 위치 팝업 · 현재 위치/장소명 검색 · 원형 룰렛 · 돌리기 / 다시 돌리기
+- **주요 기능** · 위치 검색 → 후보 목록에서 선택 · 현재 위치 사용 · 원형 룰렛 · 돌리기 / 다시 돌리기
 - **설계** · Sequential Thinking으로 HTML/CSS/JS + 로컬 `server.py` 방식 선택
-- **데이터** · Nominatim(위치) + Overpass(근처 식당) — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
-- **실행** · `python3 server.py` 후 http://127.0.0.1:8765 접속
+- **위치 검색** · 네이버 지역 검색(선택, `.env`) + Nominatim 보완 — 아파트·상호명도 후보로 선택 가능
+- **근처 식당** · Overpass(거리순 최대 15곳) — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
+- **실행** · `python3 server.py` 후 http://127.0.0.1:8765 접속 (`env.example` → `.env`로 네이버 키 설정 가능)
 - **배포** · [what-to-eat-roulette](https://github.com/absolutelyfullycapable/what-to-eat-roulette)을 Vercel에 Import
 
 ```bash
 cd "26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기"
+# (선택) cp env.example .env 후 네이버 검색 API 키 입력
 python3 server.py
 # http://127.0.0.1:8765 접속
 ```
