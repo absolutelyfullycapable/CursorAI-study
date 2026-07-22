@@ -8,7 +8,7 @@ Vercel 배포용 단독 저장소: [what-to-eat-roulette](https://github.com/abs
 
 1. 위 저장소를 Vercel에 Import
 2. Framework는 기본값으로 Deploy
-3. `/api/places`(위치 후보) · `/api/nearby`(근처 식당) 서버리스 함수가 검색을 담당합니다
+3. `/api/places`(위치 후보) · `/api/nearby`(근처 식당) · `/api/reverse`(확정 식당 주소) 서버리스 함수가 검색을 담당합니다
 4. (권장) Vercel 환경 변수에 `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` 설정 시 아파트·상호명 검색이 잘 됩니다
 
 ## 왜 OpenStreetMap으로 바꿨나
@@ -74,7 +74,7 @@ python3 server.py
 | 위치 검색 | 예: `네이버 1784`, `강남역` → 후보 목록에서 하나 선택 |
 | 현재 위치 사용 | 브라우저 위치 권한으로 주변 식당 검색 |
 | 위치 변경 | 다른 장소로 룰렛을 다시 구성 |
-| 돌리기 | 현재 목록에서 식당 1곳을 뽑음 |
+| 돌리기 | 현재 목록에서 식당 1곳을 뽑고, 확정 시 주소 표시 |
 
 ## 데이터 출처
 
