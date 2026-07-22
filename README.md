@@ -208,10 +208,15 @@ CursorAI-study/
 ├── 24 네이버 서치 MCP로 인기 블로그 분석해 블로그하기/  # Naver Search MCP · Firecrawl · Unsplash MCP
 │   └── monchhichi-first-buy-guide.md  # 벤치마킹 후 작성한 몬치치 첫 구매 가이드
 ├── 25 Sequential Thinking MCP로 테트리스 게임 만들기/  # Sequential Thinking MCP · Canvas 테트리스
-│   ├── index.html · style.css · script.js
+│   ├── index.html
+│   ├── style.css
+│   ├── script.js
 │   └── README.md
 └── 26 식당 정하기 룰렛 만들기/  # Sequential Thinking · OSM 위치 기반 식당 룰렛
-    ├── index.html · style.css · script.js · server.py
+    ├── index.html
+    ├── style.css
+    ├── script.js
+    ├── server.py
     └── README.md
 ```
 
