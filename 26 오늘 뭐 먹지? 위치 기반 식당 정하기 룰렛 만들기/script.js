@@ -122,7 +122,7 @@ function setDoneUI(picked) {
   resultCard.classList.add("is-done");
   statusChip.textContent = "확정";
   resultName.textContent = picked;
-  resultHint.textContent = `${locationTitle} 근처 · 오늘 여기로 가요`;
+  resultHint.textContent = `${locationTitle} 근처 · 여기로 가요`;
   spinBtnLabel.textContent = "다시 돌리기";
   spinBtnSub.textContent = "다른 식당 다시 뽑기";
 }
@@ -131,14 +131,14 @@ function setReadyUI() {
   ready = true;
   app.classList.remove("is-locked");
   spinBtn.disabled = false;
-  locationLabel.textContent = `${locationTitle} · LUNCH`;
+  locationLabel.textContent = `${locationTitle} · EAT`;
   resultMeta.textContent = `근처 ${restaurants.length}곳`;
   statusChip.textContent = "대기 중";
   resultCard.classList.remove("is-spinning", "is-done");
   resultName.textContent = "아직 정해지지 않았어요";
   resultHint.textContent = "아래 버튼을 눌러 룰렛을 돌려 보세요";
   spinBtnLabel.textContent = "돌리기";
-  spinBtnSub.textContent = "랜덤으로 식당 선택";
+  spinBtnSub.textContent = "랜덤으로 한 곳 뽑기";
   currentRotation = 0;
   wheel.style.transform = "rotate(0deg)";
   buildWheel();

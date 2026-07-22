@@ -17,14 +17,19 @@ ROOT = Path(__file__).resolve().parent
 PORT = 8765
 USER_AGENT = "CursorAI-Study-RestaurantRoulette/1.0 (local learning; contact: local)"
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
-OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+# 공개 Overpass 서버는 가끔 바빠서 504/429를 냅니다. 여러 미러를 돌아가며 시도합니다.
+OVERPASS_URLS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://lz4.overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+]
 
 # 일부 환경(회사 프록시 등)에서 macOS 기본 인증서 검증이 실패할 수 있어 로컬 실습용으로 완화
 SSL_CONTEXT = ssl._create_unverified_context()
 _last_nominatim_at = 0.0
 
 
-def http_json(url: str, *, data: bytes | None = None, method: str = "GET") -> dict | list:
+def http_json(url: str, *, data: bytes | None = None, method: str = "GET", timeout: int = 45) -> dict | list:
     request = urllib.request.Request(
         url,
         data=data,
@@ -36,7 +41,7 @@ def http_json(url: str, *, data: bytes | None = None, method: str = "GET") -> di
     )
     if data is not None:
         request.add_header("Content-Type", "application/x-www-form-urlencoded")
-    with urllib.request.urlopen(request, timeout=30, context=SSL_CONTEXT) as response:
+    with urllib.request.urlopen(request, timeout=timeout, context=SSL_CONTEXT) as response:
         return json.load(response)
 
 
@@ -101,7 +106,35 @@ def fetch_restaurants(lat: float, lng: float, radius_m: int = 1500) -> list[str]
 out center tags;
 """.strip()
     payload = urllib.parse.urlencode({"data": query}).encode("utf-8")
-    data = http_json(OVERPASS_URL, data=payload, method="POST")
+
+    last_error: Exception | None = None
+    data: dict | None = None
+    for url in OVERPASS_URLS:
+        for attempt in range(2):
+            try:
+                data = http_json(url, data=payload, method="POST", timeout=45)
+                last_error = None
+                break
+            except urllib.error.HTTPError as error:
+                last_error = error
+                # 서버 과부하/일시 오류면 다른 미러 또는 재시도
+                if error.code in {429, 502, 503, 504}:
+                    time.sleep(0.8 * (attempt + 1))
+                    continue
+                raise
+            except Exception as error:  # noqa: BLE001
+                last_error = error
+                time.sleep(0.8 * (attempt + 1))
+        if data is not None:
+            break
+
+    if data is None:
+        if isinstance(last_error, urllib.error.HTTPError):
+            raise last_error
+        raise RuntimeError(
+            "근처 식당 서버가 잠시 바빠요. 몇 초 뒤 다시 시도해 주세요."
+        ) from last_error
+
     elements = data.get("elements") or []
 
     scored: list[tuple[float, str]] = []
@@ -187,9 +220,16 @@ class Handler(SimpleHTTPRequestHandler):
             self.json_response({"error": str(error), "restaurants": []}, 404)
         except urllib.error.HTTPError as error:
             detail = error.read().decode("utf-8", errors="ignore")
+            if error.code in {429, 502, 503, 504}:
+                message = (
+                    "무료 지도 서버가 잠시 바쁜 상태예요. "
+                    "몇 초 뒤 다시 눌러 주세요."
+                )
+            else:
+                message = f"지도 서버 오류 ({error.code}). 잠시 후 다시 시도해 주세요."
             self.json_response(
                 {
-                    "error": f"지도 서버 오류 ({error.code}). 잠시 후 다시 시도해 주세요.",
+                    "error": message,
                     "detail": detail[:300],
                     "restaurants": [],
                 },

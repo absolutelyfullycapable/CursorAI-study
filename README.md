@@ -35,7 +35,7 @@
 | 23 | Firecrawl MCP로 데이터 수집하고 웹페이지 만들기 | ✅ |
 | 24 | 네이버 서치 MCP로 인기 블로그 분석해 블로그하기 | ✅ |
 | 25 | Sequential Thinking MCP로 테트리스 게임 만들기 | ✅ |
-| 26 | 식당 정하기 룰렛 만들기 | ✅ |
+| 26 | 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기 | ✅ |
 | 27 ~ 30 | — | 🔜 |
 
 ---
@@ -212,7 +212,7 @@ CursorAI-study/
 │   ├── style.css
 │   ├── script.js
 │   └── README.md
-└── 26 식당 정하기 룰렛 만들기/  # Sequential Thinking · OSM 위치 기반 식당 룰렛
+└── 26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기/  # Sequential Thinking · OSM 위치 기반 식당 룰렛
     ├── index.html
     ├── style.css
     ├── script.js
@@ -574,16 +574,17 @@ python3 -m http.server 8731
 # http://127.0.0.1:8731 접속
 ```
 
-26 프로젝트는 Sequential Thinking MCP로 설계한 **위치 기반 점심 룰렛**입니다.  
+26 프로젝트는 Sequential Thinking MCP로 설계한 **「오늘 뭐 먹지?」 위치 기반 식당 룰렛**입니다.  
+점심에 국한하지 않고, 근처 식당으로 오늘의 식사를 정할 수 있어요.  
 처음에는 카카오맵 MCP/API를 쓰려 했으나, 브라우저 CORS·카카오맵 활성화(유료 안내) 등 실습 환경 한계로 **OpenStreetMap(완전 무료)** 으로 전환했습니다.
 
 - **주요 기능** · 시작 위치 팝업 · 현재 위치/장소명 검색 · 원형 룰렛 · 돌리기 / 다시 돌리기
 - **설계** · Sequential Thinking으로 HTML/CSS/JS + 로컬 `server.py` 방식 선택
-- **데이터** · Nominatim(위치) + Overpass(근처 식당) — API 키·요금 없음
+- **데이터** · Nominatim(위치) + Overpass(근처 식당) — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
 - **실행** · `python3 server.py` 후 http://127.0.0.1:8765 접속
 
 ```bash
-cd "26 식당 정하기 룰렛 만들기"
+cd "26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기"
 python3 server.py
 # http://127.0.0.1:8765 접속
 ```
