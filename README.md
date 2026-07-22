@@ -582,7 +582,7 @@ python3 -m http.server 8731
 - **주요 기능** · 위치 검색 → 후보 목록에서 선택 · 현재 위치 사용 · 원형 룰렛 · 돌리기 / 다시 돌리기
 - **설계** · Sequential Thinking으로 HTML/CSS/JS + 로컬 `server.py` 방식 선택
 - **위치 검색** · 네이버 지역 검색(선택, `.env`) + Nominatim 보완 — 아파트·상호명도 후보로 선택 가능
-- **근처 식당** · Overpass(거리순 최대 15곳) — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
+- **근처 식당** · Overpass 주변 후보 중 매번 15곳 랜덤 — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
 - **실행** · `python3 server.py` 후 http://127.0.0.1:8765 접속 (`env.example` → `.env`로 네이버 키 설정 가능)
 - **배포** · [what-to-eat-roulette](https://github.com/absolutelyfullycapable/what-to-eat-roulette)을 Vercel에 Import (권장: `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` 환경 변수)
 
