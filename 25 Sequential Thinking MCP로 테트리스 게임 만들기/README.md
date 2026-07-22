@@ -2,6 +2,8 @@
 
 Sequential Thinking MCP로 요구사항 → 아키텍처 → 게임 루프 → 가설 검증 순으로 설계한 뒤, 바닐라 HTML/CSS/JS로 구현한 테트리스입니다.
 
+배포용 단독 저장소: [absolutelyfullycapable/tetris-game](https://github.com/absolutelyfullycapable/tetris-game)
+
 ## 실행 방법
 
 1. `index.html`을 브라우저에서 엽니다.

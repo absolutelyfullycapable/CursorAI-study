@@ -548,11 +548,12 @@ npm run dev
 # http://localhost:4321/cursor-astro-blog/blog/2026/07/monchhichi-first-buy-guide/
 ```
 
-25 프로젝트는 Sequential Thinking MCP로 테트리스의 요구사항·아키텍처·게임 루프를 단계적으로 설계한 뒤, 바닐라 HTML/CSS/Canvas로 구현한 아케이드 게임입니다.
+25 프로젝트는 Sequential Thinking MCP로 테트리스의 요구사항·아키텍처·게임 루프를 단계적으로 설계한 뒤, 바닐라 HTML/CSS/Canvas로 구현한 아케이드 게임입니다. 배포용 단독 저장소는 [tetris-game](https://github.com/absolutelyfullycapable/tetris-game) 입니다.
 
 - **주요 기능** · 10×20 보드 · 7종 테트로미노 · Ghost piece · Next 미리보기 · 점수/레벨/라인 · 최고 점수 저장 · 일시정지 · 모바일 터치 조작
 - **설계** · Sequential Thinking MCP로 collide · merge · clearLines · 7-bag · gravity 루프를 가설 검증 후 구현
 - **실행 방식** · 빌드 도구 없이 브라우저에서 바로 열기 가능
+- **배포** · [tetris-game](https://github.com/absolutelyfullycapable/tetris-game)을 Vercel에 Import (정적 HTML, 빌드 설정 불필요)
 
 ```bash
 # 브라우저에서 바로 열기
