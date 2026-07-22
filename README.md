@@ -582,6 +582,7 @@ python3 -m http.server 8731
 - **설계** · Sequential Thinking으로 HTML/CSS/JS + 로컬 `server.py` 방식 선택
 - **데이터** · Nominatim(위치) + Overpass(근처 식당) — API 키·요금 없음 · 공개 서버 혼잡 시 미러 재시도
 - **실행** · `python3 server.py` 후 http://127.0.0.1:8765 접속
+- **배포** · [what-to-eat-roulette](https://github.com/absolutelyfullycapable/what-to-eat-roulette)을 Vercel에 Import
 
 ```bash
 cd "26 오늘 뭐 먹지? 위치 기반 식당 정하기 룰렛 만들기"

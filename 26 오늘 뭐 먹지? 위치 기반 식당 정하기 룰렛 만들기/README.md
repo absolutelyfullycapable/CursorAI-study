@@ -3,6 +3,14 @@
 Sequential Thinking MCP로 설계한 **위치 기반 식당 룰렛**입니다.  
 점심·저녁 등 식사 시간에 국한하지 않고, **오늘 뭐 먹을지** 근처 식당으로 바로 정할 수 있어요.
 
+## 배포용 저장소
+
+Vercel 배포용 단독 저장소: [what-to-eat-roulette](https://github.com/absolutelyfullycapable/what-to-eat-roulette)
+
+1. 위 저장소를 Vercel에 Import
+2. Framework는 기본값으로 Deploy
+3. `/api/nearby` 서버리스 함수가 근처 식당 검색을 담당합니다
+
 ## 왜 OpenStreetMap으로 바꿨나
 
 처음에는 카카오맵 MCP / 카카오 로컬 API로 근처 식당을 불러오려 했습니다.  
